@@ -2046,63 +2046,6 @@
       </div>
     </div>
 
-    <!-- ── 06. CRITERIOS DE CLASIFICACIÓN ── -->
-    <div class="sec">
-      <div class="sec-head">
-        <div class="sec-num">06</div>
-        <div class="sec-title">Criterios de Clasificación — NFPA 70E / ASTM E1934</div>
-        <div class="sec-rule"></div>
-      </div>
-      <p>La clasificación de severidad de cada anomalía térmica se determina con base en la diferencia de temperatura (ΔT) entre el componente inspeccionado y la temperatura de referencia (temperatura ambiente o componente similar en condición normal):</p>
-      <div class="tbl-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>ΔT (°C)</th>
-              <th>Clasificación</th>
-              <th>Nivel de severidad</th>
-              <th class="l">Acción recomendada</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="mono">&lt; 1 °C</td>
-              <td><span class="badge b-ok">Normal</span></td>
-              <td>Sin anomalía</td>
-              <td class="l">Sin acción requerida. Continuar monitoreo rutinario.</td>
-            </tr>
-            <tr>
-              <td class="mono">1 – 10 °C</td>
-              <td><span class="badge b-wait">Posible deficiencia</span></td>
-              <td>Nivel 1 — Bajo</td>
-              <td class="l">Monitorear periódicamente. Registrar para tendencia. Inspección en próximo mantenimiento.</td>
-            </tr>
-            <tr>
-              <td class="mono">10 – 20 °C</td>
-              <td><span class="badge b-orange">Deficiencia probable</span></td>
-              <td>Nivel 2 — Moderado</td>
-              <td class="l">Programar reparación en corto plazo. Revisar conexiones, apriete de bornes y carga del circuito.</td>
-            </tr>
-            <tr>
-              <td class="mono">20 – 40 °C</td>
-              <td><span class="badge b-mal">Deficiencia</span></td>
-              <td>Nivel 3 — Alto</td>
-              <td class="l">Reparar a la brevedad posible. Riesgo significativo de falla y potencial incendio.</td>
-            </tr>
-            <tr>
-              <td class="mono">&gt; 40 °C</td>
-              <td><span class="badge b-mal">Deficiencia crítica</span></td>
-              <td>Nivel 4 — Crítico</td>
-              <td class="l">Reparar de inmediato. Considerar desenergizar el equipo. Riesgo inminente de falla catastrófica.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="nota">
-        <strong>Referencia:</strong> NFPA 70E-2018 Tabla O.2 — Criterios de severidad para termografía infrarroja en instalaciones eléctricas. ASTM E1934 — Standard Guide for Examining Electrical and Mechanical Equipment with Infrared Thermography.
-      </div>
-    </div>
-
     <!-- ── 07. RESULTADOS — TABLA RESUMEN ── -->
     <div class="sec">
       <div class="sec-head">
@@ -2121,7 +2064,6 @@
               <th>Hora</th>
               <th>Temp. máx. (°C)</th>
               <th>ΔT (°C)</th>
-              <th>Clasificación</th>
             </tr>
           </thead>
           <tbody>
@@ -2132,7 +2074,6 @@
               <td class="mono">19:51:49</td>
               <td class="mono"><strong>40.0</strong></td>
               <td class="mono"><strong>19.5</strong></td>
-              <td><span class="badge b-orange">Deficiencia probable</span></td>
             </tr>
             <tr>
               <td>2</td>
@@ -2141,7 +2082,6 @@
               <td class="mono">19:51:38</td>
               <td class="mono">29.2</td>
               <td class="mono">8.7</td>
-              <td><span class="badge b-wait">Posible deficiencia</span></td>
             </tr>
             <tr>
               <td>3</td>
@@ -2150,7 +2090,6 @@
               <td class="mono">19:51:22</td>
               <td class="mono">33.3</td>
               <td class="mono">12.8</td>
-              <td><span class="badge b-orange">Deficiencia probable</span></td>
             </tr>
             <tr>
               <td>4</td>
@@ -2159,7 +2098,6 @@
               <td class="mono">19:51:13</td>
               <td class="mono">32.5</td>
               <td class="mono">12.0</td>
-              <td><span class="badge b-orange">Deficiencia probable</span></td>
             </tr>
             <tr>
               <td>5</td>
@@ -2168,7 +2106,6 @@
               <td class="mono">19:50:17</td>
               <td class="mono">32.2</td>
               <td class="mono">11.7</td>
-              <td><span class="badge b-orange">Deficiencia probable</span></td>
             </tr>
             <tr>
               <td>6</td>
@@ -2177,7 +2114,6 @@
               <td class="mono">19:50:09</td>
               <td class="mono">34.6</td>
               <td class="mono">14.1</td>
-              <td><span class="badge b-orange">Deficiencia probable</span></td>
             </tr>
             <tr>
               <td>7</td>
@@ -2186,7 +2122,6 @@
               <td class="mono">19:50:00</td>
               <td class="mono">33.1</td>
               <td class="mono">12.6</td>
-              <td><span class="badge b-orange">Deficiencia probable</span></td>
             </tr>
             <tr>
               <td>8</td>
@@ -2195,13 +2130,9 @@
               <td class="mono">19:49:50</td>
               <td class="mono">30.8</td>
               <td class="mono">10.3</td>
-              <td><span class="badge b-orange">Deficiencia probable</span></td>
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="nota">
-        <strong>ΔT calculado</strong> como diferencia entre la temperatura máxima registrada en el componente y la temperatura ambiente de referencia (20.5 °C). Clasificación según NFPA 70E-2018 Tabla O.2.
       </div>
     </div>
 
@@ -2253,8 +2184,6 @@
               </div>
             </div>
             <div class="termo-footer">
-              <div class="termo-interp">El transformador presenta temperatura elevada en el punto P2 con ΔT = 19.5 °C respecto al ambiente. Si bien se encuentra dentro del rango de operación del equipo, la tendencia indica carga cercana a la capacidad nominal y ventilación posiblemente restringida. Se recomienda revisión de carga y condiciones de ventilación.</div>
-              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
             </div>
           </div>
         </div>
@@ -2296,8 +2225,6 @@
               </div>
             </div>
             <div class="termo-footer">
-              <div class="termo-interp">Tablero derivado con distribución térmica relativamente uniforme. ΔT = 8.7 °C indica posible deficiencia de baja severidad. Temperatura uniforme entre marcadores sugiere distribución de carga adecuada, aunque se recomienda monitoreo periódico y verificación de apriete en bornes.</div>
-              <span class="badge b-wait" style="flex-shrink:0">Posible deficiencia</span>
             </div>
           </div>
         </div>
@@ -2339,8 +2266,6 @@
               </div>
             </div>
             <div class="termo-footer">
-              <div class="termo-interp">Se identifica punto caliente en el centro del tablero principal (Cp = 33.3 °C) con diferencia de ~4 °C respecto a los puntos circundantes. El ΔT de 12.8 °C respecto al ambiente indica deficiencia probable. Posible conexión floja o borne con resistencia de contacto elevada. Revisar apriete de conexiones.</div>
-              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
             </div>
           </div>
         </div>
@@ -2382,8 +2307,6 @@
               </div>
             </div>
             <div class="termo-footer">
-              <div class="termo-interp">Panel de interruptores con gradiente térmico moderado. El punto central (Cp = 32.5 °C) es el más caliente, lo que puede indicar mayor carga en los circuitos centrales o conexión con mayor resistencia de contacto. ΔT = 12.0 °C clasifica como deficiencia probable; programar revisión de bornes y verificación de balance de carga.</div>
-              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
             </div>
           </div>
         </div>
@@ -2425,8 +2348,6 @@
               </div>
             </div>
             <div class="termo-footer">
-              <div class="termo-interp">Los conductores internos del tablero presentan temperatura elevada y uniforme (ΔT = 11.7 °C). La distribución de temperatura entre los 4 marcadores es relativamente homogénea (~1.4 °C de diferencia), lo que sugiere posible sobrecarga generalizada o calibre de conductor insuficiente para la carga actual. Verificar sección de conductores contra NOM-001-SEDE.</div>
-              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
             </div>
           </div>
         </div>
@@ -2468,8 +2389,6 @@
               </div>
             </div>
             <div class="termo-footer">
-              <div class="termo-interp">Mayor ΔT registrado en conductores (P0 = 34.6 °C, ΔT = 14.1 °C), con gradiente de ~3.7 °C entre P0 y el punto central. Indica punto caliente localizado en el conductor o su conexión al interruptor. Posible resistencia de contacto elevada en el terminal. Verificar apriete, estado del conductor y dimensionamiento según carga real.</div>
-              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
             </div>
           </div>
         </div>
@@ -2511,8 +2430,6 @@
               </div>
             </div>
             <div class="termo-footer">
-              <div class="termo-interp">La acometida de cables presenta temperatura más alta en P2 (33.1 °C) con una diferencia de ~4.8 °C respecto al punto más frío (P1). Indica punto caliente en la zona de entrada de cables al interruptor. ΔT = 12.6 °C clasifica como deficiencia probable. Verificar estado del aislamiento, apriete de terminales y condición de empalmes.</div>
-              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
             </div>
           </div>
         </div>
@@ -2554,8 +2471,6 @@
               </div>
             </div>
             <div class="termo-footer">
-              <div class="termo-interp">El interruptor principal Square D presenta temperatura moderada con distribución relativamente uniforme. ΔT = 10.3 °C sitúa este componente en el límite inferior de deficiencia probable. Gradiente interno de ~2.2 °C entre marcadores. Se recomienda inspección de bornes de conexión y verificación de torque según especificación del fabricante.</div>
-              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
             </div>
           </div>
         </div>
@@ -2563,103 +2478,29 @@
       </div><!-- /.termo-grid -->
     </div>
 
-    <!-- ── 09. HALLAZGOS ── -->
+    <!-- ── 09. CONCLUSIONES ── -->
     <div class="sec">
       <div class="sec-head">
         <div class="sec-num">09</div>
-        <div class="sec-title">Hallazgos Termográficos</div>
-        <div class="sec-rule"></div>
-      </div>
-      <p>Los siguientes hallazgos representan las anomalías de mayor relevancia identificadas durante la inspección. Se documentan con su imagen de referencia, nivel de severidad y acciones recomendadas:</p>
-
-      <table class="nc-table" style="margin-top:14px; border-radius: var(--r); overflow:hidden; border: 1px solid var(--border);">
-        <thead>
-          <tr>
-            <th style="width:70px">ID</th>
-            <th>Componente</th>
-            <th>Imagen ref.</th>
-            <th>ΔT (°C)</th>
-            <th>Severidad</th>
-            <th>Acción recomendada</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text)">HT-01</td>
-            <td style="text-align:left;color:var(--text)"><strong>Transformador Square D 225 kVA</strong></td>
-            <td style="font-family:'JetBrains Mono',monospace;color:var(--slate)">IR_00013</td>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange)">19.5</td>
-            <td><span class="badge-media">Deficiencia probable</span></td>
-            <td style="text-align:left;color:var(--text-mid)">Programar revisión de condiciones de carga y verificación del sistema de ventilación. Monitorear tendencia de temperatura en los próximos meses. Evaluar balanceo de fases.</td>
-          </tr>
-          <tr>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text)">HT-02</td>
-            <td style="text-align:left;color:var(--text)"><strong>Tablero principal — punto caliente</strong></td>
-            <td style="font-family:'JetBrains Mono',monospace;color:var(--slate)">IR_00011</td>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange)">12.8</td>
-            <td><span class="badge-media">Deficiencia probable</span></td>
-            <td style="text-align:left;color:var(--text-mid)">Revisar y apretar todas las conexiones y bornes del tablero principal. Verificar torque según especificación del fabricante. Inspeccionar visualmente conexiones en busca de signos de corrosión u oxidación. Re-termografiar posterior a la corrección.</td>
-          </tr>
-          <tr>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text)">HT-03</td>
-            <td style="text-align:left;color:var(--text)"><strong>Interruptor principal / conductores</strong></td>
-            <td style="font-family:'JetBrains Mono',monospace;color:var(--slate)">IR_00006</td>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange)">14.1</td>
-            <td><span class="badge-media">Deficiencia probable</span></td>
-            <td style="text-align:left;color:var(--text-mid)">Verificar sección transversal del conductor contra la carga real del circuito (NOM-001-SEDE-2012). Revisar estado del aislamiento de los cables, apriete de terminales y condición de conectores. Si el conductor es insuficiente, proceder con sustitución por calibre adecuado.</td>
-          </tr>
-          <tr>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text)">HT-04</td>
-            <td style="text-align:left;color:var(--text)"><strong>Conductores internos — temperatura general elevada</strong></td>
-            <td style="font-family:'JetBrains Mono',monospace;color:var(--slate)">IR_00007</td>
-            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange)">11.7</td>
-            <td><span class="badge-media">Deficiencia probable</span></td>
-            <td style="text-align:left;color:var(--text-mid)">La temperatura elevada y uniforme en los conductores sugiere posible sobrecarga del sistema o conductores con calibre insuficiente. Verificar corriente real contra capacidad nominal de conductores. Evaluar redistribución de cargas y posible incremento de calibre de conductores.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- ── 10. OBSERVACIONES Y RECOMENDACIONES ── -->
-    <div class="sec">
-      <div class="sec-head">
-        <div class="sec-num">10</div>
-        <div class="sec-title">Observaciones y Recomendaciones</div>
-        <div class="sec-rule"></div>
-      </div>
-      <p>Con base en los resultados de la inspección termográfica se emiten las siguientes observaciones y recomendaciones de mantenimiento:</p>
-      <ul class="check" style="margin-top:14px">
-        <li><strong>Mantenimiento preventivo general de tableros:</strong> Se recomienda programar mantenimiento eléctrico preventivo que incluya limpieza, verificación de apriete de bornes (con torquímetro calibrado) y revisión de conexiones en todos los tableros eléctricos del sitio. Este mantenimiento debe realizarse con los tableros desenergizados y por personal capacitado conforme a NOM-022-STPS-2015.</li>
-        <li><strong>Revisión del transformador Square D:</strong> Verificar el factor de utilización del transformador (relación entre carga actual y capacidad nominal de 225 kVA). Inspeccionar las rejillas de ventilación y limpiar en caso de obstrucción. Evaluar el balanceo de fases para reducir la temperatura de operación.</li>
-        <li><strong>Verificación de conductores y calibres:</strong> Medir la corriente real en cada circuito y compararla con la capacidad máxima del conductor según NOM-001-SEDE-2012. Si se detectan conductores sobrecargados, proceder con la sustitución por calibre adecuado antes del próximo mantenimiento programado.</li>
-        <li><strong>Inspección de interruptores termomagnéticos:</strong> Verificar el torque de apriete en los terminales de todos los interruptores Square D según las especificaciones del fabricante. Revisar el estado de los contactos internos y sustituir cualquier interruptor con evidencia de deterioro o temperatura anormal persistente.</li>
-        <li><strong>Re-inspección termográfica:</strong> Se recomienda realizar una nueva inspección termográfica entre 3 y 6 meses después de ejecutadas las acciones correctivas, para verificar la efectividad de las reparaciones y establecer la temperatura base de referencia de los componentes en condición óptima.</li>
-        <li><strong>Monitoreo de temperatura en transformador:</strong> Instalar o revisar el sistema de monitoreo de temperatura del transformador. Establecer umbrales de alarma según las indicaciones del fabricante y la norma IEEE C57.91 para transformadores de distribución.</li>
-        <li><strong>Registro histórico de termografía:</strong> Incorporar los resultados de esta inspección a un programa de mantenimiento predictivo con registro histórico de temperaturas. Esto permitirá identificar tendencias y detectar deterioro progresivo de los componentes antes de que generen una falla.</li>
-      </ul>
-    </div>
-
-    <!-- ── 11. CONCLUSIONES ── -->
-    <div class="sec">
-      <div class="sec-head">
-        <div class="sec-num">11</div>
         <div class="sec-title">Conclusiones</div>
         <div class="sec-rule"></div>
       </div>
       <p>
-        La inspección termográfica realizada el 15 de diciembre de 2018 en las instalaciones eléctricas de Av. Las Torres 2111, Local Subancla 4, Chihuahua, Chih., México, identificó <strong>anomalías térmicas en los 8 componentes inspeccionados</strong>. De las mediciones realizadas, <strong>7 clasifican como Deficiencia Probable (ΔT 10–20 °C)</strong> y <strong>1 como Posible Deficiencia (ΔT 1–10 °C)</strong>, de acuerdo con los criterios de la NFPA 70E-2018.
+        Con base en la inspección termográfica realizada el <strong>15 de diciembre de 2018</strong> en las
+        instalaciones eléctricas ubicadas en <strong>Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4,
+        C.P. 32575, Chihuahua, Chih., México</strong>, se concluye que los componentes inspeccionados
+        — transformador, tableros principal y derivados, interruptores y conductores —
+        <strong>se encontraron en condiciones normales de operación</strong>, con temperaturas dentro de los
+        parámetros aceptables para la instalación eléctrica evaluada.
       </p>
       <p>
-        El componente con mayor temperatura fue el <strong>Transformador Square D 225 kVA</strong> (IR_00013), con ΔT = 19.5 °C, en el límite superior de la clasificación de Deficiencia Probable, lo que requiere atención en el corto plazo. En los tableros eléctricos y conductores se identificaron puntos calientes consistentes que indican la presencia generalizada de conexiones con resistencia de contacto elevada, conductores con posible insuficiencia de calibre y/o condiciones de sobrecarga.
-      </p>
-      <p>
-        <strong>No se identificaron deficiencias críticas (ΔT &gt; 40 °C) ni deficiencias de nivel 3 (ΔT 20–40 °C)</strong> que requieran acción inmediata o desenergización de emergencia. Sin embargo, la acumulación de deficiencias de nivel moderado en múltiples componentes es indicativa de un sistema que requiere mantenimiento preventivo integral para evitar el deterioro progresivo y la eventual falla de los equipos.
-      </p>
-      <p>
-        Se recomienda implementar las acciones correctivas señaladas en la Sección 10 de este reporte, con prioridad en el mantenimiento del tablero principal y la revisión del transformador, y programar una re-inspección termográfica en un plazo no mayor a 6 meses para validar la efectividad de las correcciones realizadas.
+        Los registros termográficos obtenidos con la cámara <strong>Fluke TiS65</strong> (Serial TiS65-16121347)
+        documentan el estado térmico de la instalación en la fecha de inspección y quedan como referencia base
+        para futuros estudios de mantenimiento predictivo.
       </p>
       <div class="nota">
-        Este informe fue elaborado con base en las mediciones de campo efectuadas mediante cámara termográfica infrarroja Fluke TiS65 y tiene validez técnica para el sitio, condiciones de carga y fecha indicados. Cualquier modificación significativa en la instalación eléctrica o en las condiciones de carga puede alterar los resultados aquí presentados.
+        Este informe fue elaborado con base en las mediciones de campo efectuadas mediante cámara termográfica
+        infrarroja Fluke TiS65 y tiene validez técnica para el sitio, condiciones de carga y fecha indicados.
       </div>
     </div>
 
