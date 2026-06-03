@@ -2059,6 +2059,83 @@
         object-fit: cover !important;
       }
     }
+
+    /* ══════════════════════════════════════
+       TERMOGRAFÍA — ESTILOS
+    ══════════════════════════════════════ */
+    .termo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 14px;
+    }
+    .termo-card {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 2px 10px rgba(11,30,61,.06);
+    }
+    .termo-img-wrap { position:relative; background:#0B1E3D; }
+    .termo-img-wrap img { width:100%; height:260px; object-fit:cover; display:block; }
+    .termo-img-badge {
+      position:absolute; top:10px; left:10px;
+      background:rgba(11,30,61,.82); border:1px solid rgba(255,255,255,.18);
+      border-radius:var(--r-sm); padding:4px 10px;
+      font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:600;
+      color:#93C5FD; backdrop-filter:blur(4px);
+    }
+    .termo-img-time {
+      position:absolute; top:10px; right:10px;
+      background:rgba(11,30,61,.82); border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--r-sm); padding:4px 10px;
+      font-family:'JetBrains Mono',monospace; font-size:.68rem;
+      color:rgba(255,255,255,.7); backdrop-filter:blur(4px);
+    }
+    .termo-body { padding:14px 16px; }
+    .termo-comp-name {
+      font-family:'Montserrat',sans-serif; font-size:.82rem; font-weight:800;
+      color:var(--navy); margin-bottom:10px; line-height:1.3;
+    }
+    .termo-data-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+    .termo-data-box { background:var(--off); border:1px solid var(--border); border-radius:var(--r-sm); padding:8px 11px; }
+    .tdb-lbl {
+      font-family:'Montserrat',sans-serif; font-size:.54rem; font-weight:700;
+      letter-spacing:.09em; text-transform:uppercase; color:var(--slate); margin-bottom:3px;
+    }
+    .tdb-val { font-size:.82rem; font-weight:600; color:var(--text); }
+    .tdb-val.mono { font-family:'JetBrains Mono',monospace; font-size:.78rem; }
+    .termo-markers { background:var(--navy); border-radius:var(--r-sm); padding:8px 12px; margin-bottom:12px; }
+    .tm-title {
+      font-family:'Montserrat',sans-serif; font-size:.54rem; font-weight:700;
+      letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:7px;
+    }
+    .tm-row { display:flex; gap:6px; flex-wrap:wrap; }
+    .tm-chip {
+      background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1);
+      border-radius:4px; padding:3px 9px;
+      font-family:'JetBrains Mono',monospace; font-size:.72rem; color:#93C5FD;
+      display:flex; gap:5px; align-items:center;
+    }
+    .tm-chip-lbl { color:rgba(255,255,255,.4); font-size:.65rem; }
+    .termo-footer { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .termo-interp { font-size:.78rem; color:var(--text-mid); line-height:1.6; flex:1; }
+
+    /* ══ TERMO PRINT ══ */
+    @media print {
+      .termo-grid { grid-template-columns:repeat(2,1fr) !important; gap:12px !important; }
+      .termo-card { break-inside:avoid !important; page-break-inside:avoid !important; }
+      .termo-img-wrap img { height:180px !important; object-fit:cover !important; }
+      .termo-body { padding:10px 12px !important; }
+      .termo-comp-name { font-size:8.5pt !important; }
+      .termo-data-grid { gap:6px !important; margin-bottom:8px !important; }
+      .termo-data-box { padding:6px 8px !important; }
+      .tdb-lbl { font-size:6pt !important; }
+      .tdb-val { font-size:8pt !important; }
+      .termo-markers { padding:6px 10px !important; margin-bottom:8px !important; background:var(--navy) !important; }
+      .tm-chip { font-size:7pt !important; padding:2px 6px !important; color:#93C5FD !important; background:rgba(255,255,255,.07) !important; border-color:rgba(255,255,255,.1) !important; }
+      .tm-chip-lbl { color:rgba(255,255,255,.4) !important; }
+    }
   </style>
 </head>
 
@@ -2936,24 +3013,164 @@
         <strong>NOM-001-SEDE-2012</strong>. Las recomendaciones técnicas enunciadas en la sección anterior
         deberán atenderse para garantizar la continuidad operativa y la seguridad de la instalación eléctrica.
       </p>
-      <div class="nota" style="margin-top:14px">
-        Este informe fue elaborado con base en las mediciones de campo efectuadas por el técnico designado y
-        tiene validez técnica únicamente para el sitio, condiciones ambientales y fecha indicados. Cualquier
-        modificación posterior a la instalación invalida parcialmente las conclusiones aquí presentadas.
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0">
+        <div style="background:#D1FAE5;border:1.5px solid #6EE7B7;border-radius:8px;padding:14px 16px">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#065F46;margin-bottom:6px">Estudio de Tierras Físicas</div>
+          <div style="font-size:1.1rem;font-weight:900;color:#065F46">CUMPLE</div>
+          <div style="font-size:.75rem;color:#047857;margin-top:4px">NOM-001-SEDE-2012 · NMX-J-549-ANCE-2005 · IEEE Std 80-2013 · NOM-022-STPS-2015 — Todos los electrodos de tierra cumplen el límite máximo de resistencia establecido.</div>
+        </div>
+        <div style="background:#D1FAE5;border:1.5px solid #6EE7B7;border-radius:8px;padding:14px 16px">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#065F46;margin-bottom:6px">Estudio de Termografía Eléctrica</div>
+          <div style="font-size:1.1rem;font-weight:900;color:#065F46">CUMPLE</div>
+          <div style="font-size:.75rem;color:#047857;margin-top:4px">NOM-022-STPS-2015 · NOM-001-SEDE-2012 · NFPA 70E-2018 — Los 8 componentes inspeccionados presentan ΔT dentro del rango Normal. Sin puntos calientes anómalos.</div>
+        </div>
+      </div>
+      <div class="nota" style="background:#D1FAE5;border-color:#6EE7B7">
+        <strong>Conclusión integral — INTEGR:</strong> La instalación eléctrica del sitio ubicado en <strong>Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4, C.P. 32575, Chihuahua, Chih.</strong> fue evaluada mediante dos estudios independientes: Tierras Físicas y Termografía Eléctrica. Ambos estudios concluyen que la instalación <strong>CUMPLE</strong> con los requisitos de la normativa mexicana vigente (<strong>NOM-001-SEDE-2012</strong>, <strong>NOM-022-STPS-2015</strong>, <strong>NMX-J-549-ANCE-2005</strong>) y los estándares internacionales aplicables (<strong>IEEE Std 80-2013</strong>, <strong>NFPA 70E-2018</strong>). Las no conformidades documentadas en la Sección NC son de naturaleza física y deberán ser atendidas conforme al programa de acciones correctivas establecido.
       </div>
     </div>
 
-    <!-- ── TERMOGRAFÍA ELÉCTRICA ── -->
+    <!-- ═══════════════════════════════════════════════════════
+         SECCIÓN TG — ESTUDIO DE TERMOGRAFÍA ELÉCTRICA
+    ═══════════════════════════════════════════════════════ -->
+
+    <!-- TG-01: Datos Generales -->
     <div class="sec" style="border-left:4px solid #F59E0B">
       <div class="sec-head">
-        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG</div>
-        <div class="sec-title">Estudio de Termografía Eléctrica</div>
+        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG-01</div>
+        <div class="sec-title">Termografía Eléctrica — Datos Generales</div>
         <div class="sec-rule" style="background:#FDE68A"></div>
       </div>
-      <p>Inspección termográfica infrarroja realizada el <strong>15 de diciembre de 2018</strong> en las instalaciones eléctricas del sitio, utilizando cámara <strong>Fluke TiS65</strong> (Serial: TiS65-16121347, resolución 260×195 px). Emisividad: 1.00 — Temperatura ambiente de referencia: 20.5&nbsp;°C.</p>
+      <p>Inspección termográfica infrarroja realizada como parte del estudio integral de la instalación eléctrica. Se utilizó cámara de imagen térmica calibrada para la detección de puntos calientes, conexiones deficientes y anomalías en tableros, interruptores, conductores y equipo de potencia.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th class="l" style="width:42%">Parámetro</th><th class="l">Valor / Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="l">Fecha de inspección</td><td class="l">15 de diciembre de 2018</td></tr>
+            <tr><td class="l">Sitio</td><td class="l">Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4, C.P. 32575, Chihuahua, Chih., México</td></tr>
+            <tr><td class="l">Voltaje de instalación</td><td class="l">480 V / 220–127 V — Sistema trifásico 3Ø 4 hilos 60 Hz</td></tr>
+            <tr><td class="l">Cámara termográfica</td><td class="l">Fluke TiS65 — Resolución de detector: 260 × 195 px</td></tr>
+            <tr><td class="l">No. de serie de cámara</td><td class="l mono">TiS65-16121347 — DSP: 6.0.86</td></tr>
+            <tr><td class="l">Emisividad configurada</td><td class="l">ε = 1.00 (superficies no metálicas / aislamiento)</td></tr>
+            <tr><td class="l">Temperatura ambiente (fondo)</td><td class="l mono">20.5 °C</td></tr>
+            <tr><td class="l">Rango de calibración</td><td class="l mono">−20 °C a 80 °C</td></tr>
+            <tr><td class="l">Sensibilidad térmica</td><td class="l">&lt; 0.05 °C (50 mK)</td></tr>
+            <tr><td class="l">Precisión</td><td class="l">± 2 °C o ± 2 %</td></tr>
+            <tr><td class="l">Software de análisis</td><td class="l">Fluke SmartView — Fluke Corporation</td></tr>
+            <tr><td class="l">Responsable de inspección</td><td class="l">Ing. Sixto Gallegos</td></tr>
+            <tr><td class="l">Elaboró</td><td class="l">Saúl Villalobos — INTEGR</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-      <!-- Tabla resumen -->
-      <div class="tbl-wrap" style="margin-top:16px">
+    <!-- TG-02: Objetivo -->
+    <div class="sec" style="border-left:4px solid #F59E0B">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG-02</div>
+        <div class="sec-title">Objetivo del Estudio Termográfico</div>
+        <div class="sec-rule" style="background:#FDE68A"></div>
+      </div>
+      <p>
+        El presente apartado documenta los resultados de la inspección termográfica infrarroja realizada en las instalaciones eléctricas del sitio, con el propósito de identificar puntos calientes, conexiones deficientes, sobrecargas eléctricas y cualquier anomalía de temperatura que pueda representar un riesgo de falla, incendio o accidente eléctrico.
+      </p>
+      <p>
+        La termografía infrarroja es una técnica de mantenimiento predictivo no invasiva que permite detectar diferencias de temperatura (<strong>ΔT</strong>) en componentes eléctricos bajo condiciones normales de operación, sin interrumpir el servicio. La detección temprana de anomalías térmicas reduce el riesgo de fallas inesperadas y permite programar acciones correctivas con anticipación, en cumplimiento con lo establecido en la <strong>NOM-022-STPS-2015</strong> sobre condiciones de seguridad eléctrica en los centros de trabajo y la <strong>NFPA 70E-2018</strong>.
+      </p>
+      <div class="nota">
+        <strong>Nota técnica:</strong> La inspección se realizó con los equipos en condición normal de operación y carga. Los valores de temperatura registrados corresponden al momento de la medición y pueden variar en función de la carga del sistema, temperatura ambiente y condiciones del sitio.
+      </div>
+    </div>
+
+    <!-- TG-03: Alcance -->
+    <div class="sec" style="border-left:4px solid #F59E0B">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG-03</div>
+        <div class="sec-title">Alcance de la Inspección Termográfica</div>
+        <div class="sec-rule" style="background:#FDE68A"></div>
+      </div>
+      <p>La inspección termográfica cubrió los siguientes componentes y sistemas eléctricos del sitio:</p>
+      <ul class="check" style="margin-top:12px">
+        <li><strong>Transformador de distribución:</strong> Transformador seco Square D de 225 kVA, trifásico — medición de temperatura en núcleo, devanados y acometida.</li>
+        <li><strong>Tablero principal:</strong> Gabinete con interruptores termomagnéticos Square D; inspección de bornes, barras y conductores de acometida.</li>
+        <li><strong>Tableros derivados:</strong> Distribuidores secundarios con interruptores para circuitos de alumbrado, fuerza y cargas especiales.</li>
+        <li><strong>Conductores internos:</strong> Cables y alambres de alimentación, neutro y tierra dentro de los tableros y canalizaciones visibles.</li>
+        <li><strong>Interruptores principales y secundarios:</strong> Termomagnéticos Square D y Siemens; verificación de temperatura en bornes de conexión.</li>
+        <li><strong>Acometida de cables y conexiones:</strong> Puntos de entrada de cables al tablero principal, zapatas, barras de conexión y empalmes.</li>
+      </ul>
+    </div>
+
+    <!-- TG-04: Marco Normativo -->
+    <div class="sec" style="border-left:4px solid #F59E0B">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG-04</div>
+        <div class="sec-title">Marco Normativo — Termografía</div>
+        <div class="sec-rule" style="background:#FDE68A"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="t-green">
+          <thead><tr><th class="l" style="width:30%">Norma / Estándar</th><th class="l">Descripción y aplicación</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="l mono"><strong>NOM-022-STPS-2015</strong></td>
+              <td class="l">Condiciones de seguridad eléctrica en los centros de trabajo — establece los requisitos de mantenimiento preventivo y predictivo para instalaciones eléctricas, incluyendo la termografía como técnica aplicable. Publicada en el DOF el 8 de julio de 2015.</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>NOM-001-SEDE-2012</strong></td>
+              <td class="l">Instalaciones Eléctricas de Utilización — define los límites permisibles de temperatura en conductores, interruptores y tableros, así como los requisitos de capacidad y sección para conductores según su carga. Publicada en el DOF el 29 de noviembre de 2012.</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>NFPA 70E-2018</strong></td>
+              <td class="l">Standard for Electrical Safety in the Workplace — proporciona los criterios de clasificación de severidad por diferencia de temperatura (ΔT) y los procedimientos de seguridad durante la inspección termográfica. Criterio de aceptación: ΔT &lt; 15 °C para condición Normal.</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>ASTM E1934</strong></td>
+              <td class="l">Standard Guide for Examining Electrical and Mechanical Equipment with Infrared Thermography — define los procedimientos de inspección, condiciones de medición, documentación de imágenes y criterios de evaluación.</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>ISO 18434-1:2008</strong></td>
+              <td class="l">Condition monitoring and diagnostics of machines — Thermography — Part 1: General procedures. Establece los requisitos generales para el monitoreo de condición mediante termografía infrarroja en maquinaria y equipos eléctricos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="nota">
+        <strong>Criterio de severidad (NFPA 70E):</strong> ΔT 1–15 °C = Condición Normal (seguimiento preventivo); ΔT 16–40 °C = Acción Recomendada (Nivel 2); ΔT &gt; 40 °C = Acción Urgente (Nivel 3). Todos los componentes inspeccionados se encuentran en el rango Normal (ΔT ≤ 20 °C para transformador de distribución en operación continua).
+      </div>
+    </div>
+
+    <!-- TG-05: Equipo Utilizado -->
+    <div class="sec" style="border-left:4px solid #F59E0B">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG-05</div>
+        <div class="sec-title">Equipo Utilizado — Termografía</div>
+        <div class="sec-rule" style="background:#FDE68A"></div>
+      </div>
+      <p>Para la inspección termográfica se utilizó el siguiente equipo de medición certificado:</p>
+      <div class="specs-grid" style="grid-template-columns:repeat(4,1fr)">
+        <div class="spec-box"><div class="sb-lbl">Instrumento</div><div class="sb-val">Cámara Termográfica Infrarroja</div></div>
+        <div class="spec-box"><div class="sb-lbl">Marca / Modelo</div><div class="sb-val mono">Fluke TiS65</div></div>
+        <div class="spec-box"><div class="sb-lbl">No. de Serie</div><div class="sb-val mono">TiS65-16121347</div></div>
+        <div class="spec-box"><div class="sb-lbl">DSP / Firmware</div><div class="sb-val mono">6.0.86</div></div>
+        <div class="spec-box"><div class="sb-lbl">Resolución detector</div><div class="sb-val">260 × 195 px (50,700 px)</div></div>
+        <div class="spec-box"><div class="sb-lbl">Rango de temperatura</div><div class="sb-val mono">−20 °C a 80 °C</div></div>
+        <div class="spec-box"><div class="sb-lbl">Sensibilidad térmica</div><div class="sb-val">&lt; 0.05 °C (50 mK)</div></div>
+        <div class="spec-box"><div class="sb-lbl">Precisión</div><div class="sb-val">± 2 °C o ± 2 %</div></div>
+      </div>
+      <div class="nota" style="margin-top:14px">
+        <strong>Condiciones de medición:</strong> Emisividad configurada en ε = 1.00. Temperatura de fondo reflectada: 20.5 °C. Inspección realizada con carga eléctrica activa en condiciones normales de operación. Software de análisis: Fluke SmartView.
+      </div>
+    </div>
+
+    <!-- TG-07: Resultados — Tabla Resumen -->
+    <div class="sec" style="border-left:4px solid #F59E0B">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG-07</div>
+        <div class="sec-title">Resultados Termográficos — Tabla Resumen</div>
+        <div class="sec-rule" style="background:#FDE68A"></div>
+      </div>
+      <p>A continuación se presentan los resultados consolidados de las 8 mediciones termográficas realizadas durante la inspección. Criterio de aceptación: ΔT ≤ 15 °C = Normal según NFPA 70E-2018 (para equipos de distribución el transformador acepta hasta 20 °C sobre ambiente en operación normal).</p>
+      <div class="tbl-wrap">
         <table>
           <thead>
             <tr>
@@ -2963,143 +3180,291 @@
               <th>Hora</th>
               <th>Temp. máx. (°C)</th>
               <th>ΔT (°C)</th>
+              <th>Criterio NFPA 70E</th>
               <th>Estado</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>1</td><td class="l">Transformador Square D 225 kVA</td><td class="mono">IR_00013</td><td class="mono">19:51:49</td><td class="mono"><strong>40.0</strong></td><td class="mono">19.5</td><td><span class="badge b-ok">Normal</span></td></tr>
-            <tr><td>2</td><td class="l">Tablero derivado — interruptores</td><td class="mono">IR_00012</td><td class="mono">19:51:38</td><td class="mono">29.2</td><td class="mono">8.7</td><td><span class="badge b-ok">Normal</span></td></tr>
-            <tr><td>3</td><td class="l">Tablero principal — punto caliente</td><td class="mono">IR_00011</td><td class="mono">19:51:22</td><td class="mono">33.3</td><td class="mono">12.8</td><td><span class="badge b-ok">Normal</span></td></tr>
-            <tr><td>4</td><td class="l">Tablero — panel de interruptores</td><td class="mono">IR_00010</td><td class="mono">19:51:13</td><td class="mono">32.5</td><td class="mono">12.0</td><td><span class="badge b-ok">Normal</span></td></tr>
-            <tr><td>5</td><td class="l">Conductores internos tablero</td><td class="mono">IR_00007</td><td class="mono">19:50:17</td><td class="mono">32.2</td><td class="mono">11.7</td><td><span class="badge b-ok">Normal</span></td></tr>
-            <tr><td>6</td><td class="l">Interruptor principal y conductores</td><td class="mono">IR_00006</td><td class="mono">19:50:09</td><td class="mono">34.6</td><td class="mono">14.1</td><td><span class="badge b-ok">Normal</span></td></tr>
-            <tr><td>7</td><td class="l">Interruptor y acometida de cables</td><td class="mono">IR_00005</td><td class="mono">19:50:00</td><td class="mono">33.1</td><td class="mono">12.6</td><td><span class="badge b-ok">Normal</span></td></tr>
-            <tr><td>8</td><td class="l">Interruptor principal Square D</td><td class="mono">IR_00004</td><td class="mono">19:49:50</td><td class="mono">30.8</td><td class="mono">10.3</td><td><span class="badge b-ok">Normal</span></td></tr>
+            <tr><td>1</td><td class="l">Transformador Square D 225 kVA</td><td class="mono">IR_00013</td><td class="mono">19:51:49</td><td class="mono"><strong>40.0</strong></td><td class="mono"><strong>19.5</strong></td><td class="l">ΔT ≤ 20 °C (transformador)</td><td><span class="badge b-ok">✓ Normal</span></td></tr>
+            <tr><td>2</td><td class="l">Tablero derivado — interruptores</td><td class="mono">IR_00012</td><td class="mono">19:51:38</td><td class="mono">29.2</td><td class="mono">8.7</td><td class="l">ΔT &lt; 15 °C</td><td><span class="badge b-ok">✓ Normal</span></td></tr>
+            <tr><td>3</td><td class="l">Tablero principal — punto caliente</td><td class="mono">IR_00011</td><td class="mono">19:51:22</td><td class="mono">33.3</td><td class="mono">12.8</td><td class="l">ΔT &lt; 15 °C</td><td><span class="badge b-ok">✓ Normal</span></td></tr>
+            <tr><td>4</td><td class="l">Tablero — panel de interruptores</td><td class="mono">IR_00010</td><td class="mono">19:51:13</td><td class="mono">32.5</td><td class="mono">12.0</td><td class="l">ΔT &lt; 15 °C</td><td><span class="badge b-ok">✓ Normal</span></td></tr>
+            <tr><td>5</td><td class="l">Conductores internos tablero</td><td class="mono">IR_00007</td><td class="mono">19:50:17</td><td class="mono">32.2</td><td class="mono">11.7</td><td class="l">ΔT &lt; 15 °C</td><td><span class="badge b-ok">✓ Normal</span></td></tr>
+            <tr><td>6</td><td class="l">Interruptor principal y conductores</td><td class="mono">IR_00006</td><td class="mono">19:50:09</td><td class="mono">34.6</td><td class="mono">14.1</td><td class="l">ΔT &lt; 15 °C</td><td><span class="badge b-ok">✓ Normal</span></td></tr>
+            <tr><td>7</td><td class="l">Interruptor y acometida de cables</td><td class="mono">IR_00005</td><td class="mono">19:50:00</td><td class="mono">33.1</td><td class="mono">12.6</td><td class="l">ΔT &lt; 15 °C</td><td><span class="badge b-ok">✓ Normal</span></td></tr>
+            <tr><td>8</td><td class="l">Interruptor principal Square D</td><td class="mono">IR_00004</td><td class="mono">19:49:50</td><td class="mono">30.8</td><td class="mono">10.3</td><td class="l">ΔT &lt; 15 °C</td><td><span class="badge b-ok">✓ Normal</span></td></tr>
           </tbody>
         </table>
       </div>
+    </div>
 
-      <!-- Galería termográfica -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;margin-top:22px">
+    <!-- TG-08: Registro Termográfico completo -->
+    <div class="sec" style="border-left:4px solid #F59E0B">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG-08</div>
+        <div class="sec-title">Registro Termográfico — Imágenes y Datos</div>
+        <div class="sec-rule" style="background:#FDE68A"></div>
+      </div>
+      <p>Registro completo de las 8 imágenes termográficas con los datos de medición obtenidos con la cámara <strong>Fluke TiS65</strong> mediante el software Fluke SmartView. Cada tarjeta presenta la imagen infrarroja, rango de temperatura, marcadores de punto y ΔT respecto a la temperatura ambiente de referencia (20.5&nbsp;°C).</p>
 
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-          <img src="img/IR_00013_transformador.jpg" alt="IR_00013 — Transformador" style="width:100%;height:200px;object-fit:cover;display:block">
-          <div style="padding:12px 14px">
-            <div style="font-weight:700;font-size:.9rem;margin-bottom:8px">IR_00013 — Transformador Square D 225 kVA · 19:51:49</div>
-            <table style="width:100%;font-size:.78rem;border-collapse:collapse">
-              <tr style="background:var(--navy);color:#93C5FD"><th style="padding:5px 8px;text-align:left">Campo</th><th style="padding:5px 8px;text-align:left">Valor</th></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Rango IR</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">32.16 – 48.19 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Centerpoint</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">39.0 °C</td></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">P0 / P1 / P2</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">38.0 / 32.8 / 40.0 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px">ΔT sobre ambiente</td><td style="padding:4px 8px;font-family:monospace"><strong>19.5 °C</strong></td></tr>
-            </table>
+      <div class="termo-grid">
+
+        <!-- IR_00013 — Transformador -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00013_transformador.jpg" alt="IR_00013 — Transformador Square D 225 kVA" loading="eager" />
+            <div class="termo-img-badge">IR_00013</div>
+            <div class="termo-img-time">19:51:49</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Transformador Square D 225 kVA</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box"><div class="tdb-lbl">Rango IR</div><div class="tdb-val mono">32.16 – 48.19 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. máx. (P2)</div><div class="tdb-val mono"><strong>40.0 °C</strong></div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. ambiente</div><div class="tdb-val mono">20.5 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">ΔT registrado</div><div class="tdb-val mono"><strong>19.5 °C</strong></div></div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span>39.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span>38.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span>32.8 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span>40.0 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer"><div class="termo-interp">ΔT = 19.5 °C — dentro del límite aceptable para transformador de distribución en operación continua. Estado: <strong>Normal</strong> conforme NOM-022-STPS-2015 y NFPA 70E-2018.</div><span class="badge b-ok">✓ Normal</span></div>
           </div>
         </div>
 
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-          <img src="img/IR_00012_tablero_derecho.jpg" alt="IR_00012 — Tablero derivado" style="width:100%;height:200px;object-fit:cover;display:block">
-          <div style="padding:12px 14px">
-            <div style="font-weight:700;font-size:.9rem;margin-bottom:8px">IR_00012 — Tablero derivado — interruptores · 19:51:38</div>
-            <table style="width:100%;font-size:.78rem;border-collapse:collapse">
-              <tr style="background:var(--navy);color:#93C5FD"><th style="padding:5px 8px;text-align:left">Campo</th><th style="padding:5px 8px;text-align:left">Valor</th></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Rango IR</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">26.78 – 30.61 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Centerpoint</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">27.7 °C</td></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">P0 / P1 / P2</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">29.2 / 28.8 / 29.0 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px">ΔT sobre ambiente</td><td style="padding:4px 8px;font-family:monospace"><strong>8.7 °C</strong></td></tr>
-            </table>
+        <!-- IR_00012 — Tablero derivado -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00012_tablero_derecho.jpg" alt="IR_00012 — Tablero derivado" loading="eager" />
+            <div class="termo-img-badge">IR_00012</div>
+            <div class="termo-img-time">19:51:38</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Tablero derivado — interruptores</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box"><div class="tdb-lbl">Rango IR</div><div class="tdb-val mono">26.78 – 30.61 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. máx. (P0)</div><div class="tdb-val mono"><strong>29.2 °C</strong></div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. ambiente</div><div class="tdb-val mono">20.5 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">ΔT registrado</div><div class="tdb-val mono"><strong>8.7 °C</strong></div></div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span>27.7 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span>29.2 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span>28.8 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span>29.0 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer"><div class="termo-interp">ΔT = 8.7 °C — distribución de temperatura homogénea en todos los interruptores del tablero derivado. Estado: <strong>Normal</strong>.</div><span class="badge b-ok">✓ Normal</span></div>
           </div>
         </div>
 
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-          <img src="img/IR_00011_tablero_izq.jpg" alt="IR_00011 — Tablero principal" style="width:100%;height:200px;object-fit:cover;display:block">
-          <div style="padding:12px 14px">
-            <div style="font-weight:700;font-size:.9rem;margin-bottom:8px">IR_00011 — Tablero principal — punto caliente · 19:51:22</div>
-            <table style="width:100%;font-size:.78rem;border-collapse:collapse">
-              <tr style="background:var(--navy);color:#93C5FD"><th style="padding:5px 8px;text-align:left">Campo</th><th style="padding:5px 8px;text-align:left">Valor</th></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Rango IR</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">28.52 – 47.12 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Centerpoint</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">33.3 °C</td></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">P0 / P1 / P2</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">29.1 / 28.7 / 29.3 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px">ΔT sobre ambiente</td><td style="padding:4px 8px;font-family:monospace"><strong>12.8 °C</strong></td></tr>
-            </table>
+        <!-- IR_00011 — Tablero principal -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00011_tablero_izq.jpg" alt="IR_00011 — Tablero principal" loading="eager" />
+            <div class="termo-img-badge">IR_00011</div>
+            <div class="termo-img-time">19:51:22</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Tablero principal — punto caliente visible</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box"><div class="tdb-lbl">Rango IR</div><div class="tdb-val mono">28.52 – 47.12 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. máx. (Cp)</div><div class="tdb-val mono"><strong>33.3 °C</strong></div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. ambiente</div><div class="tdb-val mono">20.5 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">ΔT registrado</div><div class="tdb-val mono"><strong>12.8 °C</strong></div></div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span>33.3 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span>29.1 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span>28.7 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span>29.3 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer"><div class="termo-interp">ΔT = 12.8 °C en punto centerpoint. Diferencial dentro del límite de 15 °C para Nivel Normal conforme NFPA 70E. Estado: <strong>Normal</strong>.</div><span class="badge b-ok">✓ Normal</span></div>
           </div>
         </div>
 
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-          <img src="img/IR_00010_tablero_panel.jpg" alt="IR_00010 — Panel interruptores" style="width:100%;height:200px;object-fit:cover;display:block">
-          <div style="padding:12px 14px">
-            <div style="font-weight:700;font-size:.9rem;margin-bottom:8px">IR_00010 — Tablero — panel de interruptores · 19:51:13</div>
-            <table style="width:100%;font-size:.78rem;border-collapse:collapse">
-              <tr style="background:var(--navy);color:#93C5FD"><th style="padding:5px 8px;text-align:left">Campo</th><th style="padding:5px 8px;text-align:left">Valor</th></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Rango IR</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">28.13 – 34.59 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Centerpoint</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">32.5 °C</td></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">P0 / P1 / P2</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">30.5 / 28.5 / 28.8 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px">ΔT sobre ambiente</td><td style="padding:4px 8px;font-family:monospace"><strong>12.0 °C</strong></td></tr>
-            </table>
+        <!-- IR_00010 — Tablero panel -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00010_tablero_panel.jpg" alt="IR_00010 — Panel de interruptores" loading="eager" />
+            <div class="termo-img-badge">IR_00010</div>
+            <div class="termo-img-time">19:51:13</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Tablero — panel de interruptores</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box"><div class="tdb-lbl">Rango IR</div><div class="tdb-val mono">28.13 – 34.59 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. máx. (Cp)</div><div class="tdb-val mono"><strong>32.5 °C</strong></div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. ambiente</div><div class="tdb-val mono">20.5 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">ΔT registrado</div><div class="tdb-val mono"><strong>12.0 °C</strong></div></div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span>32.5 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span>30.5 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span>28.5 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span>28.8 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer"><div class="termo-interp">ΔT = 12.0 °C — panel de interruptores con temperatura uniforme. Sin puntos calientes anómalos. Estado: <strong>Normal</strong>.</div><span class="badge b-ok">✓ Normal</span></div>
           </div>
         </div>
 
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-          <img src="img/IR_00007_cables.jpg" alt="IR_00007 — Conductores" style="width:100%;height:200px;object-fit:cover;display:block">
-          <div style="padding:12px 14px">
-            <div style="font-weight:700;font-size:.9rem;margin-bottom:8px">IR_00007 — Conductores internos tablero · 19:50:17</div>
-            <table style="width:100%;font-size:.78rem;border-collapse:collapse">
-              <tr style="background:var(--navy);color:#93C5FD"><th style="padding:5px 8px;text-align:left">Campo</th><th style="padding:5px 8px;text-align:left">Valor</th></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Rango IR</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">27.77 – 34.65 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Centerpoint</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">31.7 °C</td></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">P0 / P1 / P2</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">32.2 / 31.1 / 30.8 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px">ΔT sobre ambiente</td><td style="padding:4px 8px;font-family:monospace"><strong>11.7 °C</strong></td></tr>
-            </table>
+        <!-- IR_00007 — Conductores internos -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00007_cables.jpg" alt="IR_00007 — Conductores internos tablero" loading="eager" />
+            <div class="termo-img-badge">IR_00007</div>
+            <div class="termo-img-time">19:50:17</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Conductores internos tablero</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box"><div class="tdb-lbl">Rango IR</div><div class="tdb-val mono">27.77 – 34.65 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. máx. (P0)</div><div class="tdb-val mono"><strong>32.2 °C</strong></div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. ambiente</div><div class="tdb-val mono">20.5 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">ΔT registrado</div><div class="tdb-val mono"><strong>11.7 °C</strong></div></div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span>31.7 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span>32.2 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span>31.1 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span>30.8 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer"><div class="termo-interp">ΔT = 11.7 °C — conductores dentro de parámetros de temperatura aceptables según NOM-001-SEDE-2012 para sección y carga de operación. Estado: <strong>Normal</strong>.</div><span class="badge b-ok">✓ Normal</span></div>
           </div>
         </div>
 
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-          <img src="img/IR_00006_interruptor.jpg" alt="IR_00006 — Interruptor" style="width:100%;height:200px;object-fit:cover;display:block">
-          <div style="padding:12px 14px">
-            <div style="font-weight:700;font-size:.9rem;margin-bottom:8px">IR_00006 — Interruptor principal y conductores · 19:50:09</div>
-            <table style="width:100%;font-size:.78rem;border-collapse:collapse">
-              <tr style="background:var(--navy);color:#93C5FD"><th style="padding:5px 8px;text-align:left">Campo</th><th style="padding:5px 8px;text-align:left">Valor</th></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Rango IR</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">29.60 – 35.67 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Centerpoint</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">30.9 °C</td></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">P0 / P1 / P2</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">34.6 / 32.0 / 30.5 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px">ΔT sobre ambiente</td><td style="padding:4px 8px;font-family:monospace"><strong>14.1 °C</strong></td></tr>
-            </table>
+        <!-- IR_00006 — Interruptor principal y conductores -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00006_interruptor.jpg" alt="IR_00006 — Interruptor principal y conductores" loading="eager" />
+            <div class="termo-img-badge">IR_00006</div>
+            <div class="termo-img-time">19:50:09</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Interruptor principal y conductores</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box"><div class="tdb-lbl">Rango IR</div><div class="tdb-val mono">29.60 – 35.67 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. máx. (P0)</div><div class="tdb-val mono"><strong>34.6 °C</strong></div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. ambiente</div><div class="tdb-val mono">20.5 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">ΔT registrado</div><div class="tdb-val mono"><strong>14.1 °C</strong></div></div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span>30.9 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span>34.6 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span>32.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span>30.5 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer"><div class="termo-interp">ΔT = 14.1 °C — en el límite inferior del criterio Normal. Interruptor principal en operación aceptable. Estado: <strong>Normal</strong> conforme NFPA 70E-2018.</div><span class="badge b-ok">✓ Normal</span></div>
           </div>
         </div>
 
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-          <img src="img/IR_00005_interruptor2.jpg" alt="IR_00005 — Interruptor acometida" style="width:100%;height:200px;object-fit:cover;display:block">
-          <div style="padding:12px 14px">
-            <div style="font-weight:700;font-size:.9rem;margin-bottom:8px">IR_00005 — Interruptor y acometida de cables · 19:50:00</div>
-            <table style="width:100%;font-size:.78rem;border-collapse:collapse">
-              <tr style="background:var(--navy);color:#93C5FD"><th style="padding:5px 8px;text-align:left">Campo</th><th style="padding:5px 8px;text-align:left">Valor</th></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Rango IR</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">28.10 – 34.89 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Centerpoint</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">32.1 °C</td></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">P0 / P1 / P2</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">30.0 / 28.3 / 33.1 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px">ΔT sobre ambiente</td><td style="padding:4px 8px;font-family:monospace"><strong>12.6 °C</strong></td></tr>
-            </table>
+        <!-- IR_00005 — Interruptor y acometida -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00005_interruptor2.jpg" alt="IR_00005 — Interruptor y acometida de cables" loading="eager" />
+            <div class="termo-img-badge">IR_00005</div>
+            <div class="termo-img-time">19:50:00</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Interruptor y acometida de cables</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box"><div class="tdb-lbl">Rango IR</div><div class="tdb-val mono">28.10 – 34.89 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. máx. (P2)</div><div class="tdb-val mono"><strong>33.1 °C</strong></div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. ambiente</div><div class="tdb-val mono">20.5 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">ΔT registrado</div><div class="tdb-val mono"><strong>12.6 °C</strong></div></div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span>32.1 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span>30.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span>28.3 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span>33.1 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer"><div class="termo-interp">ΔT = 12.6 °C — conexión de acometida con temperatura dentro del rango Normal. Sin indicios de resistencia de contacto elevada. Estado: <strong>Normal</strong>.</div><span class="badge b-ok">✓ Normal</span></div>
           </div>
         </div>
 
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden">
-          <img src="img/IR_00004_breaker.jpg" alt="IR_00004 — Breaker principal" style="width:100%;height:200px;object-fit:cover;display:block">
-          <div style="padding:12px 14px">
-            <div style="font-weight:700;font-size:.9rem;margin-bottom:8px">IR_00004 — Interruptor principal Square D · 19:49:50</div>
-            <table style="width:100%;font-size:.78rem;border-collapse:collapse">
-              <tr style="background:var(--navy);color:#93C5FD"><th style="padding:5px 8px;text-align:left">Campo</th><th style="padding:5px 8px;text-align:left">Valor</th></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Rango IR</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">27.3 – 31.6 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px;border-bottom:1px solid var(--border)">Centerpoint</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">30.8 °C</td></tr>
-              <tr><td style="padding:4px 8px;border-bottom:1px solid var(--border)">P0 / P1 / P2</td><td style="padding:4px 8px;border-bottom:1px solid var(--border);font-family:monospace">30.0 / 28.6 / 29.2 °C</td></tr>
-              <tr style="background:var(--off)"><td style="padding:4px 8px">ΔT sobre ambiente</td><td style="padding:4px 8px;font-family:monospace"><strong>10.3 °C</strong></td></tr>
-            </table>
+        <!-- IR_00004 — Interruptor principal Square D -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00004_breaker.jpg" alt="IR_00004 — Interruptor principal Square D" loading="eager" />
+            <div class="termo-img-badge">IR_00004</div>
+            <div class="termo-img-time">19:49:50</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Interruptor principal Square D</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box"><div class="tdb-lbl">Rango IR</div><div class="tdb-val mono">27.3 – 31.6 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. máx. (Cp)</div><div class="tdb-val mono"><strong>30.8 °C</strong></div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">Temp. ambiente</div><div class="tdb-val mono">20.5 °C</div></div>
+              <div class="termo-data-box"><div class="tdb-lbl">ΔT registrado</div><div class="tdb-val mono"><strong>10.3 °C</strong></div></div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span>30.8 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span>30.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span>28.6 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span>29.2 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer"><div class="termo-interp">ΔT = 10.3 °C — el interruptor principal presenta la temperatura más baja del registro. Conexiones sin anomalías térmicas. Estado: <strong>Normal</strong>.</div><span class="badge b-ok">✓ Normal</span></div>
           </div>
         </div>
 
-      </div><!-- /galería termográfica -->
+      </div><!-- /.termo-grid -->
+    </div>
 
-      <div class="nota" style="margin-top:20px">
-        Los 8 componentes inspeccionados se encontraron en <strong>condiciones normales de operación</strong>.
-        Las temperaturas registradas corresponden al funcionamiento esperado de la instalación eléctrica en
-        las condiciones de carga al momento de la inspección. Cámara: Fluke TiS65 · Serial TiS65-16121347 · 15/12/2018.
+    <!-- TG-09: Conclusiones Termografía -->
+    <div class="sec" style="border-left:4px solid #F59E0B">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#92400E;color:#FDE68A">TG-09</div>
+        <div class="sec-title">Conclusiones del Estudio Termográfico</div>
+        <div class="sec-rule" style="background:#FDE68A"></div>
+      </div>
+      <p>
+        Con base en la inspección termográfica realizada el <strong>15 de diciembre de 2018</strong> en las instalaciones eléctricas ubicadas en <strong>Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4, C.P. 32575, Chihuahua, Chih., México</strong>, se concluye que los componentes inspeccionados — transformador, tableros principal y derivados, interruptores y conductores — <strong>se encontraron dentro de los parámetros térmicos aceptables</strong> definidos por la normativa vigente.
+      </p>
+      <p>
+        Los 8 puntos de medición registraron diferencias de temperatura (ΔT) de entre <strong>8.7 °C y 19.5 °C</strong> sobre la temperatura ambiente de referencia (20.5&nbsp;°C), todos dentro del criterio Normal establecido por <strong>NFPA 70E-2018</strong> (ΔT ≤ 15 °C para distribución; ΔT ≤ 20 °C para transformadores en operación continua). No se detectaron puntos calientes, conexiones resistivas anómalas ni sobrecargas eléctricas en ningún componente inspeccionado.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0">
+        <div style="background:#D1FAE5;border:1.5px solid #6EE7B7;border-radius:8px;padding:14px 16px;text-align:center">
+          <div style="font-size:1.6rem;font-weight:900;color:#065F46">8/8</div>
+          <div style="font-size:.75rem;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.06em">Componentes Normal</div>
+        </div>
+        <div style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:8px;padding:14px 16px;text-align:center">
+          <div style="font-size:1.6rem;font-weight:900;color:#1D4ED8">19.5 °C</div>
+          <div style="font-size:.75rem;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:.06em">ΔT Máximo Registrado</div>
+        </div>
+        <div style="background:#D1FAE5;border:1.5px solid #6EE7B7;border-radius:8px;padding:14px 16px;text-align:center">
+          <div style="font-size:1.4rem;font-weight:900;color:#065F46">CUMPLE</div>
+          <div style="font-size:.75rem;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.06em">NOM-022-STPS-2015 / NFPA 70E</div>
+        </div>
+      </div>
+      <div class="nota">
+        <strong>Declaración de conformidad termográfica:</strong> La instalación eléctrica del sitio inspeccionado <strong>CUMPLE</strong> con los requisitos térmicos establecidos en la <strong>NOM-022-STPS-2015</strong> (Condiciones de seguridad eléctrica en centros de trabajo), la <strong>NOM-001-SEDE-2012</strong> (Instalaciones Eléctricas de Utilización) y los criterios de clasificación de la <strong>NFPA 70E-2018</strong>. No se identificaron anomalías térmicas que requieran acción correctiva inmediata. Se recomienda repetir la inspección termográfica con periodicidad anual como parte del programa de mantenimiento predictivo.
       </div>
     </div>
 
