@@ -1,0 +1,2778 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte — Estudio de Termografía Eléctrica · INTEGR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════
+       VARIABLES
+    ══════════════════════════════════════ */
+    :root {
+      --navy: #0B1E3D;
+      --navy-mid: #152E55;
+      --navy-soft: #1E3A6E;
+      --blue: #1D4ED8;
+      --blue-mid: #2563EB;
+      --blue-light: #EFF6FF;
+      --blue-border: #BFDBFE;
+      --white: #FFFFFF;
+      --off: #F8FAFD;
+      --border: #E2E8F0;
+      --slate: #64748B;
+      --slate-dark: #475569;
+      --text: #0F172A;
+      --text-mid: #334155;
+      --green: #065F46;
+      --green-bg: #ECFDF5;
+      --green-bd: #A7F3D0;
+      --red: #991B1B;
+      --red-bg: #FEF2F2;
+      --red-bd: #FECACA;
+      --amber: #92400E;
+      --amber-bg: #FFFBEB;
+      --amber-bd: #FDE68A;
+      --orange: #9A3412;
+      --orange-bg: #FFF7ED;
+      --orange-bd: #FED7AA;
+      --r: 8px;
+      --r-sm: 5px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #E8EDF5;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══════════════════════════════════════
+       PANEL DE EDICIÓN
+    ══════════════════════════════════════ */
+    #editor-panel {
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 3px 16px rgba(11, 30, 61, .5);
+    }
+
+    .ep-bar {
+      background: var(--blue-mid);
+      padding: 6px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ep-bar-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    #btn-print {
+      background: #fff;
+      color: var(--blue);
+      border: none;
+      padding: 5px 18px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: opacity .15s;
+    }
+
+    #btn-print:hover {
+      opacity: .85;
+    }
+
+    .ep-body {
+      padding: 12px 28px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      align-items: flex-end;
+    }
+
+    .ep-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .ep-group label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .58rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue-border);
+    }
+
+    .ep-group input,
+    .ep-group select {
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .2);
+      color: #fff;
+      border-radius: var(--r-sm);
+      padding: 5px 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: .78rem;
+      outline: none;
+      transition: border-color .15s;
+      min-width: 148px;
+    }
+
+    .ep-group input:focus {
+      border-color: #93C5FD;
+    }
+
+    .ep-group input::placeholder {
+      color: rgba(255, 255, 255, .28);
+    }
+
+    .ep-group select option {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       DOCUMENTO
+    ══════════════════════════════════════ */
+    #documento {
+      max-width: 900px;
+      margin: 28px auto 60px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 6px 40px rgba(11, 30, 61, .16), 0 1px 6px rgba(11, 30, 61, .08);
+      overflow: hidden;
+    }
+
+    /* ══════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════ */
+    .doc-header {
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .doc-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(-55deg, transparent, transparent 30px,
+          rgba(255, 255, 255, .025) 30px, rgba(255, 255, 255, .025) 31px);
+      pointer-events: none;
+    }
+
+    .hdr-top {
+      padding: 26px 40px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hdr-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hdr-brand img {
+      height: 58px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: .95;
+    }
+
+    .hdr-brand-text {
+      border-left: 2px solid rgba(255, 255, 255, .2);
+      padding-left: 14px;
+    }
+
+    .hdr-brand-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .hdr-brand-sub {
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .45);
+      margin-top: 3px;
+      letter-spacing: .03em;
+    }
+
+    .hdr-meta {
+      text-align: right;
+    }
+
+    .hdr-folio {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: var(--r-sm);
+      padding: 7px 16px;
+      display: inline-block;
+    }
+
+    .hdr-folio-lbl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .56rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .45);
+    }
+
+    .hdr-folio-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .92rem;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .hdr-title-wrap {
+      padding: 20px 40px 26px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hdr-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .45);
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hdr-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: rgba(255, 255, 255, .3);
+    }
+
+    .hdr-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -.01em;
+    }
+
+    .hdr-title span {
+      color: #93C5FD;
+    }
+
+    .hdr-subtitle {
+      font-size: .78rem;
+      color: rgba(255, 255, 255, .45);
+      margin-top: 9px;
+      letter-spacing: .03em;
+    }
+
+    .hdr-accent-bar {
+      height: 3px;
+      background: var(--blue-mid);
+    }
+
+    /* ══════════════════════════════════════
+       FICHA HELPER
+    ══════════════════════════════════════ */
+    .section-lbl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-lbl::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .ficha-section {
+      background: var(--off);
+      border-bottom: 1px solid var(--border);
+      padding: 26px 40px;
+    }
+
+    .grid-auto {
+      display: grid;
+      gap: 10px;
+    }
+
+    .grid-auto.c2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-auto.c3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-auto.c4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .span2 {
+      grid-column: span 2;
+    }
+
+    .span3 {
+      grid-column: span 3;
+    }
+
+    .span4 {
+      grid-column: span 4;
+    }
+
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 11px 14px;
+    }
+
+    .ic-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .56rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ic-label::before {
+      content: '';
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      display: inline-block;
+    }
+
+    .ic-val {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .ic-val.empty {
+      color: var(--slate);
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .ic-val.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+    }
+
+    /* Personas */
+    .people-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .person-card {
+      background: var(--navy);
+      border-radius: var(--r-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .p-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .p-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .p-role {
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .45);
+      margin-top: 3px;
+    }
+
+    /* ══════════════════════════════════════
+       CONTENIDO — SECCIONES
+    ══════════════════════════════════════ */
+    .sec {
+      padding: 26px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .sec-num {
+      background: var(--navy);
+      color: #93C5FD;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 800;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sec-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .9rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    .sec-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .sec p {
+      font-size: .88rem;
+      line-height: 1.8;
+      color: var(--text-mid);
+    }
+
+    .sec p+p {
+      margin-top: 10px;
+    }
+
+    .sec strong {
+      color: var(--text);
+    }
+
+    ul.check {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    ul.check li {
+      font-size: .88rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    ul.check li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    /* Nota */
+    .nota {
+      background: var(--blue-light);
+      border: 1px solid var(--blue-border);
+      border-left: 3px solid var(--blue-mid);
+      border-radius: var(--r-sm);
+      padding: 11px 15px;
+      margin-top: 14px;
+      font-size: .82rem;
+      line-height: 1.65;
+      color: #1E3A8A;
+    }
+
+    /* Specs grid */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .spec-box {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 10px 13px;
+    }
+
+    .sb-lbl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .56rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .sb-val {
+      font-size: .83rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .sb-val.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+    }
+
+    .sb-val.empty {
+      color: var(--slate);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ══════════════════════════════════════
+       TABLAS
+    ══════════════════════════════════════ */
+    .tbl-wrap {
+      overflow-x: auto;
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      margin-top: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    thead tr {
+      background: var(--navy);
+    }
+
+    thead th {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #93C5FD;
+      padding: 11px 13px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, .05);
+    }
+
+    thead th:last-child {
+      border-right: none;
+    }
+
+    thead th.l {
+      text-align: left;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .12s;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--off);
+    }
+
+    tbody tr:hover {
+      background: #EEF4FF;
+    }
+
+    tbody td {
+      padding: 10px 13px;
+      text-align: center;
+      color: var(--text-mid);
+      border-right: 1px solid var(--border);
+    }
+
+    tbody td:last-child {
+      border-right: none;
+    }
+
+    tbody td.l {
+      text-align: left;
+      color: var(--text);
+    }
+
+    tbody td.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+    }
+
+    /* tabla verde (normas) */
+    .t-green thead tr {
+      background: #064E3B;
+    }
+
+    .t-green thead th {
+      color: #6EE7B7;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border-width: 1px;
+      border-style: solid;
+    }
+
+    .b-ok {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: var(--green-bd);
+    }
+
+    .b-mal {
+      background: var(--red-bg);
+      color: var(--red);
+      border-color: var(--red-bd);
+    }
+
+    .b-wait {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border-color: var(--amber-bd);
+    }
+
+    .b-orange {
+      background: var(--orange-bg);
+      color: var(--orange);
+      border-color: var(--orange-bd);
+    }
+
+    /* ══════════════════════════════════════
+       HALLAZGOS (estilo NC)
+    ══════════════════════════════════════ */
+    .nc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+
+    .nc-table thead tr {
+      background: #7C2D12;
+    }
+
+    .nc-table thead th {
+      color: #FDBA74;
+      padding: 10px 13px;
+      text-align: left;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nc-table tbody td {
+      padding: 11px 13px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: .85rem;
+      color: var(--text-mid);
+    }
+
+    .nc-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .nc-table tbody tr:nth-child(even) {
+      background: var(--off);
+    }
+
+    .badge-alta {
+      background: #FEF2F2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge-media {
+      background: #FFF7ED;
+      color: #9A3412;
+      border: 1px solid #FED7AA;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge-baja {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border: 1px solid var(--amber-bd);
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════════════
+       CARDS TERMOGRÁFICAS
+    ══════════════════════════════════════ */
+    .termo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    .termo-card {
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 2px 10px rgba(11, 30, 61, .06);
+    }
+
+    .termo-img-wrap {
+      position: relative;
+      background: #0B1E3D;
+    }
+
+    .termo-img-wrap img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .termo-img-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(11, 30, 61, .82);
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: var(--r-sm);
+      padding: 4px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      font-weight: 600;
+      color: #93C5FD;
+      backdrop-filter: blur(4px);
+    }
+
+    .termo-img-time {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(11, 30, 61, .82);
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--r-sm);
+      padding: 4px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .7);
+      backdrop-filter: blur(4px);
+    }
+
+    .termo-body {
+      padding: 14px 16px;
+    }
+
+    .termo-comp-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .termo-data-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .termo-data-box {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 8px 11px;
+    }
+
+    .tdb-lbl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .54rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 3px;
+    }
+
+    .tdb-val {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .tdb-val.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+    }
+
+    .termo-markers {
+      background: var(--navy);
+      border-radius: var(--r-sm);
+      padding: 8px 12px;
+      margin-bottom: 12px;
+    }
+
+    .tm-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .54rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .4);
+      margin-bottom: 7px;
+    }
+
+    .tm-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tm-chip {
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 4px;
+      padding: 3px 9px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: #93C5FD;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .tm-chip-lbl {
+      color: rgba(255, 255, 255, .4);
+      font-size: .65rem;
+    }
+
+    .termo-footer {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .termo-interp {
+      font-size: .78rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    /* ══════════════════════════════════════
+       FIRMAS
+    ══════════════════════════════════════ */
+    .firma-section {
+      padding: 28px 40px;
+      background: var(--off);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .firma-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .firma-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px 16px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .firma-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--blue-mid);
+    }
+
+    .firma-space {
+      height: 72px;
+      border-bottom: 1.5px solid var(--text-mid);
+      margin: 0 16px 12px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 6px;
+    }
+
+    .firma-space img {
+      max-height: 62px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .firma-nombre {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .88rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .firma-cargo {
+      font-size: .72rem;
+      color: var(--slate);
+      margin-top: 4px;
+    }
+
+    .firma-ced {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: var(--slate);
+      margin-top: 3px;
+    }
+
+    /* Encabezado de página — visible solo en impresión */
+    .print-page-header {
+      display: none;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .doc-footer {
+      background: var(--navy);
+      padding: 13px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .df-l {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .7);
+    }
+
+    .df-c {
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .3);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .df-r {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .4);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════
+       IMPRESIÓN / PDF
+    ══════════════════════════════════════ */
+    @media print {
+
+      @page {
+        size: letter portrait;
+        margin: 1.5cm;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
+      html {
+        background: #fff !important;
+      }
+
+      body {
+        background: #fff !important;
+        font-size: 10pt !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      #editor-panel {
+        display: none !important;
+      }
+
+      #documento {
+        margin: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow: visible !important;
+      }
+
+      .print-page-header {
+        display: flex !important;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        background: var(--navy) !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 1.5cm;
+        border-bottom: 2px solid #2563EB !important;
+        gap: 10mm;
+        box-sizing: border-box;
+        margin-bottom: 0 !important;
+      }
+
+      .print-page-header img {
+        height: 26px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+        opacity: .95;
+        flex-shrink: 0;
+      }
+
+      .pph-left {
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .pph-name {
+        font-family: 'Montserrat', sans-serif !important;
+        font-size: 7pt !important;
+        font-weight: 800 !important;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: #fff !important;
+      }
+
+      .pph-sub {
+        font-size: 6.5pt !important;
+        color: rgba(255, 255, 255, .5) !important;
+        margin-top: 1px;
+      }
+
+      .pph-center {
+        flex: 1;
+        text-align: center;
+      }
+
+      .pph-doc-title {
+        font-family: 'Montserrat', sans-serif !important;
+        font-size: 7pt !important;
+        font-weight: 700 !important;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .65) !important;
+      }
+
+      .pph-right {
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .pph-folio {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 6.5pt !important;
+        color: rgba(255, 255, 255, .8) !important;
+      }
+
+      .pph-fecha-line {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 6.5pt !important;
+        color: rgba(255, 255, 255, .55) !important;
+        margin-top: 2px;
+      }
+
+      .doc-header {
+        background: var(--navy) !important;
+      }
+
+      .hdr-top {
+        padding: 16px 24px 0 !important;
+      }
+
+      .hdr-title-wrap {
+        padding: 12px 24px 16px !important;
+      }
+
+      .hdr-title {
+        font-size: 14pt !important;
+        color: #fff !important;
+      }
+
+      .hdr-title span {
+        color: #93C5FD !important;
+      }
+
+      .hdr-eyebrow {
+        color: rgba(255, 255, 255, .45) !important;
+        font-size: 7pt !important;
+      }
+
+      .hdr-subtitle {
+        color: rgba(255, 255, 255, .45) !important;
+        font-size: 7.5pt !important;
+      }
+
+      .hdr-accent-bar {
+        background: #2563EB !important;
+      }
+
+      .hdr-folio {
+        background: rgba(255, 255, 255, .08) !important;
+        border-color: rgba(255, 255, 255, .18) !important;
+      }
+
+      .hdr-folio-lbl {
+        color: rgba(255, 255, 255, .45) !important;
+        font-size: 6.5pt !important;
+      }
+
+      .hdr-folio-val {
+        color: #fff !important;
+        font-size: 8.5pt !important;
+      }
+
+      .hdr-brand-name {
+        color: #fff !important;
+        font-size: 7.5pt !important;
+      }
+
+      .hdr-brand-sub {
+        color: rgba(255, 255, 255, .45) !important;
+        font-size: 7pt !important;
+      }
+
+      .hdr-brand img {
+        height: 42px !important;
+      }
+
+      .sec {
+        padding: 14px 22px !important;
+        border-bottom: 1px solid var(--border) !important;
+      }
+
+      .ficha-section {
+        padding: 14px 22px !important;
+        background: var(--off) !important;
+      }
+
+      .firma-section {
+        padding: 18px 22px !important;
+        background: var(--off) !important;
+      }
+
+      .sec-head {
+        margin-bottom: 12px !important;
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+      }
+
+      .sec-title {
+        font-size: 9.5pt !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+      }
+
+      .sec-num {
+        background: var(--navy) !important;
+        color: #93C5FD !important;
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 7.5pt !important;
+      }
+
+      .section-lbl {
+        font-size: 7.5pt !important;
+        margin-bottom: 10px !important;
+      }
+
+      .sec p,
+      .sec li {
+        font-size: 10pt !important;
+        color: #000000 !important;
+        line-height: 1.55 !important;
+      }
+
+      .sec li strong,
+      .sec p strong {
+        display: inline !important;
+      }
+
+      ul.check {
+        gap: 5px !important;
+      }
+
+      table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+      }
+
+      th,
+      td {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+
+      .tbl-wrap {
+        border-radius: 6px !important;
+        margin-top: 10px !important;
+        width: 100% !important;
+        overflow: visible !important;
+      }
+
+      thead {
+        display: table-header-group;
+      }
+
+      thead tr {
+        background: var(--navy) !important;
+      }
+
+      thead th {
+        padding: 8px 10px !important;
+        font-size: 8.5pt !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+      }
+
+      .t-green thead tr {
+        background: #064E3B !important;
+      }
+
+      .t-green thead th {
+        color: #6EE7B7 !important;
+      }
+
+      tbody td {
+        padding: 9px 10px !important;
+        font-size: 10pt !important;
+        color: #000000 !important;
+      }
+
+      tbody tr:nth-child(even) {
+        background: var(--off) !important;
+      }
+
+      .grid-auto.c4 {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 7px !important;
+      }
+
+      .grid-auto.c3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 7px !important;
+      }
+
+      .grid-auto.c2 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 7px !important;
+      }
+
+      .info-card {
+        background: var(--white) !important;
+        padding: 10px 12px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .ic-label {
+        font-size: 7pt !important;
+      }
+
+      .ic-val {
+        font-size: 10pt !important;
+        color: #000000 !important;
+      }
+
+      .people-grid {
+        gap: 8px !important;
+      }
+
+      .person-card {
+        background: var(--navy) !important;
+        padding: 11px 13px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .p-avatar {
+        background: #2563EB !important;
+        color: #ffffff !important;
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 8pt !important;
+      }
+
+      .p-name {
+        color: #ffffff !important;
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+      }
+
+      .p-role {
+        color: rgba(255, 255, 255, .75) !important;
+        font-size: 8.5pt !important;
+      }
+
+      .specs-grid {
+        gap: 8px !important;
+        margin-top: 9px !important;
+      }
+
+      .spec-box {
+        background: var(--off) !important;
+        padding: 9px 11px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .sb-lbl {
+        font-size: 7pt !important;
+      }
+
+      .sb-val {
+        font-size: 9.5pt !important;
+        color: #000000 !important;
+        margin-top: 2px !important;
+      }
+
+      .nota {
+        background: var(--blue-light) !important;
+        padding: 10px 13px !important;
+        font-size: 9.5pt !important;
+        color: #000000 !important;
+        margin-top: 10px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .badge {
+        font-size: 7.5pt !important;
+        padding: 2px 7px !important;
+      }
+
+      .b-ok {
+        background: var(--green-bg) !important;
+        color: var(--green) !important;
+        border-color: var(--green-bd) !important;
+      }
+
+      .b-mal {
+        background: var(--red-bg) !important;
+        color: var(--red) !important;
+        border-color: var(--red-bd) !important;
+      }
+
+      .b-wait {
+        background: var(--amber-bg) !important;
+        color: var(--amber) !important;
+        border-color: var(--amber-bd) !important;
+      }
+
+      .b-orange {
+        background: var(--orange-bg) !important;
+        color: var(--orange) !important;
+        border-color: var(--orange-bd) !important;
+      }
+
+      /* Termográficas en impresión */
+      .termo-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+
+      .termo-card {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .termo-img-wrap img {
+        height: 180px !important;
+        object-fit: cover !important;
+      }
+
+      .termo-body {
+        padding: 10px 12px !important;
+      }
+
+      .termo-comp-name {
+        font-size: 8.5pt !important;
+      }
+
+      .termo-data-grid {
+        gap: 6px !important;
+        margin-bottom: 8px !important;
+      }
+
+      .termo-data-box {
+        padding: 6px 8px !important;
+      }
+
+      .tdb-lbl {
+        font-size: 6pt !important;
+      }
+
+      .tdb-val {
+        font-size: 8pt !important;
+      }
+
+      .termo-markers {
+        padding: 6px 10px !important;
+        margin-bottom: 8px !important;
+        background: var(--navy) !important;
+      }
+
+      .tm-chip {
+        font-size: 7pt !important;
+        padding: 2px 6px !important;
+        color: #93C5FD !important;
+        background: rgba(255, 255, 255, .07) !important;
+        border-color: rgba(255, 255, 255, .1) !important;
+      }
+
+      .tm-chip-lbl {
+        color: rgba(255, 255, 255, .4) !important;
+      }
+
+      .termo-interp {
+        font-size: 8pt !important;
+        color: #000000 !important;
+      }
+
+      /* NC/Hallazgos */
+      .nc-table {
+        table-layout: auto !important;
+      }
+
+      .nc-table th,
+      .nc-table td {
+        word-break: normal !important;
+        overflow-wrap: normal !important;
+        font-size: 8pt !important;
+        padding: 8px 9px !important;
+      }
+
+      .badge-alta,
+      .badge-media,
+      .badge-baja {
+        font-size: 7pt !important;
+        padding: 2px 6px !important;
+      }
+
+      /* Firmas */
+      .firma-grid {
+        gap: 12px !important;
+        margin-top: 12px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .firma-card {
+        background: var(--white) !important;
+        padding: 14px 13px 11px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .firma-card::after {
+        background: #2563EB !important;
+        height: 3px !important;
+      }
+
+      .firma-space {
+        height: 58px !important;
+        margin: 0 12px 10px !important;
+      }
+
+      .firma-space img {
+        max-height: 52px !important;
+      }
+
+      .firma-nombre {
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+        color: var(--navy) !important;
+      }
+
+      .firma-cargo {
+        font-size: 9pt !important;
+        color: #000000 !important;
+      }
+
+      .firma-ced {
+        font-size: 8.5pt !important;
+        color: #000000 !important;
+      }
+
+      /* Footer */
+      .doc-footer {
+        background: var(--navy) !important;
+        padding: 10px 24px !important;
+      }
+
+      .df-l {
+        color: rgba(255, 255, 255, .7) !important;
+        font-size: 7pt !important;
+      }
+
+      .df-c {
+        color: rgba(255, 255, 255, .3) !important;
+        font-size: 7pt !important;
+      }
+
+      .df-r {
+        color: rgba(255, 255, 255, .4) !important;
+        font-size: 7pt !important;
+      }
+
+      /* Saltos de página */
+      tr {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      h1,
+      h2,
+      h3,
+      .sec-title,
+      .sec-head {
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+      }
+
+      [contenteditable] {
+        border: none !important;
+        border-bottom: none !important;
+        outline: none !important;
+        background: transparent !important;
+        cursor: default !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        min-height: unset !important;
+        box-shadow: none !important;
+      }
+
+      #btn-print,
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PANEL DE EDICIÓN -->
+  <div id="editor-panel">
+    <div class="ep-bar">
+      <span class="ep-bar-label">Panel de datos — Termografía Eléctrica · INTG-TG-001</span>
+      <button id="btn-print" onclick="window.print()">Imprimir / Exportar PDF</button>
+    </div>
+    <div class="ep-body">
+      <div class="ep-group">
+        <label>Folio</label>
+        <input id="i-folio" value="INTG-TG-001" />
+      </div>
+      <div class="ep-group">
+        <label>Fecha</label>
+        <input id="i-fecha" type="date" value="2018-12-15" />
+      </div>
+      <div class="ep-group">
+        <label>Cliente</label>
+        <input id="i-cliente" placeholder="Nombre / razón social" />
+      </div>
+      <div class="ep-group">
+        <label>No. Orden de Trabajo</label>
+        <input id="i-ot" placeholder="OT-2018-000" />
+      </div>
+      <div class="ep-group">
+        <label>Responsable</label>
+        <input id="i-responsable" value="Ing. Sixto Gallegos" />
+      </div>
+      <div class="ep-group">
+        <label>Cédula responsable</label>
+        <input id="i-ced-resp" placeholder="Núm. cédula" />
+      </div>
+      <div class="ep-group">
+        <label>Cédula técnico</label>
+        <input id="i-ced-tec" placeholder="Núm. cédula" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Encabezado que se repite en cada página al imprimir -->
+  <div class="print-page-header">
+    <div class="pph-left">
+      <img src="../logo_transparente.png" alt="INTEGR" />
+      <div>
+        <div class="pph-name">INTEGR</div>
+        <div class="pph-sub">Ingeniería e Integración de Sistemas Eléctricos</div>
+      </div>
+    </div>
+    <div class="pph-center">
+      <div class="pph-doc-title">Estudio de Termografía Eléctrica</div>
+    </div>
+    <div class="pph-right">
+      <div class="pph-folio">Folio: <span id="pph-folio-val">INTG-TG-001</span></div>
+      <div class="pph-fecha-line">Fecha: 15/12/2018</div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTO -->
+  <div id="documento">
+
+    <!-- HEADER -->
+    <div class="doc-header">
+      <div class="hdr-top">
+        <div class="hdr-brand">
+          <img src="../logo_transparente.png" alt="Logo INTEGR" />
+          <div class="hdr-brand-text">
+            <div class="hdr-brand-name">INTEGR</div>
+            <div class="hdr-brand-sub">Ingeniería e Integración de Sistemas Eléctricos</div>
+          </div>
+        </div>
+        <div class="hdr-meta">
+          <div class="hdr-folio">
+            <div class="hdr-folio-lbl">Folio del reporte</div>
+            <div class="hdr-folio-val" id="o-folio">INTG-TG-001</div>
+          </div>
+        </div>
+      </div>
+      <div class="hdr-title-wrap">
+        <div class="hdr-eyebrow">Informe Técnico Oficial · NOM-022-STPS-2015 · NFPA 70E-2018</div>
+        <h1 class="hdr-title">Estudio de <span>Termografía Eléctrica</span><br />Análisis de Temperatura en Instalación</h1>
+        <div class="hdr-subtitle">Inspección termográfica infrarroja · Análisis de puntos calientes en equipos eléctricos</div>
+      </div>
+      <div class="hdr-accent-bar"></div>
+    </div>
+
+    <!-- FICHA GENERAL -->
+    <div class="ficha-section">
+      <div class="section-lbl">Identificación del servicio</div>
+      <div class="grid-auto c4">
+        <div class="info-card">
+          <div class="ic-label">Fecha de inspección</div>
+          <div class="ic-val" id="o-fecha">15/12/2018</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-label">No. Orden de trabajo</div>
+          <div class="ic-val mono empty" id="o-ot">Sin asignar</div>
+        </div>
+        <div class="info-card span2">
+          <div class="ic-label">Cliente</div>
+          <div class="ic-val empty" id="o-cliente">Sin asignar</div>
+        </div>
+        <div class="info-card span4">
+          <div class="ic-label">Dirección del sitio de inspección</div>
+          <div class="ic-val">Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4, C.P. 32575, Chihuahua, Chih., México</div>
+        </div>
+      </div>
+
+      <!-- Equipo -->
+      <div class="section-lbl" style="margin-top:20px">Equipo e instrumentos utilizados</div>
+      <div class="tbl-wrap" style="margin-top:0">
+        <table>
+          <thead>
+            <tr>
+              <th>Clave</th>
+              <th class="l">Instrumento</th>
+              <th>Marca / Modelo</th>
+              <th>No. Serie</th>
+              <th>Rango calibración</th>
+              <th>DSP / Versión</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono"><strong>CM-01</strong></td>
+              <td class="l">Cámara Termográfica Infrarroja</td>
+              <td>Fluke TiS65</td>
+              <td class="mono">TiS65-16121347</td>
+              <td class="mono">-20 °C a 80 °C</td>
+              <td class="mono">6.0.86</td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>SW-01</strong></td>
+              <td class="l">Software de análisis termográfico</td>
+              <td>Fluke SmartView</td>
+              <td class="mono">—</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Personal -->
+      <div class="section-lbl" style="margin-top:20px">Personal asignado</div>
+      <div class="people-grid">
+        <div class="person-card">
+          <div class="p-avatar" id="o-avatar-resp">SG</div>
+          <div>
+            <div class="p-name" id="o-responsable">Ing. Sixto Gallegos</div>
+            <div class="p-role">Responsable del reporte</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="p-avatar">SV</div>
+          <div>
+            <div class="p-name">Saúl Villalobos</div>
+            <div class="p-role">Elaboró el reporte</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 01. DATOS GENERALES ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">01</div>
+        <div class="sec-title">Datos Generales de la Inspección</div>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="l" style="width:50%">Parámetro</th>
+              <th class="l" style="width:50%">Valor / Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="l">Fecha de inspección</td>
+              <td class="l">15 de diciembre de 2018</td>
+            </tr>
+            <tr>
+              <td class="l">Sitio de inspección</td>
+              <td class="l">Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4, C.P. 32575, Chihuahua, Chih., México</td>
+            </tr>
+            <tr>
+              <td class="l">Voltaje de instalación</td>
+              <td class="l">480 V / 220 V — Sistema trifásico 3Ø 4 hilos 60 Hz</td>
+            </tr>
+            <tr>
+              <td class="l">Cámara termográfica</td>
+              <td class="l">Fluke TiS65 — Resolución de detector: 260 × 195 px</td>
+            </tr>
+            <tr>
+              <td class="l">No. de serie de cámara</td>
+              <td class="l">TiS65-16121347 — DSP: 6.0.86</td>
+            </tr>
+            <tr>
+              <td class="l">Emisividad configurada</td>
+              <td class="l">ε = 1.00 (superficies no metálicas / aislamiento)</td>
+            </tr>
+            <tr>
+              <td class="l">Temperatura de fondo (ambiente)</td>
+              <td class="l">20.5 °C</td>
+            </tr>
+            <tr>
+              <td class="l">Rango de calibración de la cámara</td>
+              <td class="l">-20 °C a 80 °C</td>
+            </tr>
+            <tr>
+              <td class="l">Responsable de la inspección</td>
+              <td class="l">Ing. Sixto Gallegos</td>
+            </tr>
+            <tr>
+              <td class="l">Elaboró</td>
+              <td class="l">Saúl Villalobos — INTEGR</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 02. OBJETIVO ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">02</div>
+        <div class="sec-title">Objetivo</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>
+        El presente reporte documenta los resultados de la inspección termográfica infrarroja realizada en las instalaciones eléctricas del sitio indicado, con el propósito de identificar puntos calientes, conexiones deficientes, sobrecargas eléctricas y cualquier anomalía de temperatura que pueda representar un riesgo de falla, incendio o accidente eléctrico.
+      </p>
+      <p>
+        La termografía infrarroja es una técnica de mantenimiento predictivo no invasiva que permite detectar diferencias de temperatura (<strong>ΔT</strong>) en componentes eléctricos bajo condiciones normales de operación, sin interrumpir el servicio. La detección temprana de anomalías térmicas reduce el riesgo de fallas inesperadas y permite programar acciones correctivas con anticipación, en cumplimiento con lo establecido en la <strong>NOM-022-STPS-2015</strong> sobre condiciones de seguridad eléctrica en los centros de trabajo y la <strong>NFPA 70E-2018</strong>.
+      </p>
+      <div class="nota">
+        <strong>Nota técnica:</strong> La inspección se realizó con los equipos en condición normal de operación y carga. Los valores de temperatura registrados corresponden al momento de la medición y pueden variar en función de la carga del sistema, temperatura ambiente y condiciones del sitio.
+      </div>
+    </div>
+
+    <!-- ── 03. ALCANCE ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">03</div>
+        <div class="sec-title">Alcance de la Inspección</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>La inspección termográfica cubrió los siguientes componentes y sistemas eléctricos del sitio:</p>
+      <ul class="check" style="margin-top:12px">
+        <li><strong>Transformador de distribución:</strong> Transformador seco Square D de 225 kVA, trifásico — medición de temperatura en núcleo, devanados y acometida.</li>
+        <li><strong>Tablero principal:</strong> Gabinete con interruptores termomagnéticos Square D; inspección de bornes, barras y conductores de acometida.</li>
+        <li><strong>Tableros derivados:</strong> Distribuidores secundarios con interruptores para circuitos de alumbrado, fuerza y cargas especiales.</li>
+        <li><strong>Conductores internos:</strong> Cables y alambres de alimentación, neutro y tierra dentro de los tableros y canalizaciones visibles.</li>
+        <li><strong>Interruptores principales y secundarios:</strong> Termomagnéticos Square D y Siemens; verificación de temperatura en bornes de conexión.</li>
+        <li><strong>Acometida de cables y conexiones:</strong> Puntos de entrada de cables al tablero principal, zapatas, barras de conexión y empalmes.</li>
+      </ul>
+    </div>
+
+    <!-- ── 04. MARCO NORMATIVO ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">04</div>
+        <div class="sec-title">Marco Normativo Aplicable</div>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="t-green">
+          <thead>
+            <tr>
+              <th class="l" style="width:30%">Norma / Estándar</th>
+              <th class="l" style="width:70%">Descripción y aplicación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="l mono"><strong>NOM-022-STPS-2015</strong></td>
+              <td class="l">Condiciones de seguridad eléctrica en los centros de trabajo — establece los requisitos de mantenimiento preventivo y predictivo para instalaciones eléctricas, incluyendo la termografía como técnica aplicable.</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>NFPA 70E-2018</strong></td>
+              <td class="l">Standard for Electrical Safety in the Workplace — proporciona los criterios de clasificación de severidad por diferencia de temperatura (ΔT) y los procedimientos de seguridad durante la inspección termográfica.</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>ASTM E1934</strong></td>
+              <td class="l">Standard Guide for Examining Electrical and Mechanical Equipment with Infrared Thermography — define los procedimientos de inspección, condiciones de medición, documentación de imágenes y criterios de evaluación.</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>ISO 18434-1:2008</strong></td>
+              <td class="l">Condition monitoring and diagnostics of machines — Thermography — Part 1: General procedures. Establece los requisitos generales para el monitoreo de condición mediante termografía infrarroja en maquinaria y equipos eléctricos.</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>NOM-001-SEDE-2012</strong></td>
+              <td class="l">Instalaciones Eléctricas de Utilización — define los límites permisibles de temperatura en conductores, interruptores y tableros, así como los requisitos de capacidad y sección para conductores según su carga.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 05. EQUIPO UTILIZADO ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">05</div>
+        <div class="sec-title">Equipo Utilizado</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>Para la inspección termográfica se utilizó el siguiente equipo de medición certificado:</p>
+      <div class="specs-grid" style="grid-template-columns: repeat(4,1fr)">
+        <div class="spec-box">
+          <div class="sb-lbl">Instrumento</div>
+          <div class="sb-val">Cámara Termográfica Infrarroja</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-lbl">Marca / Modelo</div>
+          <div class="sb-val mono">Fluke TiS65</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-lbl">No. de Serie</div>
+          <div class="sb-val mono">TiS65-16121347</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-lbl">DSP / Firmware</div>
+          <div class="sb-val mono">6.0.86</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-lbl">Resolución detector</div>
+          <div class="sb-val">260 × 195 px (50,700 px)</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-lbl">Rango de temperatura</div>
+          <div class="sb-val mono">-20 °C a 80 °C</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-lbl">Sensibilidad térmica</div>
+          <div class="sb-val">&lt; 0.05 °C (50 mK)</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-lbl">Precisión</div>
+          <div class="sb-val">± 2 °C o ± 2%</div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="l">Software</th>
+              <th class="l">Función</th>
+              <th>Proveedor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="l mono">Fluke SmartView</td>
+              <td class="l">Análisis de imágenes IR, extracción de datos de temperatura, generación de reportes termográficos</td>
+              <td>Fluke Corporation</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="nota">
+        <strong>Condiciones de medición:</strong> Emisividad configurada en ε = 1.00. Temperatura de fondo (reflectada): 20.5 °C. Inspección realizada con carga eléctrica activa en condiciones normales de operación.
+      </div>
+    </div>
+
+    <!-- ── 06. CRITERIOS DE CLASIFICACIÓN ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">06</div>
+        <div class="sec-title">Criterios de Clasificación — NFPA 70E / ASTM E1934</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>La clasificación de severidad de cada anomalía térmica se determina con base en la diferencia de temperatura (ΔT) entre el componente inspeccionado y la temperatura de referencia (temperatura ambiente o componente similar en condición normal):</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ΔT (°C)</th>
+              <th>Clasificación</th>
+              <th>Nivel de severidad</th>
+              <th class="l">Acción recomendada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">&lt; 1 °C</td>
+              <td><span class="badge b-ok">Normal</span></td>
+              <td>Sin anomalía</td>
+              <td class="l">Sin acción requerida. Continuar monitoreo rutinario.</td>
+            </tr>
+            <tr>
+              <td class="mono">1 – 10 °C</td>
+              <td><span class="badge b-wait">Posible deficiencia</span></td>
+              <td>Nivel 1 — Bajo</td>
+              <td class="l">Monitorear periódicamente. Registrar para tendencia. Inspección en próximo mantenimiento.</td>
+            </tr>
+            <tr>
+              <td class="mono">10 – 20 °C</td>
+              <td><span class="badge b-orange">Deficiencia probable</span></td>
+              <td>Nivel 2 — Moderado</td>
+              <td class="l">Programar reparación en corto plazo. Revisar conexiones, apriete de bornes y carga del circuito.</td>
+            </tr>
+            <tr>
+              <td class="mono">20 – 40 °C</td>
+              <td><span class="badge b-mal">Deficiencia</span></td>
+              <td>Nivel 3 — Alto</td>
+              <td class="l">Reparar a la brevedad posible. Riesgo significativo de falla y potencial incendio.</td>
+            </tr>
+            <tr>
+              <td class="mono">&gt; 40 °C</td>
+              <td><span class="badge b-mal">Deficiencia crítica</span></td>
+              <td>Nivel 4 — Crítico</td>
+              <td class="l">Reparar de inmediato. Considerar desenergizar el equipo. Riesgo inminente de falla catastrófica.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="nota">
+        <strong>Referencia:</strong> NFPA 70E-2018 Tabla O.2 — Criterios de severidad para termografía infrarroja en instalaciones eléctricas. ASTM E1934 — Standard Guide for Examining Electrical and Mechanical Equipment with Infrared Thermography.
+      </div>
+    </div>
+
+    <!-- ── 07. RESULTADOS — TABLA RESUMEN ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">07</div>
+        <div class="sec-title">Resultados — Tabla Resumen</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>A continuación se presentan los resultados consolidados de las 8 mediciones termográficas realizadas durante la inspección:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th class="l">Componente inspeccionado</th>
+              <th>ID Imagen</th>
+              <th>Hora</th>
+              <th>Temp. máx. (°C)</th>
+              <th>ΔT (°C)</th>
+              <th>Clasificación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td class="l">Transformador Square D 225 kVA</td>
+              <td class="mono">IR_00013</td>
+              <td class="mono">19:51:49</td>
+              <td class="mono"><strong>40.0</strong></td>
+              <td class="mono"><strong>19.5</strong></td>
+              <td><span class="badge b-orange">Deficiencia probable</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td class="l">Tablero derivado — interruptores</td>
+              <td class="mono">IR_00012</td>
+              <td class="mono">19:51:38</td>
+              <td class="mono">29.2</td>
+              <td class="mono">8.7</td>
+              <td><span class="badge b-wait">Posible deficiencia</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td class="l">Tablero principal — punto caliente</td>
+              <td class="mono">IR_00011</td>
+              <td class="mono">19:51:22</td>
+              <td class="mono">33.3</td>
+              <td class="mono">12.8</td>
+              <td><span class="badge b-orange">Deficiencia probable</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td class="l">Tablero — panel de interruptores</td>
+              <td class="mono">IR_00010</td>
+              <td class="mono">19:51:13</td>
+              <td class="mono">32.5</td>
+              <td class="mono">12.0</td>
+              <td><span class="badge b-orange">Deficiencia probable</span></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td class="l">Conductores internos tablero</td>
+              <td class="mono">IR_00007</td>
+              <td class="mono">19:50:17</td>
+              <td class="mono">32.2</td>
+              <td class="mono">11.7</td>
+              <td><span class="badge b-orange">Deficiencia probable</span></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td class="l">Interruptor principal y conductores</td>
+              <td class="mono">IR_00006</td>
+              <td class="mono">19:50:09</td>
+              <td class="mono">34.6</td>
+              <td class="mono">14.1</td>
+              <td><span class="badge b-orange">Deficiencia probable</span></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td class="l">Interruptor y acometida de cables</td>
+              <td class="mono">IR_00005</td>
+              <td class="mono">19:50:00</td>
+              <td class="mono">33.1</td>
+              <td class="mono">12.6</td>
+              <td><span class="badge b-orange">Deficiencia probable</span></td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td class="l">Interruptor principal Square D</td>
+              <td class="mono">IR_00004</td>
+              <td class="mono">19:49:50</td>
+              <td class="mono">30.8</td>
+              <td class="mono">10.3</td>
+              <td><span class="badge b-orange">Deficiencia probable</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="nota">
+        <strong>ΔT calculado</strong> como diferencia entre la temperatura máxima registrada en el componente y la temperatura ambiente de referencia (20.5 °C). Clasificación según NFPA 70E-2018 Tabla O.2.
+      </div>
+    </div>
+
+    <!-- ── 08. REGISTRO TERMOGRÁFICO ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">08</div>
+        <div class="sec-title">Registro Termográfico</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>A continuación se presenta el registro completo de imágenes termográficas con los datos de medición asociados a cada toma:</p>
+
+      <div class="termo-grid">
+
+        <!-- IR_00013 — Transformador -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00013_transformador.jpg" alt="IR_00013 — Transformador Square D 225 kVA" />
+            <div class="termo-img-badge">IR_00013</div>
+            <div class="termo-img-time">19:51:49</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Transformador Square D 225 kVA</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Rango IR</div>
+                <div class="tdb-val mono">32.16 – 48.19 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. máx. (P2)</div>
+                <div class="tdb-val mono"><strong>40.0 °C</strong></div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. ambiente</div>
+                <div class="tdb-val mono">20.5 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">ΔT registrado</div>
+                <div class="tdb-val mono"><strong>19.5 °C</strong></div>
+              </div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span> 39.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span> 38.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span> 32.8 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span> 40.0 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer">
+              <div class="termo-interp">El transformador presenta temperatura elevada en el punto P2 con ΔT = 19.5 °C respecto al ambiente. Si bien se encuentra dentro del rango de operación del equipo, la tendencia indica carga cercana a la capacidad nominal y ventilación posiblemente restringida. Se recomienda revisión de carga y condiciones de ventilación.</div>
+              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IR_00012 — Tablero derivado -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00012_tablero_derecho.jpg" alt="IR_00012 — Tablero derivado interruptores" />
+            <div class="termo-img-badge">IR_00012</div>
+            <div class="termo-img-time">19:51:38</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Tablero derivado — interruptores</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Rango IR</div>
+                <div class="tdb-val mono">26.78 – 30.61 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. máx. (P0)</div>
+                <div class="tdb-val mono"><strong>29.2 °C</strong></div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. ambiente</div>
+                <div class="tdb-val mono">20.5 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">ΔT registrado</div>
+                <div class="tdb-val mono"><strong>8.7 °C</strong></div>
+              </div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span> 27.7 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span> 29.2 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span> 28.8 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span> 29.0 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer">
+              <div class="termo-interp">Tablero derivado con distribución térmica relativamente uniforme. ΔT = 8.7 °C indica posible deficiencia de baja severidad. Temperatura uniforme entre marcadores sugiere distribución de carga adecuada, aunque se recomienda monitoreo periódico y verificación de apriete en bornes.</div>
+              <span class="badge b-wait" style="flex-shrink:0">Posible deficiencia</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IR_00011 — Tablero principal -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00011_tablero_izq.jpg" alt="IR_00011 — Tablero principal punto caliente" />
+            <div class="termo-img-badge">IR_00011</div>
+            <div class="termo-img-time">19:51:22</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Tablero principal — punto caliente visible</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Rango IR</div>
+                <div class="tdb-val mono">28.52 – 47.12 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. máx. (Cp)</div>
+                <div class="tdb-val mono"><strong>33.3 °C</strong></div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. ambiente</div>
+                <div class="tdb-val mono">20.5 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">ΔT registrado</div>
+                <div class="tdb-val mono"><strong>12.8 °C</strong></div>
+              </div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span> 33.3 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span> 29.1 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span> 28.7 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span> 29.3 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer">
+              <div class="termo-interp">Se identifica punto caliente en el centro del tablero principal (Cp = 33.3 °C) con diferencia de ~4 °C respecto a los puntos circundantes. El ΔT de 12.8 °C respecto al ambiente indica deficiencia probable. Posible conexión floja o borne con resistencia de contacto elevada. Revisar apriete de conexiones.</div>
+              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IR_00010 — Tablero panel -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00010_tablero_panel.jpg" alt="IR_00010 — Tablero panel de interruptores" />
+            <div class="termo-img-badge">IR_00010</div>
+            <div class="termo-img-time">19:51:13</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Tablero — panel de interruptores</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Rango IR</div>
+                <div class="tdb-val mono">28.13 – 34.59 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. máx. (Cp)</div>
+                <div class="tdb-val mono"><strong>32.5 °C</strong></div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. ambiente</div>
+                <div class="tdb-val mono">20.5 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">ΔT registrado</div>
+                <div class="tdb-val mono"><strong>12.0 °C</strong></div>
+              </div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span> 32.5 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span> 30.5 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span> 28.5 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span> 28.8 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer">
+              <div class="termo-interp">Panel de interruptores con gradiente térmico moderado. El punto central (Cp = 32.5 °C) es el más caliente, lo que puede indicar mayor carga en los circuitos centrales o conexión con mayor resistencia de contacto. ΔT = 12.0 °C clasifica como deficiencia probable; programar revisión de bornes y verificación de balance de carga.</div>
+              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IR_00007 — Conductores internos -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00007_cables.jpg" alt="IR_00007 — Conductores internos tablero" />
+            <div class="termo-img-badge">IR_00007</div>
+            <div class="termo-img-time">19:50:17</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Conductores internos tablero</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Rango IR</div>
+                <div class="tdb-val mono">27.77 – 34.65 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. máx. (P0)</div>
+                <div class="tdb-val mono"><strong>32.2 °C</strong></div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. ambiente</div>
+                <div class="tdb-val mono">20.5 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">ΔT registrado</div>
+                <div class="tdb-val mono"><strong>11.7 °C</strong></div>
+              </div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span> 31.7 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span> 32.2 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span> 31.1 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span> 30.8 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer">
+              <div class="termo-interp">Los conductores internos del tablero presentan temperatura elevada y uniforme (ΔT = 11.7 °C). La distribución de temperatura entre los 4 marcadores es relativamente homogénea (~1.4 °C de diferencia), lo que sugiere posible sobrecarga generalizada o calibre de conductor insuficiente para la carga actual. Verificar sección de conductores contra NOM-001-SEDE.</div>
+              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IR_00006 — Interruptor principal y conductores -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00006_interruptor.jpg" alt="IR_00006 — Interruptor principal y conductores" />
+            <div class="termo-img-badge">IR_00006</div>
+            <div class="termo-img-time">19:50:09</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Interruptor principal y conductores</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Rango IR</div>
+                <div class="tdb-val mono">29.60 – 35.67 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. máx. (P0)</div>
+                <div class="tdb-val mono"><strong>34.6 °C</strong></div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. ambiente</div>
+                <div class="tdb-val mono">20.5 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">ΔT registrado</div>
+                <div class="tdb-val mono"><strong>14.1 °C</strong></div>
+              </div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span> 30.9 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span> 34.6 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span> 32.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span> 30.5 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer">
+              <div class="termo-interp">Mayor ΔT registrado en conductores (P0 = 34.6 °C, ΔT = 14.1 °C), con gradiente de ~3.7 °C entre P0 y el punto central. Indica punto caliente localizado en el conductor o su conexión al interruptor. Posible resistencia de contacto elevada en el terminal. Verificar apriete, estado del conductor y dimensionamiento según carga real.</div>
+              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IR_00005 — Interruptor y acometida -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00005_interruptor2.jpg" alt="IR_00005 — Interruptor y acometida de cables" />
+            <div class="termo-img-badge">IR_00005</div>
+            <div class="termo-img-time">19:50:00</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Interruptor y acometida de cables</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Rango IR</div>
+                <div class="tdb-val mono">28.10 – 34.89 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. máx. (P2)</div>
+                <div class="tdb-val mono"><strong>33.1 °C</strong></div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. ambiente</div>
+                <div class="tdb-val mono">20.5 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">ΔT registrado</div>
+                <div class="tdb-val mono"><strong>12.6 °C</strong></div>
+              </div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span> 32.1 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span> 30.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span> 28.3 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span> 33.1 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer">
+              <div class="termo-interp">La acometida de cables presenta temperatura más alta en P2 (33.1 °C) con una diferencia de ~4.8 °C respecto al punto más frío (P1). Indica punto caliente en la zona de entrada de cables al interruptor. ΔT = 12.6 °C clasifica como deficiencia probable. Verificar estado del aislamiento, apriete de terminales y condición de empalmes.</div>
+              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IR_00004 — Interruptor principal Square D -->
+        <div class="termo-card">
+          <div class="termo-img-wrap">
+            <img src="img/IR_00004_breaker.jpg" alt="IR_00004 — Interruptor principal Square D" />
+            <div class="termo-img-badge">IR_00004</div>
+            <div class="termo-img-time">19:49:50</div>
+          </div>
+          <div class="termo-body">
+            <div class="termo-comp-name">Interruptor principal Square D</div>
+            <div class="termo-data-grid">
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Rango IR</div>
+                <div class="tdb-val mono">27.3 – 31.6 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. máx. (Cp)</div>
+                <div class="tdb-val mono"><strong>30.8 °C</strong></div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">Temp. ambiente</div>
+                <div class="tdb-val mono">20.5 °C</div>
+              </div>
+              <div class="termo-data-box">
+                <div class="tdb-lbl">ΔT registrado</div>
+                <div class="tdb-val mono"><strong>10.3 °C</strong></div>
+              </div>
+            </div>
+            <div class="termo-markers">
+              <div class="tm-title">Marcadores de temperatura</div>
+              <div class="tm-row">
+                <div class="tm-chip"><span class="tm-chip-lbl">Cp</span> 30.8 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P0</span> 30.0 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P1</span> 28.6 °C</div>
+                <div class="tm-chip"><span class="tm-chip-lbl">P2</span> 29.2 °C</div>
+              </div>
+            </div>
+            <div class="termo-footer">
+              <div class="termo-interp">El interruptor principal Square D presenta temperatura moderada con distribución relativamente uniforme. ΔT = 10.3 °C sitúa este componente en el límite inferior de deficiencia probable. Gradiente interno de ~2.2 °C entre marcadores. Se recomienda inspección de bornes de conexión y verificación de torque según especificación del fabricante.</div>
+              <span class="badge b-orange" style="flex-shrink:0">Deficiencia probable</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.termo-grid -->
+    </div>
+
+    <!-- ── 09. HALLAZGOS ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">09</div>
+        <div class="sec-title">Hallazgos Termográficos</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>Los siguientes hallazgos representan las anomalías de mayor relevancia identificadas durante la inspección. Se documentan con su imagen de referencia, nivel de severidad y acciones recomendadas:</p>
+
+      <table class="nc-table" style="margin-top:14px; border-radius: var(--r); overflow:hidden; border: 1px solid var(--border);">
+        <thead>
+          <tr>
+            <th style="width:70px">ID</th>
+            <th>Componente</th>
+            <th>Imagen ref.</th>
+            <th>ΔT (°C)</th>
+            <th>Severidad</th>
+            <th>Acción recomendada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text)">HT-01</td>
+            <td style="text-align:left;color:var(--text)"><strong>Transformador Square D 225 kVA</strong></td>
+            <td style="font-family:'JetBrains Mono',monospace;color:var(--slate)">IR_00013</td>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange)">19.5</td>
+            <td><span class="badge-media">Deficiencia probable</span></td>
+            <td style="text-align:left;color:var(--text-mid)">Programar revisión de condiciones de carga y verificación del sistema de ventilación. Monitorear tendencia de temperatura en los próximos meses. Evaluar balanceo de fases.</td>
+          </tr>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text)">HT-02</td>
+            <td style="text-align:left;color:var(--text)"><strong>Tablero principal — punto caliente</strong></td>
+            <td style="font-family:'JetBrains Mono',monospace;color:var(--slate)">IR_00011</td>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange)">12.8</td>
+            <td><span class="badge-media">Deficiencia probable</span></td>
+            <td style="text-align:left;color:var(--text-mid)">Revisar y apretar todas las conexiones y bornes del tablero principal. Verificar torque según especificación del fabricante. Inspeccionar visualmente conexiones en busca de signos de corrosión u oxidación. Re-termografiar posterior a la corrección.</td>
+          </tr>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text)">HT-03</td>
+            <td style="text-align:left;color:var(--text)"><strong>Interruptor principal / conductores</strong></td>
+            <td style="font-family:'JetBrains Mono',monospace;color:var(--slate)">IR_00006</td>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange)">14.1</td>
+            <td><span class="badge-media">Deficiencia probable</span></td>
+            <td style="text-align:left;color:var(--text-mid)">Verificar sección transversal del conductor contra la carga real del circuito (NOM-001-SEDE-2012). Revisar estado del aislamiento de los cables, apriete de terminales y condición de conectores. Si el conductor es insuficiente, proceder con sustitución por calibre adecuado.</td>
+          </tr>
+          <tr>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--text)">HT-04</td>
+            <td style="text-align:left;color:var(--text)"><strong>Conductores internos — temperatura general elevada</strong></td>
+            <td style="font-family:'JetBrains Mono',monospace;color:var(--slate)">IR_00007</td>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--orange)">11.7</td>
+            <td><span class="badge-media">Deficiencia probable</span></td>
+            <td style="text-align:left;color:var(--text-mid)">La temperatura elevada y uniforme en los conductores sugiere posible sobrecarga del sistema o conductores con calibre insuficiente. Verificar corriente real contra capacidad nominal de conductores. Evaluar redistribución de cargas y posible incremento de calibre de conductores.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── 10. OBSERVACIONES Y RECOMENDACIONES ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">10</div>
+        <div class="sec-title">Observaciones y Recomendaciones</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>Con base en los resultados de la inspección termográfica se emiten las siguientes observaciones y recomendaciones de mantenimiento:</p>
+      <ul class="check" style="margin-top:14px">
+        <li><strong>Mantenimiento preventivo general de tableros:</strong> Se recomienda programar mantenimiento eléctrico preventivo que incluya limpieza, verificación de apriete de bornes (con torquímetro calibrado) y revisión de conexiones en todos los tableros eléctricos del sitio. Este mantenimiento debe realizarse con los tableros desenergizados y por personal capacitado conforme a NOM-022-STPS-2015.</li>
+        <li><strong>Revisión del transformador Square D:</strong> Verificar el factor de utilización del transformador (relación entre carga actual y capacidad nominal de 225 kVA). Inspeccionar las rejillas de ventilación y limpiar en caso de obstrucción. Evaluar el balanceo de fases para reducir la temperatura de operación.</li>
+        <li><strong>Verificación de conductores y calibres:</strong> Medir la corriente real en cada circuito y compararla con la capacidad máxima del conductor según NOM-001-SEDE-2012. Si se detectan conductores sobrecargados, proceder con la sustitución por calibre adecuado antes del próximo mantenimiento programado.</li>
+        <li><strong>Inspección de interruptores termomagnéticos:</strong> Verificar el torque de apriete en los terminales de todos los interruptores Square D según las especificaciones del fabricante. Revisar el estado de los contactos internos y sustituir cualquier interruptor con evidencia de deterioro o temperatura anormal persistente.</li>
+        <li><strong>Re-inspección termográfica:</strong> Se recomienda realizar una nueva inspección termográfica entre 3 y 6 meses después de ejecutadas las acciones correctivas, para verificar la efectividad de las reparaciones y establecer la temperatura base de referencia de los componentes en condición óptima.</li>
+        <li><strong>Monitoreo de temperatura en transformador:</strong> Instalar o revisar el sistema de monitoreo de temperatura del transformador. Establecer umbrales de alarma según las indicaciones del fabricante y la norma IEEE C57.91 para transformadores de distribución.</li>
+        <li><strong>Registro histórico de termografía:</strong> Incorporar los resultados de esta inspección a un programa de mantenimiento predictivo con registro histórico de temperaturas. Esto permitirá identificar tendencias y detectar deterioro progresivo de los componentes antes de que generen una falla.</li>
+      </ul>
+    </div>
+
+    <!-- ── 11. CONCLUSIONES ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">11</div>
+        <div class="sec-title">Conclusiones</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>
+        La inspección termográfica realizada el 15 de diciembre de 2018 en las instalaciones eléctricas de Av. Las Torres 2111, Local Subancla 4, Chihuahua, Chih., México, identificó <strong>anomalías térmicas en los 8 componentes inspeccionados</strong>. De las mediciones realizadas, <strong>7 clasifican como Deficiencia Probable (ΔT 10–20 °C)</strong> y <strong>1 como Posible Deficiencia (ΔT 1–10 °C)</strong>, de acuerdo con los criterios de la NFPA 70E-2018.
+      </p>
+      <p>
+        El componente con mayor temperatura fue el <strong>Transformador Square D 225 kVA</strong> (IR_00013), con ΔT = 19.5 °C, en el límite superior de la clasificación de Deficiencia Probable, lo que requiere atención en el corto plazo. En los tableros eléctricos y conductores se identificaron puntos calientes consistentes que indican la presencia generalizada de conexiones con resistencia de contacto elevada, conductores con posible insuficiencia de calibre y/o condiciones de sobrecarga.
+      </p>
+      <p>
+        <strong>No se identificaron deficiencias críticas (ΔT &gt; 40 °C) ni deficiencias de nivel 3 (ΔT 20–40 °C)</strong> que requieran acción inmediata o desenergización de emergencia. Sin embargo, la acumulación de deficiencias de nivel moderado en múltiples componentes es indicativa de un sistema que requiere mantenimiento preventivo integral para evitar el deterioro progresivo y la eventual falla de los equipos.
+      </p>
+      <p>
+        Se recomienda implementar las acciones correctivas señaladas en la Sección 10 de este reporte, con prioridad en el mantenimiento del tablero principal y la revisión del transformador, y programar una re-inspección termográfica en un plazo no mayor a 6 meses para validar la efectividad de las correcciones realizadas.
+      </p>
+      <div class="nota">
+        Este informe fue elaborado con base en las mediciones de campo efectuadas mediante cámara termográfica infrarroja Fluke TiS65 y tiene validez técnica para el sitio, condiciones de carga y fecha indicados. Cualquier modificación significativa en la instalación eléctrica o en las condiciones de carga puede alterar los resultados aquí presentados.
+      </div>
+    </div>
+
+    <!-- FIRMAS -->
+    <div class="firma-section">
+      <div class="section-lbl">Validación y firmas autorizadas</div>
+      <div class="firma-grid">
+        <div class="firma-card">
+          <div class="firma-space">
+            <img src="../firma_transparente.png" alt="Firma Sixto Gallegos" />
+          </div>
+          <div class="firma-nombre" id="o-firma-resp">Ing. Sixto Gallegos</div>
+          <div class="firma-cargo">Responsable del Reporte</div>
+          <div class="firma-ced" id="o-ced-resp">Cédula / Reg.: —</div>
+        </div>
+        <div class="firma-card">
+          <div class="firma-space">
+            <img src="../firmasaul.png" alt="Firma Saúl Villalobos" />
+          </div>
+          <div class="firma-nombre">Saúl Villalobos</div>
+          <div class="firma-cargo">Elaboró el Reporte</div>
+          <div class="firma-ced">INTEGR</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="doc-footer">
+      <div class="df-l">INTEGR · Sistemas Eléctricos</div>
+      <div class="df-c">
+        Documento confidencial — propiedad de INTEGR.<br />
+        Prohibida su reproducción sin autorización expresa.
+      </div>
+      <div class="df-r">
+        Folio: <span id="o-folio-pie">INTG-TG-001</span><br />
+        15/12/2018
+      </div>
+    </div>
+
+  </div><!-- /#documento -->
+
+  <script>
+    /* ════════════════════════════════════════
+       SINCRONIZACIÓN PANEL → DOCUMENTO
+    ════════════════════════════════════════ */
+
+    function fmt(dateStr) {
+      if (!dateStr) return '—';
+      const [y, m, d] = dateStr.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    function initials(name) {
+      if (!name) return '??';
+      return name.trim().split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    }
+
+    function syncAll() {
+      const folio = document.getElementById('i-folio').value || 'INTG-TG-001';
+      const fecha = document.getElementById('i-fecha').value;
+      const cliente = document.getElementById('i-cliente').value;
+      const ot = document.getElementById('i-ot').value;
+      const resp = document.getElementById('i-responsable').value;
+      const cedResp = document.getElementById('i-ced-resp').value;
+
+      document.getElementById('o-folio').textContent = folio;
+      document.getElementById('o-folio-pie').textContent = folio;
+      if (document.getElementById('pph-folio-val'))
+        document.getElementById('pph-folio-val').textContent = folio;
+
+      document.getElementById('o-fecha').textContent = fecha ? fmt(fecha) : '15/12/2018';
+
+      const oOT = document.getElementById('o-ot');
+      if (ot) {
+        oOT.textContent = ot;
+        oOT.classList.remove('empty');
+        oOT.classList.add('mono');
+      } else {
+        oOT.textContent = 'Sin asignar';
+        oOT.classList.add('empty');
+      }
+
+      const oCliente = document.getElementById('o-cliente');
+      if (cliente) {
+        oCliente.textContent = cliente;
+        oCliente.classList.remove('empty');
+      } else {
+        oCliente.textContent = 'Sin asignar';
+        oCliente.classList.add('empty');
+      }
+
+      if (resp) {
+        document.getElementById('o-responsable').textContent = resp;
+        document.getElementById('o-avatar-resp').textContent = initials(resp);
+        document.getElementById('o-firma-resp').textContent = resp;
+      }
+
+      const cedEl = document.getElementById('o-ced-resp');
+      if (cedResp) {
+        cedEl.textContent = 'Cédula / Reg.: ' + cedResp;
+      } else {
+        cedEl.textContent = 'Cédula / Reg.: —';
+      }
+    }
+
+    ['i-folio','i-fecha','i-cliente','i-ot','i-responsable','i-ced-resp','i-ced-tec'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', syncAll);
+    });
+
+    // Inicializar con valores por defecto
+    syncAll();
+  </script>
+
+</body>
+</html>
