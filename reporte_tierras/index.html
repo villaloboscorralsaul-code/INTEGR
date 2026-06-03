@@ -1060,8 +1060,9 @@
 
     .galeria-item img {
       width: 100%;
-      height: 150px;
-      object-fit: cover;
+      height: 240px;
+      object-fit: contain;
+      background: #111827;
       display: block;
     }
 
@@ -1857,7 +1858,9 @@
       }
 
       .galeria-item img {
-        height: 110px !important;
+        height: 120px !important;
+        object-fit: contain !important;
+        background: #111827 !important;
       }
 
       .galeria-caption {
@@ -2049,7 +2052,7 @@
       .galeria-item img {
         height: 95px !important;
         width: 100% !important;
-        object-fit: cover !important;
+        object-fit: contain !important;
       }
 
       /* ══ 27. FOTO PRINCIPAL — proporción contenida ════════════════ */
@@ -2759,7 +2762,7 @@
         <div class="galeria-item">
           <img src="img/TIERRAPANEL.jpg" loading="lazy"
             alt="Fluke 376 FC sobre cable de tierra de cobre — tablero principal">
-          <div class="galeria-caption"><strong>Fluke 376 FC · Cable tierra</strong><br>Medición en tablero principal
+          <div class="galeria-caption"><strong>Fluke 376 FC · Corriente en cable de tierra</strong><br>Lectura: <strong>~6.0 A</strong> · Cobre desnudo, tablero principal
           </div>
         </div>
         <div class="galeria-item">
@@ -2784,8 +2787,7 @@
         </div>
         <div class="galeria-item">
           <img src="img/PANEL3.jpg" loading="lazy" alt="Fluke 376 FC con iFlex — lectura ~34 A">
-          <div class="galeria-caption"><strong>Fluke 376 FC iFlex · Corriente</strong><br>Lectura: <strong>~34
-              A</strong></div>
+          <div class="galeria-caption"><strong>Fluke 376 FC iFlex · Corriente tablero</strong><br>Lectura: <strong>34.8 A</strong></div>
         </div>
         <div class="galeria-item">
           <img src="img/1Y2PANEL.jpg" loading="lazy" alt="Fluke 376 FC — voltaje fase 1-2 ~473 V">
@@ -2804,12 +2806,11 @@
         </div>
         <div class="galeria-item">
           <img src="img/ENCHUFEMUL.jpg" loading="lazy" alt="Fluke 376 FC — voltaje ~125 V">
-          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje fase-neutro</strong><br>Lectura: <strong>~125
-              V</strong></div>
+          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje fase-neutro</strong><br>Lectura: <strong>125 V CA</strong> · Normal en sistema 220/127 V</div>
         </div>
         <div class="galeria-item">
           <img src="img/ENCHUFE2.jpg" loading="lazy" alt="Fluke 376 FC — voltaje ~127 V">
-          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje</strong><br>Lectura: <strong>~127 V</strong></div>
+          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje fase-neutro</strong><br>Lectura: <strong>124 V</strong> · Contacto en área operativa</div>
         </div>
         <div class="galeria-item">
           <img src="img/PANELHIG1.jpg" loading="lazy" alt="Fluke 376 FC con iFlex — lectura ~65 A en tablero principal">
@@ -2818,23 +2819,19 @@
         </div>
         <div class="galeria-item">
           <img src="img/PANELHIG2.jpg" loading="lazy" alt="Fluke 376 FC — medición en tablero">
-          <div class="galeria-caption"><strong>Fluke 376 FC · Medición tablero</strong><br>Medición adicional en tablero
-          </div>
+          <div class="galeria-caption"><strong>Fluke 376 FC iFlex · Corriente tablero principal</strong><br>Lectura: <strong>69 A</strong></div>
         </div>
         <div class="galeria-item">
           <img src="img/PANELHIG3.jpg" loading="lazy" alt="Fluke 376 FC — medición en tablero">
-          <div class="galeria-caption"><strong>Fluke 376 FC · Medición tablero</strong><br>Medición adicional en tablero
-          </div>
+          <div class="galeria-caption"><strong>Fluke 376 FC iFlex · Corriente tablero principal</strong><br>Lectura: <strong>72 A</strong></div>
         </div>
         <div class="galeria-item">
           <img src="img/PANELRIG2.jpg" loading="lazy" alt="Fluke 376 FC — medición en tablero derivado">
-          <div class="galeria-caption"><strong>Fluke 376 FC · Tablero derivado</strong><br>Medición en tablero derivado
-          </div>
+          <div class="galeria-caption"><strong>Fluke 376 FC · Corriente tablero derivado</strong><br>Lectura: <strong>41 A</strong></div>
         </div>
         <div class="galeria-item">
           <img src="img/PANELRIG3.jpg" loading="lazy" alt="Fluke 376 FC — medición en tablero derivado">
-          <div class="galeria-caption"><strong>Fluke 376 FC · Tablero derivado</strong><br>Medición en tablero derivado
-          </div>
+          <div class="galeria-caption"><strong>Fluke 376 FC · Corriente tablero derivado</strong><br>Lectura: <strong>45.5 A</strong></div>
         </div>
         <div class="galeria-item">
           <img src="img/PANELRIGH1.jpg" loading="lazy" alt="Fluke 376 FC — corriente ~45 A en tablero derivado">
@@ -3530,16 +3527,23 @@
       <td class="mono">${d.max} Ω</td>
       <td>
         <select class="sel-estado" onchange="onSelEstado(this, ${i})" aria-label="Estado medición ${d.n}">
-          <option value="pend">— Pendiente —</option>
-          <option value="ok">✓ Cumple</option>
-          <option value="mal">✗ No cumple</option>
+          <option value="pend" ${`${d.estado === "pend" ? "selected" : ""}`}>— Pendiente —</option>
+          <option value="ok" ${`${d.estado === "ok" ? "selected" : ""}`}>✓ Cumple</option>
+          <option value="mal" ${`${d.estado === "mal" ? "selected" : ""}`}>✗ No cumple</option>
         </select>
-        <span class="badge b-wait sel-print-badge" style="display:none" id="badge-print-${i}">— Pendiente —</span>
+        <span class="${d.estado==="ok" ? "badge b-ok" : d.estado==="mal" ? "badge b-mal" : "badge b-wait"} sel-print-badge" style="display:none" id="badge-print-${i}">${d.estado==="ok" ? "✓ Cumple" : d.estado==="mal" ? "✗ No cumple" : "— Pendiente —"}</span>
       </td>
       <td class="l mono">${d.norma}</td>
     </tr>`).join("");
     }
     renderTablas();
+    // Preselect badge text on initial render
+    resistencia.forEach((d, i) => {
+      if (d.estado !== 'pend') {
+        const sel = document.querySelector(`#fila-r-${i} .sel-estado`);
+        if (sel) onSelEstado(sel, i);
+      }
+    });
 
     function onSelEstado(sel, idx) {
       sel.className = "sel-estado";
