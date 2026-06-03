@@ -1,0 +1,3136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte — Estudio de Tierras Físicas · INTEGR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════
+       VARIABLES
+    ══════════════════════════════════════ */
+    :root {
+      --navy: #0B1E3D;
+      --navy-mid: #152E55;
+      --navy-soft: #1E3A6E;
+      --blue: #1D4ED8;
+      --blue-mid: #2563EB;
+      --blue-light: #EFF6FF;
+      --blue-border: #BFDBFE;
+      --white: #FFFFFF;
+      --off: #F8FAFD;
+      --border: #E2E8F0;
+      --slate: #64748B;
+      --slate-dark: #475569;
+      --text: #0F172A;
+      --text-mid: #334155;
+      --green: #065F46;
+      --green-bg: #ECFDF5;
+      --green-bd: #A7F3D0;
+      --red: #991B1B;
+      --red-bg: #FEF2F2;
+      --red-bd: #FECACA;
+      --amber: #92400E;
+      --amber-bg: #FFFBEB;
+      --amber-bd: #FDE68A;
+      --r: 8px;
+      --r-sm: 5px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #E8EDF5;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══════════════════════════════════════
+       PANEL DE EDICIÓN
+    ══════════════════════════════════════ */
+    #editor-panel {
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 3px 16px rgba(11, 30, 61, .5);
+    }
+
+    .ep-bar {
+      background: var(--blue-mid);
+      padding: 6px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ep-bar-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    #btn-print {
+      background: #fff;
+      color: var(--blue);
+      border: none;
+      padding: 5px 18px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: opacity .15s;
+    }
+
+    #btn-print:hover {
+      opacity: .85;
+    }
+
+    .ep-body {
+      padding: 12px 28px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      align-items: flex-end;
+    }
+
+    .ep-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .ep-group label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .58rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--blue-border);
+    }
+
+    .ep-group input,
+    .ep-group select {
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .2);
+      color: #fff;
+      border-radius: var(--r-sm);
+      padding: 5px 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: .78rem;
+      outline: none;
+      transition: border-color .15s;
+      min-width: 148px;
+    }
+
+    .ep-group input:focus {
+      border-color: #93C5FD;
+    }
+
+    .ep-group input::placeholder {
+      color: rgba(255, 255, 255, .28);
+    }
+
+    .ep-group select option {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════
+       DOCUMENTO
+    ══════════════════════════════════════ */
+    #documento {
+      max-width: 900px;
+      margin: 28px auto 60px;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 6px 40px rgba(11, 30, 61, .16), 0 1px 6px rgba(11, 30, 61, .08);
+      overflow: hidden;
+    }
+
+    /* ══════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════ */
+    .doc-header {
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .doc-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(-55deg, transparent, transparent 30px,
+          rgba(255, 255, 255, .025) 30px, rgba(255, 255, 255, .025) 31px);
+      pointer-events: none;
+    }
+
+    .hdr-top {
+      padding: 26px 40px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hdr-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hdr-brand img {
+      height: 58px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: .95;
+    }
+
+    .hdr-brand-text {
+      border-left: 2px solid rgba(255, 255, 255, .2);
+      padding-left: 14px;
+    }
+
+    .hdr-brand-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .hdr-brand-sub {
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .45);
+      margin-top: 3px;
+      letter-spacing: .03em;
+    }
+
+    .hdr-meta {
+      text-align: right;
+    }
+
+    .hdr-folio {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: var(--r-sm);
+      padding: 7px 16px;
+      display: inline-block;
+    }
+
+    .hdr-folio-lbl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .56rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .45);
+    }
+
+    .hdr-folio-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .92rem;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 2px;
+    }
+
+    .hdr-title-wrap {
+      padding: 20px 40px 26px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hdr-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .45);
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hdr-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: rgba(255, 255, 255, .3);
+    }
+
+    .hdr-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -.01em;
+    }
+
+    .hdr-title span {
+      color: #93C5FD;
+    }
+
+    .hdr-subtitle {
+      font-size: .78rem;
+      color: rgba(255, 255, 255, .45);
+      margin-top: 9px;
+      letter-spacing: .03em;
+    }
+
+    .hdr-accent-bar {
+      height: 3px;
+      background: var(--blue-mid);
+    }
+
+    /* ══════════════════════════════════════
+       FICHA HELPER
+    ══════════════════════════════════════ */
+    .section-lbl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-lbl::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .ficha-section {
+      background: var(--off);
+      border-bottom: 1px solid var(--border);
+      padding: 26px 40px;
+    }
+
+    .grid-auto {
+      display: grid;
+      gap: 10px;
+    }
+
+    .grid-auto.c2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-auto.c3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-auto.c4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .span2 {
+      grid-column: span 2;
+    }
+
+    .span3 {
+      grid-column: span 3;
+    }
+
+    .span4 {
+      grid-column: span 4;
+    }
+
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 11px 14px;
+    }
+
+    .ic-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .56rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ic-label::before {
+      content: '';
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      display: inline-block;
+    }
+
+    .ic-val {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .ic-val.empty {
+      color: var(--slate);
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .ic-val.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+    }
+
+    /* Personas */
+    .people-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .person-card {
+      background: var(--navy);
+      border-radius: var(--r-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .p-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .p-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .8rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .p-role {
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .45);
+      margin-top: 3px;
+    }
+
+    /* ══════════════════════════════════════
+       CONTENIDO — SECCIONES
+    ══════════════════════════════════════ */
+    .sec {
+      padding: 26px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .sec-num {
+      background: var(--navy);
+      color: #93C5FD;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 800;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sec-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .9rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    .sec-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .sec p {
+      font-size: .88rem;
+      line-height: 1.8;
+      color: var(--text-mid);
+    }
+
+    .sec p+p {
+      margin-top: 10px;
+    }
+
+    .sec strong {
+      color: var(--text);
+    }
+
+    ul.check {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    ul.check li {
+      font-size: .88rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    ul.check li::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    /* Nota */
+    .nota {
+      background: var(--blue-light);
+      border: 1px solid var(--blue-border);
+      border-left: 3px solid var(--blue-mid);
+      border-radius: var(--r-sm);
+      padding: 11px 15px;
+      margin-top: 14px;
+      font-size: .82rem;
+      line-height: 1.65;
+      color: #1E3A8A;
+    }
+
+    /* Fórmula */
+    .formula-block {
+      background: var(--navy);
+      border-radius: var(--r);
+      padding: 18px 28px;
+      margin: 16px 0;
+      text-align: center;
+    }
+
+    .formula-txt {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #93C5FD;
+      letter-spacing: .06em;
+    }
+
+    .formula-sub {
+      font-size: .74rem;
+      color: rgba(255, 255, 255, .4);
+      margin-top: 7px;
+    }
+
+    /* Specs grid */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .spec-box {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 10px 13px;
+    }
+
+    .sb-lbl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .56rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .sb-val {
+      font-size: .83rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .sb-val.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+    }
+
+    .sb-val.empty {
+      color: var(--slate);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* Condiciones campo */
+    .cond-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .cond-card {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 11px 14px;
+    }
+
+    .cond-lbl {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .56rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--slate);
+      margin-bottom: 4px;
+    }
+
+    .cond-val {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+      min-height: 22px;
+    }
+
+    .cond-val.empty {
+      color: var(--slate);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ══════════════════════════════════════
+       TABLAS
+    ══════════════════════════════════════ */
+    .tbl-wrap {
+      overflow-x: auto;
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      margin-top: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .82rem;
+    }
+
+    thead tr {
+      background: var(--navy);
+    }
+
+    thead th {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #93C5FD;
+      padding: 11px 13px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, .05);
+    }
+
+    thead th:last-child {
+      border-right: none;
+    }
+
+    thead th.l {
+      text-align: left;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background .12s;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--off);
+    }
+
+    tbody tr:hover {
+      background: #EEF4FF;
+    }
+
+    tbody td {
+      padding: 10px 13px;
+      text-align: center;
+      color: var(--text-mid);
+      border-right: 1px solid var(--border);
+    }
+
+    tbody td:last-child {
+      border-right: none;
+    }
+
+    tbody td.l {
+      text-align: left;
+      color: var(--text);
+    }
+
+    tbody td.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+    }
+
+    /* tabla verde (normas) */
+    .t-green thead tr {
+      background: #064E3B;
+    }
+
+    .t-green thead th {
+      color: #6EE7B7;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      border-width: 1px;
+      border-style: solid;
+    }
+
+    .b-ok {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: var(--green-bd);
+    }
+
+    .b-mal {
+      background: var(--red-bg);
+      color: var(--red);
+      border-color: var(--red-bd);
+    }
+
+    .b-wait {
+      background: var(--amber-bg);
+      color: var(--amber);
+      border-color: var(--amber-bd);
+    }
+
+    /* ── Selector Cumple/No Cumple ── */
+    .sel-estado {
+      appearance: none;
+      -webkit-appearance: none;
+      border: 2px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 5px 28px 5px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2364748B'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 9px center;
+      background-color: #F8FAFC;
+      color: #64748B;
+      transition: background-color .2s, border-color .2s, color .2s;
+      width: 135px;
+    }
+
+    .sel-estado.s-ok {
+      background-color: var(--green-bg);
+      border-color: var(--green-bd);
+      color: var(--green);
+    }
+
+    .sel-estado.s-mal {
+      background-color: var(--red-bg);
+      border-color: var(--red-bd);
+      color: var(--red);
+    }
+
+    @media print {
+      .sel-estado {
+        display: none;
+      }
+
+      .sel-print-badge {
+        display: inline-flex !important;
+      }
+    }
+
+    /* ── Banner de cumplimiento ── */
+    @keyframes cb-slide {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #cumplimiento-banner {
+      display: none;
+      margin-top: 28px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(22, 163, 74, .18);
+      animation: cb-slide .45s ease;
+    }
+
+    .cb-bar {
+      height: 7px;
+      background: linear-gradient(90deg, #16A34A 0%, #4ADE80 100%);
+    }
+
+    .cb-body {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px 24px;
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      border: 1.5px solid #BBF7D0;
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+      flex-wrap: wrap;
+    }
+
+    .cb-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .cb-text {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .cb-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #15803D;
+      letter-spacing: -.2px;
+    }
+
+    .cb-sub {
+      font-size: 0.8rem;
+      color: #166534;
+      margin-top: 3px;
+    }
+
+    .cb-normas {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .cb-norma-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: #BBF7D0;
+      color: #166534;
+      border: 1px solid #86EFAC;
+      border-radius: 20px;
+      padding: 2px 10px;
+    }
+
+    /* ══════════════════════════════════════
+       VALORES SUGERIDOS (de foto — confirmar)
+    ══════════════════════════════════════ */
+    .sugerido {
+      background: #FFFBEB;
+      border-bottom: 2px solid #F59E0B;
+      position: relative;
+    }
+
+    .sugerido-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .58rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      color: #92400E;
+      background: #FDE68A;
+      border: 1px solid #F59E0B;
+      border-radius: 3px;
+      padding: 1px 6px;
+      margin-left: 6px;
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════════════
+       NO CONFORMIDADES
+    ══════════════════════════════════════ */
+    .nc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+
+    .nc-table thead tr {
+      background: #7F1D1D;
+    }
+
+    .nc-table thead th {
+      color: #FCA5A5;
+      padding: 10px 13px;
+      text-align: left;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nc-table tbody td {
+      padding: 11px 13px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      font-size: .85rem;
+      color: var(--text-mid);
+    }
+
+    .nc-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .nc-table tbody tr:nth-child(even) {
+      background: var(--off);
+    }
+
+    .nc-foto {
+      width: 160px;
+    }
+
+    .nc-foto img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--border);
+    }
+
+    .badge-alta {
+      background: #FEF2F2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge-media {
+      background: #FFFBEB;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge-baja {
+      background: #FEFCE8;
+      color: #713F12;
+      border: 1px solid #FEF08A;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════════════
+       GALERÍA AMPLIADA
+    ══════════════════════════════════════ */
+    .galeria-cat-titulo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin: 20px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--blue-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .galeria-cat-titulo::before {
+      content: '';
+      width: 4px;
+      height: 16px;
+      background: var(--blue-mid);
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 0;
+    }
+
+    .galeria-item {
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--white);
+    }
+
+    .galeria-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .galeria-caption {
+      padding: 7px 10px;
+      font-size: .76rem;
+      color: var(--text-mid);
+      line-height: 1.4;
+    }
+
+    .galeria-caption strong {
+      color: var(--text);
+      font-size: .78rem;
+    }
+
+    /* ══════════════════════════════════════
+       SECCIÓN DE FOTOGRAFÍAS
+    ══════════════════════════════════════ */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .photo-slot {
+      border: 1.5px dashed var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      background: var(--off);
+      min-height: 170px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: border-color .15s;
+    }
+
+    .photo-slot:hover {
+      border-color: var(--blue-mid);
+    }
+
+    .photo-slot input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+    }
+
+    .photo-preview {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: none;
+      flex-shrink: 0;
+    }
+
+    .photo-placeholder {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 16px;
+    }
+
+    .photo-placeholder svg {
+      width: 32px;
+      height: 32px;
+      opacity: .35;
+    }
+
+    .photo-placeholder .ph-hint {
+      font-size: .72rem;
+      color: var(--slate);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .photo-caption {
+      padding: 8px 12px;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      z-index: 1;
+    }
+
+    .photo-caption .pc-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .56rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--slate);
+    }
+
+    .photo-caption .pc-label {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    /* ══════════════════════════════════════
+       FIRMAS
+    ══════════════════════════════════════ */
+    .firma-section {
+      padding: 28px 40px;
+      background: var(--off);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .firma-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .firma-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px 16px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .firma-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--blue-mid);
+    }
+
+    .firma-space {
+      height: 72px;
+      border-bottom: 1.5px solid var(--text-mid);
+      margin: 0 16px 12px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 6px;
+    }
+
+    .firma-space img {
+      max-height: 62px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    /* Encabezado de página — visible solo en impresión */
+    .print-page-header {
+      display: none;
+    }
+
+    .firma-nombre {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .88rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .firma-cargo {
+      font-size: .72rem;
+      color: var(--slate);
+      margin-top: 4px;
+    }
+
+    .firma-ced {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: var(--slate);
+      margin-top: 3px;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .doc-footer {
+      background: var(--navy);
+      padding: 13px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .df-l {
+      font-family: 'Montserrat', sans-serif;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .7);
+    }
+
+    .df-c {
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .3);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .df-r {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .4);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════
+       IMPRESIÓN / PDF
+    ══════════════════════════════════════ */
+    @media print {
+
+      /* ══ 1. CONFIGURACIÓN DEL PAPEL ══════════════════════════════ */
+      @page {
+        size: letter portrait;
+        margin: 1.5cm;
+      }
+
+      /* ══ 2. COLORES EXACTOS (fondos oscuros visibles en papel) ══ */
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+
+      /* ══ 3. BASE ════════════════════════════════════════════════ */
+      html {
+        background: #fff !important;
+      }
+
+      body {
+        background: #fff !important;
+        font-size: 10pt !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      #editor-panel {
+        display: none !important;
+      }
+
+      #documento {
+        margin: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        overflow: visible !important;
+      }
+
+      /* ══ 4. ENCABEZADO — flujo estático en impresión ════════════
+         Se cambia position a static para que el header entre al
+         flujo normal del documento. Esto garantiza cero overlap
+         en todas las páginas: el contenido siempre empieza DESPUÉS
+         del header, no encima de él.
+         Tradeoff: el header solo aparece en la página 1, pero no
+         hay ninguna superposición posible.
+      ══════════════════════════════════════════════════════════════ */
+      .print-page-header {
+        display: flex !important;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        background: var(--navy) !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 1.5cm;
+        border-bottom: 2px solid #2563EB !important;
+        gap: 10mm;
+        box-sizing: border-box;
+        margin-bottom: 0 !important;
+      }
+
+      .print-page-header img {
+        height: 26px;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+        opacity: .95;
+        flex-shrink: 0;
+      }
+
+      .pph-left {
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .pph-name {
+        font-family: 'Montserrat', sans-serif !important;
+        font-size: 7pt !important;
+        font-weight: 800 !important;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: #fff !important;
+      }
+
+      .pph-sub {
+        font-size: 6.5pt !important;
+        color: rgba(255, 255, 255, .5) !important;
+        margin-top: 1px;
+      }
+
+      .pph-center {
+        flex: 1;
+        text-align: center;
+      }
+
+      .pph-doc-title {
+        font-family: 'Montserrat', sans-serif !important;
+        font-size: 7pt !important;
+        font-weight: 700 !important;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .65) !important;
+      }
+
+      .pph-right {
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .pph-folio {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 6.5pt !important;
+        color: rgba(255, 255, 255, .8) !important;
+      }
+
+      .pph-fecha-line {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 6.5pt !important;
+        color: rgba(255, 255, 255, .55) !important;
+        margin-top: 2px;
+      }
+
+      /* ══ 5. HEADER DEL DOCUMENTO ════════════════════════════════ */
+      .doc-header {
+        background: var(--navy) !important;
+      }
+
+      .hdr-top {
+        padding: 16px 24px 0 !important;
+      }
+
+      .hdr-title-wrap {
+        padding: 12px 24px 16px !important;
+      }
+
+      .hdr-title {
+        font-size: 14pt !important;
+        color: #fff !important;
+      }
+
+      .hdr-title span {
+        color: #93C5FD !important;
+      }
+
+      .hdr-eyebrow {
+        color: rgba(255, 255, 255, .45) !important;
+        font-size: 7pt !important;
+      }
+
+      .hdr-subtitle {
+        color: rgba(255, 255, 255, .45) !important;
+        font-size: 7.5pt !important;
+      }
+
+      .hdr-accent-bar {
+        background: #2563EB !important;
+      }
+
+      .hdr-folio {
+        background: rgba(255, 255, 255, .08) !important;
+        border-color: rgba(255, 255, 255, .18) !important;
+      }
+
+      .hdr-folio-lbl {
+        color: rgba(255, 255, 255, .45) !important;
+        font-size: 6.5pt !important;
+      }
+
+      .hdr-folio-val {
+        color: #fff !important;
+        font-size: 8.5pt !important;
+      }
+
+      .hdr-brand-name {
+        color: #fff !important;
+        font-size: 7.5pt !important;
+      }
+
+      .hdr-brand-sub {
+        color: rgba(255, 255, 255, .45) !important;
+        font-size: 7pt !important;
+      }
+
+      .hdr-brand img {
+        height: 42px !important;
+      }
+
+      /* ══ 6. SECCIONES ════════════════════════════════════════════ */
+      .sec {
+        padding: 14px 22px !important;
+        border-bottom: 1px solid var(--border) !important;
+      }
+
+      .ficha-section {
+        padding: 14px 22px !important;
+        background: var(--off) !important;
+      }
+
+      .firma-section {
+        padding: 18px 22px !important;
+        background: var(--off) !important;
+      }
+
+      .sec-head {
+        margin-bottom: 12px !important;
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+      }
+
+      .sec-title {
+        font-size: 9.5pt !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+      }
+
+      .sec-num {
+        background: var(--navy) !important;
+        color: #93C5FD !important;
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 7.5pt !important;
+      }
+
+      .section-lbl {
+        font-size: 7.5pt !important;
+        margin-bottom: 10px !important;
+      }
+
+      /* ══ 7. TEXTO DE CUERPO ══════════════════════════════════════ */
+      .sec p,
+      .sec li {
+        font-size: 10pt !important;
+        color: #000000 !important;
+        line-height: 1.55 !important;
+      }
+
+      /* strong siempre inline en impresión */
+      .sec li strong,
+      .sec p strong {
+        display: inline !important;
+      }
+
+      ul.check {
+        gap: 5px !important;
+      }
+
+      /* ══ 8. TABLAS — sin desbordamiento horizontal ═══════════════
+         table-layout: fixed + word-break evitan que las celdas
+         empujen la tabla fuera del papel.
+      ══════════════════════════════════════════════════════════════ */
+      table {
+        width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+      }
+
+      th,
+      td {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+      }
+
+      .tbl-wrap {
+        border-radius: 6px !important;
+        margin-top: 10px !important;
+        width: 100% !important;
+        overflow: visible !important;
+        /* NO break-inside aquí — las tablas altas (NC) serían omitidas por Chrome.
+           El break-inside está en las filas (regla tr). */
+      }
+
+      thead {
+        display: table-header-group;
+      }
+
+      thead tr {
+        background: var(--navy) !important;
+      }
+
+      thead th {
+        padding: 8px 10px !important;
+        font-size: 8.5pt !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+      }
+
+      .t-green thead tr {
+        background: #064E3B !important;
+      }
+
+      .t-green thead th {
+        color: #6EE7B7 !important;
+      }
+
+      tbody td {
+        padding: 9px 10px !important;
+        font-size: 10pt !important;
+        color: #000000 !important;
+      }
+
+      tbody tr:nth-child(even) {
+        background: var(--off) !important;
+      }
+
+      /* ══ 9. CARDS DE INFO ════════════════════════════════════════ */
+      .grid-auto.c4 {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 7px !important;
+      }
+
+      .grid-auto.c3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 7px !important;
+      }
+
+      .grid-auto.c2 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 7px !important;
+      }
+
+      .info-card {
+        background: var(--white) !important;
+        padding: 10px 12px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .ic-label {
+        font-size: 7pt !important;
+      }
+
+      .ic-val {
+        font-size: 10pt !important;
+        color: #000000 !important;
+      }
+
+      /* ══ 10. PERSONAL ════════════════════════════════════════════ */
+      .people-grid {
+        gap: 8px !important;
+      }
+
+      .person-card {
+        background: var(--navy) !important;
+        padding: 11px 13px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .p-avatar {
+        background: #2563EB !important;
+        color: #ffffff !important;
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 8pt !important;
+      }
+
+      .p-name {
+        color: #ffffff !important;
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+      }
+
+      .p-role {
+        color: rgba(255, 255, 255, .75) !important;
+        font-size: 8.5pt !important;
+      }
+
+      /* ══ 11. SPECS DE EQUIPOS ════════════════════════════════════ */
+      .specs-grid {
+        gap: 8px !important;
+        margin-top: 9px !important;
+      }
+
+      .spec-box {
+        background: var(--off) !important;
+        padding: 9px 11px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .sb-lbl {
+        font-size: 7pt !important;
+      }
+
+      .sb-val {
+        font-size: 9.5pt !important;
+        color: #000000 !important;
+        margin-top: 2px !important;
+      }
+
+      /* ══ 12. CONDICIONES DEL SITIO ═══════════════════════════════ */
+      .cond-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 8px !important;
+      }
+
+      .cond-card {
+        background: var(--off) !important;
+        padding: 9px 11px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .cond-lbl {
+        font-size: 7pt !important;
+      }
+
+      .cond-val {
+        font-size: 9.5pt !important;
+        color: #000000 !important;
+        min-height: 18px !important;
+      }
+
+      /* ══ 13. FÓRMULA ═════════════════════════════════════════════ */
+      .formula-block {
+        background: var(--navy) !important;
+        padding: 13px 20px !important;
+        margin: 12px 0 !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .formula-txt {
+        color: #93C5FD !important;
+        font-size: 12pt !important;
+      }
+
+      .formula-sub {
+        color: rgba(255, 255, 255, .6) !important;
+        font-size: 8.5pt !important;
+      }
+
+      /* ══ 14. NOTAS ═══════════════════════════════════════════════ */
+      .nota {
+        background: var(--blue-light) !important;
+        padding: 10px 13px !important;
+        font-size: 9.5pt !important;
+        color: #000000 !important;
+        margin-top: 10px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      /* ══ 15. BADGES ══════════════════════════════════════════════ */
+      .badge {
+        font-size: 7.5pt !important;
+        padding: 2px 7px !important;
+      }
+
+      .b-ok {
+        background: var(--green-bg) !important;
+        color: var(--green) !important;
+        border-color: var(--green-bd) !important;
+      }
+
+      .b-mal {
+        background: var(--red-bg) !important;
+        color: var(--red) !important;
+        border-color: var(--red-bd) !important;
+      }
+
+      .b-wait {
+        background: var(--amber-bg) !important;
+        color: var(--amber) !important;
+        border-color: var(--amber-bd) !important;
+      }
+
+      /* ══ 16. FOTOGRAFÍAS ══════════════════════════════════════════ */
+      .photo-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px !important;
+        margin-top: 10px !important;
+      }
+
+      .photo-slot {
+        min-height: 120px !important;
+        background: var(--off) !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .photo-preview {
+        height: 100px !important;
+      }
+
+      .photo-placeholder {
+        padding: 10px !important;
+      }
+
+      .photo-placeholder svg {
+        width: 22px !important;
+        height: 22px !important;
+      }
+
+      .photo-placeholder .ph-hint {
+        font-size: 6.5pt !important;
+      }
+
+      .photo-caption {
+        padding: 5px 9px !important;
+        background: var(--white) !important;
+      }
+
+      .pc-num {
+        font-size: 6pt !important;
+      }
+
+      .pc-label {
+        font-size: 7.5pt !important;
+      }
+
+      .photo-slot input[type="file"] {
+        display: none !important;
+      }
+
+      /* ══ 16b. VALORES SUGERIDOS ══════════════════════════════════ */
+      .sugerido {
+        background: #FFFBEB !important;
+      }
+
+      .sugerido-label {
+        font-size: 6pt !important;
+        padding: 1px 4px !important;
+      }
+
+      /* ══ 16c. NO CONFORMIDADES ═══════════════════════════════════
+         table-layout: auto para que las 6 columnas se distribuyan
+         correctamente. La regla global "fixed" aplica a otras tablas.
+      ══════════════════════════════════════════════════════════════ */
+      .nc-table {
+        table-layout: auto !important;
+      }
+
+      .nc-table th,
+      .nc-table td {
+        word-break: normal !important;
+        overflow-wrap: normal !important;
+        font-size: 8pt !important;
+        padding: 8px 9px !important;
+      }
+
+      .nc-foto {
+        width: 110px !important;
+      }
+
+      .nc-foto img {
+        height: 80px !important;
+        width: 100px !important;
+        object-fit: cover !important;
+      }
+
+      .badge-alta,
+      .badge-media,
+      .badge-baja {
+        font-size: 7pt !important;
+        padding: 2px 6px !important;
+      }
+
+      /* ══ 16d. GALERÍA ════════════════════════════════════════════ */
+      .galeria-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px !important;
+      }
+
+      .galeria-item {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .galeria-item img {
+        height: 110px !important;
+      }
+
+      .galeria-caption {
+        font-size: 7.5pt !important;
+        padding: 5px 8px !important;
+      }
+
+      /* ══ 17. FIRMAS ══════════════════════════════════════════════ */
+      .firma-grid {
+        gap: 12px !important;
+        margin-top: 12px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .firma-card {
+        background: var(--white) !important;
+        padding: 14px 13px 11px !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .firma-card::after {
+        background: #2563EB !important;
+        height: 3px !important;
+      }
+
+      .firma-space {
+        height: 58px !important;
+        margin: 0 12px 10px !important;
+      }
+
+      .firma-space img {
+        max-height: 52px !important;
+      }
+
+      .firma-nombre {
+        font-size: 10pt !important;
+        font-weight: 600 !important;
+        color: var(--navy) !important;
+      }
+
+      .firma-cargo {
+        font-size: 9pt !important;
+        color: #000000 !important;
+      }
+
+      .firma-ced {
+        font-size: 8.5pt !important;
+        color: #000000 !important;
+      }
+
+      /* ══ 18. FOOTER ══════════════════════════════════════════════ */
+      .doc-footer {
+        background: var(--navy) !important;
+        padding: 10px 24px !important;
+      }
+
+      .df-l {
+        color: rgba(255, 255, 255, .7) !important;
+        font-size: 7pt !important;
+      }
+
+      .df-c {
+        color: rgba(255, 255, 255, .3) !important;
+        font-size: 7pt !important;
+      }
+
+      .df-r {
+        color: rgba(255, 255, 255, .4) !important;
+        font-size: 7pt !important;
+      }
+
+      /* ══ 19. SALTOS DE PÁGINA — REGLAS CONSOLIDADAS ══════════════
+         Sólo aplica break-inside a elementos pequeños y filas.
+         Nunca a secciones enteras (causaría espacios gigantes).
+      ══════════════════════════════════════════════════════════════ */
+
+      /* Fila nunca se parte a la mitad */
+      tr {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      /* Títulos de sección no quedan solos al pie de página */
+      h1,
+      h2,
+      h3,
+      .sec-title,
+      .sec-head {
+        break-after: avoid !important;
+        page-break-after: avoid !important;
+      }
+
+      /* ══ 20. CAMPOS EDITABLES — limpiar en impresión ════════════
+         Quitar bordes, fondos y cursores de todos los campos
+         editables para que luzcan como texto normal impreso.
+      ══════════════════════════════════════════════════════════════ */
+      [contenteditable] {
+        border: none !important;
+        border-bottom: none !important;
+        outline: none !important;
+        background: transparent !important;
+        cursor: default !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        min-height: unset !important;
+        box-shadow: none !important;
+      }
+
+      /* El span dashed de "editar" fuente no se imprime */
+      [contenteditable][style*="dashed"] {
+        display: none !important;
+      }
+
+      /* Strong de resultado — mantener color en print */
+      #conclusion-estado {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        border-radius: 3px !important;
+        padding: 1px 8px !important;
+      }
+
+      /* ══ 21. SELECTOR CUMPLE/NO CUMPLE ══════════════════════════ */
+      .sel-estado {
+        display: none !important;
+      }
+
+      .sel-print-badge {
+        display: inline-flex !important;
+      }
+
+      /* ══ 22. BANNER CUMPLIMIENTO ═════════════════════════════════ */
+      #cumplimiento-banner {
+        animation: none !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      .cb-bar {
+        background: linear-gradient(90deg, #16A34A 0%, #4ADE80 100%) !important;
+      }
+
+      .cb-body {
+        background: #F0FDF4 !important;
+        border: 1.5px solid #BBF7D0 !important;
+      }
+
+      .cb-title {
+        color: #15803D !important;
+        font-size: 9.5pt !important;
+      }
+
+      .cb-sub {
+        color: #166534 !important;
+        font-size: 8pt !important;
+      }
+
+      .cb-norma-tag {
+        background: #BBF7D0 !important;
+        color: #166534 !important;
+        border: 1px solid #86EFAC !important;
+        font-size: 7pt !important;
+      }
+
+      .cb-icon svg {
+        width: 32px !important;
+        height: 32px !important;
+      }
+
+      /* ══ 23. BOTÓN IMPRIMIR — oculto ════════════════════════════ */
+      #btn-print,
+      .no-print {
+        display: none !important;
+      }
+
+      /* ══ 24. OBSERVACIONES — sin altura mínima al imprimir ═══════ */
+      [contenteditable] {
+        min-height: unset !important;
+      }
+
+
+      /* ══ 26. GALERÍA — reducir a 2 columnas para mejor ajuste ════ */
+      .galeria-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+      }
+
+      .galeria-item img {
+        height: 95px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+      }
+
+      /* ══ 27. FOTO PRINCIPAL — proporción contenida ════════════════ */
+      .photo-preview img {
+        height: 100px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════
+     PANEL DE EDICIÓN
+══════════════════════════════════════════════ -->
+  <div id="editor-panel">
+    <div class="ep-bar">
+      <span class="ep-bar-label">Panel de datos — llena los campos antes de imprimir</span>
+      <button id="btn-print" onclick="window.print()">Imprimir / Exportar PDF</button>
+    </div>
+    <div class="ep-body">
+      <div class="ep-group">
+        <label>Folio</label>
+        <input id="i-folio" value="INTG-TF-001" />
+      </div>
+      <div class="ep-group">
+        <label>Fecha</label>
+        <input id="i-fecha" type="date" />
+      </div>
+      <div class="ep-group">
+        <label>Nombre del cliente</label>
+        <input id="i-cliente" placeholder="Nombre / razón social" />
+      </div>
+      <div class="ep-group">
+        <label>No. orden de trabajo</label>
+        <input id="i-ot" placeholder="OT-2026-000" />
+      </div>
+      <div class="ep-group">
+        <label>Responsable</label>
+        <input id="i-responsable" value="Ing. Sixto Gallegos" />
+      </div>
+      <div class="ep-group">
+        <label>Cédula responsable</label>
+        <input id="i-ced-resp" placeholder="Núm. cédula" />
+      </div>
+      <div class="ep-group">
+        <label>Cédula técnico</label>
+        <input id="i-ced-tec" placeholder="Núm. cédula" />
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Encabezado que se repite en cada página al imprimir -->
+  <div class="print-page-header">
+    <div class="pph-left">
+      <img src="../logo_transparente.png" alt="INTEGR" />
+      <div>
+        <div class="pph-name">INTEGR</div>
+        <div class="pph-sub">Ingeniería e Integración de Sistemas Eléctricos</div>
+      </div>
+    </div>
+    <div class="pph-center">
+      <div class="pph-doc-title">Estudio de Tierras Físicas</div>
+    </div>
+    <div class="pph-right">
+      <div class="pph-folio">Folio: <span id="pph-folio-val">INTG-TF-001</span></div>
+      <div class="pph-fecha-line">Fecha: <span id="pph-fecha-val">—</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+     DOCUMENTO
+══════════════════════════════════════════════ -->
+  <div id="documento">
+
+    <!-- HEADER -->
+    <div class="doc-header">
+      <div class="hdr-top">
+        <div class="hdr-brand">
+          <img src="../logo_transparente.png" alt="Logo INTEGR" />
+          <div class="hdr-brand-text">
+            <div class="hdr-brand-name">INTEGR</div>
+            <div class="hdr-brand-sub">Ingeniería e Integración de Sistemas Eléctricos</div>
+          </div>
+        </div>
+        <div class="hdr-meta">
+          <div class="hdr-folio">
+            <div class="hdr-folio-lbl">Folio del reporte</div>
+            <div class="hdr-folio-val" id="o-folio">INTG-TF-001</div>
+          </div>
+        </div>
+      </div>
+      <div class="hdr-title-wrap">
+        <div class="hdr-eyebrow">Informe Técnico Oficial · NOM-022-STPS-2015</div>
+        <h1 class="hdr-title">Estudio de <span>Tierras Físicas</span><br />Sistema de Puesta a Tierra</h1>
+        <div class="hdr-subtitle">Medición directa en sitio · Análisis de resistencia de electrodo de tierra</div>
+      </div>
+      <div class="hdr-accent-bar"></div>
+    </div>
+
+    <!-- FICHA GENERAL -->
+    <div class="ficha-section">
+      <div class="section-lbl">Identificación del servicio</div>
+      <div class="grid-auto c4">
+        <div class="info-card">
+          <div class="ic-label">Fecha de emisión</div>
+          <div class="ic-val" id="o-fecha">—</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-label">No. orden de trabajo</div>
+          <div class="ic-val mono empty" id="o-ot">Sin asignar</div>
+        </div>
+        <div class="info-card span2">
+          <div class="ic-label">Cliente</div>
+          <div class="ic-val empty" id="o-cliente">Sin asignar</div>
+        </div>
+        <div class="info-card span4">
+          <div class="ic-label">Dirección del sitio de medición</div>
+          <div class="ic-val">Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4, C.P. 32575, Chihuahua, Chih.,
+            México</div>
+        </div>
+      </div>
+
+      <!-- Equipos -->
+      <div class="section-lbl" style="margin-top:20px">Equipos e instrumentos de medición</div>
+      <div class="tbl-wrap" style="margin-top:0">
+        <table>
+          <thead>
+            <tr>
+              <th>Clave</th>
+              <th>N° Asignado</th>
+              <th class="l">Nombre del instrumento</th>
+              <th>Marca</th>
+              <th>Serie / Modelo</th>
+              <th>Últ. calibración</th>
+              <th>Próx. calibración</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono"><strong>EM-01</strong></td>
+              <td class="mono">14848</td>
+              <td class="l">Medidor de Resistencia de Aislamiento Tipo Análogo</td>
+              <td>MC MILLER</td>
+              <td class="mono">2187 / MILLER 400 A SRM</td>
+              <td>19/08/2025</td>
+              <td><span class="badge b-ok">18/08/2026</span></td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>EM-02</strong></td>
+              <td class="mono">14849</td>
+              <td class="l">Medidor de Tierra Tipo Gancho</td>
+              <td>FLUKE</td>
+              <td class="mono">192201131 / 1630</td>
+              <td>19/08/2025</td>
+              <td><span class="badge b-ok">18/08/2026</span></td>
+            </tr>
+            <tr>
+              <td class="mono"><strong>EM-03</strong></td>
+              <td class="mono">14850</td>
+              <td class="l">Medidor de tierra tipo gancho</td>
+              <td>EXTECH</td>
+              <td class="mono">CR 2100+ / 22520885</td>
+              <td>19/08/2025</td>
+              <td><span class="badge b-ok">19/08/2026</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Personal -->
+      <div class="section-lbl" style="margin-top:20px">Personal asignado</div>
+      <div class="people-grid">
+        <div class="person-card">
+          <div class="p-avatar" id="o-avatar-resp">SG</div>
+          <div>
+            <div class="p-name" id="o-responsable">Ing. Sixto Gallegos</div>
+            <div class="p-role">Responsable del reporte</div>
+          </div>
+        </div>
+        <div class="person-card">
+          <div class="p-avatar">SV</div>
+          <div>
+            <div class="p-name">Saúl Villalobos</div>
+            <div class="p-role">Elaboró el reporte</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 1. DATOS GENERALES DE LA INSTALACIÓN ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">01</div>
+        <div class="sec-title">Datos Generales de la Instalación</div>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="l" style="width:55%">Descripción</th>
+              <th class="l" style="width:45%">Dato / Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="l">Voltaje principal de suministro por parte de CFE</td>
+              <td class="l">480 V, 3Ø 4H, 60 Hz</td>
+            </tr>
+            <tr>
+              <td class="l">Capacidad de subestación / transformador</td>
+              <td class="l">225 kVA — Transformador trifásico seco Square D</td>
+            </tr>
+            <tr>
+              <td class="l">Número de contrato CFE / No. serie medidor</td>
+              <td class="l">Serial medidor: 31006989 — Sello CFE: C25V936651<br><small
+                  class="no-print" style="color:var(--slate);font-size:.75rem">Fuente:
+                  <span contenteditable="true" style="color:var(--blue);border-bottom:1px dashed var(--blue-mid)">—
+                    editar —</span></small></td>
+            </tr>
+            <tr>
+              <td class="l">Voltaje de suministro a equipos del cliente</td>
+              <td class="l">220/127 V (secundario transformador)</td>
+            </tr>
+            <tr>
+              <td class="l">Tableros principales</td>
+              <td class="l">1 tablero principal (3 interruptores termomagnéticos Square D)</td>
+            </tr>
+            <tr>
+              <td class="l">Tableros derivados</td>
+              <td class="l">Tableros derivados con interruptores Siemens/Square D, VOL=220; tablero
+                UPS/contactos regulados Faber</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 2. OBJETIVO ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">02</div>
+        <div class="sec-title">Objetivo</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>
+        El presente informe técnico documenta la medición directa de resistencia del sistema de puesta a tierra (SPT) en
+        el sitio indicado, con el propósito de verificar el
+        cumplimiento con <strong>NOM-022-STPS-2015</strong> (Condiciones de seguridad eléctrica en los
+        centros de trabajo), <strong>NOM-001-SEDE-2012</strong> y <strong>NMX-J-549-ANCE-2005</strong>,
+        así como con el estándar internacional <strong>IEEE Std 80-2013</strong>. Los resultados
+        constituyen la base técnica para diseñar, dimensionar o corregir el SPT, garantizando la
+        seguridad de personas, equipos e instalaciones eléctricas.
+      </p>
+    </div>
+
+    <!-- ── 3. ALCANCE ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">03</div>
+        <div class="sec-title">Alcance del Estudio</div>
+        <div class="sec-rule"></div>
+      </div>
+      <ul class="check">
+        <li>Medición directa de resistencia de tierra en sitio mediante <strong>telurómetro de gancho</strong> (método
+          de medición directa sin desconexión del electrodo).</li>
+        <li>Medición de resistencia del electrodo de tierra mediante pinza amperimétrica aplicada directamente sobre el
+          conductor de puesta a tierra.</li>
+        <li>Registro de condiciones ambientales y estado del suelo al momento de la medición.</li>
+        <li>Análisis e interpretación de resultados conforme a las normativas aplicables.</li>
+        <li>Tabla comparativa de valores obtenidos vs. límites normativos máximos permitidos.</li>
+        <li>Registro fotográfico del sitio, configuración de electrodos y lecturas del instrumento.</li>
+        <li>Recomendaciones técnicas y conclusiones firmadas por el personal responsable.</li>
+      </ul>
+    </div>
+
+    <!-- ── 3. MARCO NORMATIVO ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">04</div>
+        <div class="sec-title">Marco Normativo y Referencias</div>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="t-green">
+          <thead>
+            <tr>
+              <th class="l">Norma / Estándar</th>
+              <th class="l">Descripción</th>
+              <th>Límite aplicable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="l mono"><strong>NOM-022-STPS-2015</strong></td>
+              <td class="l">Condiciones de seguridad eléctrica en centros de trabajo — México</td>
+              <td>Resistencia SPT según clasificación de riesgo del sitio</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>NOM-001-SEDE-2012</strong></td>
+              <td class="l">Instalaciones Eléctricas de Utilización — México</td>
+              <td>≤ 25 Ω (residencial / comercial)</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>NMX-J-549-ANCE-2005</strong></td>
+              <td class="l">Sistemas de Puesta a Tierra — Diseño e Instalación</td>
+              <td>≤ 10 Ω (protección industrial)</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>IEEE Std 80-2013</strong></td>
+              <td class="l">Guide for Safety in AC Substation Grounding</td>
+              <td>Tensión de paso y contacto dentro de límites seguros</td>
+            </tr>
+            <tr>
+              <td class="l mono"><strong>IEC 60364-5-54</strong></td>
+              <td class="l">Earthing Arrangements &amp; Protective Conductors</td>
+              <td>≤ 1 Ω (centros de datos / instalaciones críticas)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 4. EQUIPO Y METODOLOGÍA ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">05</div>
+        <div class="sec-title">Equipo Utilizado y Metodología</div>
+        <div class="sec-rule"></div>
+      </div>
+
+      <!-- Metodología -->
+      <p>
+        <strong>Método de medición directa en sitio:</strong>
+        la resistencia del sistema de puesta a tierra se mide directamente en campo mediante
+        <strong>telurómetro de gancho (ETCR2100+)</strong>, aplicando la mordaza sobre el conductor
+        de tierra o la barra equipotencial sin necesidad de desconectar el electrodo ni hincar estacas auxiliares.
+        El instrumento inyecta una señal de prueba a través del lazo de tierra cerrado y mide la resistencia
+        resultante de forma no invasiva.
+      </p>
+      <div class="formula-block">
+        <div class="formula-txt">R<sub style="font-size:.8em">tierra</sub> = V<sub style="font-size:.8em">prueba</sub> /
+          I<sub style="font-size:.8em">prueba</sub> &nbsp;&nbsp;[Ω]</div>
+        <div class="formula-sub">Medición directa sobre conductor de puesta a tierra · Sin desconexión del electrodo ·
+          Lazo cerrado</div>
+      </div>
+      <p>
+        Se realizan mediciones en múltiples puntos del sistema (barra equipotencial, conductores de tierra
+        de tableros y electrodos) para obtener un perfil completo del sistema de puesta a tierra instalado.
+      </p>
+      <p style="margin-top:10px">
+        <strong>Medición de corriente y voltaje — Fluke 376 FC TRMS Clamp Meter:</strong>
+        se empleó adicionalmente para verificar la corriente circulante en conductores activos y medir
+        el voltaje de suministro entre fases y fase-neutro, confirmando las condiciones de operación
+        del sistema eléctrico al momento de la inspección.
+      </p>
+      <div class="nota">
+        <strong>Nota:</strong> la temperatura, humedad del suelo y estación del año pueden incidir en los valores de
+        resistencia de tierra medidos directamente en sitio.
+      </div>
+    </div>
+
+
+    <!-- ── 7. RESISTENCIA DE TIERRA ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">08</div>
+        <div class="sec-title">Resultados — Resistencia del Electrodo de Tierra</div>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th class="l">Punto de prueba / Electrodo</th>
+              <th>Valor obtenido (Ω)</th>
+              <th>Máx. permitido (Ω)</th>
+              <th>Estado</th>
+              <th class="l">Norma aplicada</th>
+            </tr>
+          </thead>
+          <tbody id="tb-resistencia"></tbody>
+        </table>
+      </div>
+
+      <!-- ── Banner cumplimiento ── -->
+      <div id="cumplimiento-banner">
+        <div class="cb-bar"></div>
+        <div class="cb-body">
+          <div class="cb-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" fill="#16A34A" opacity=".15" />
+              <circle cx="24" cy="24" r="22" stroke="#16A34A" stroke-width="2.5" />
+              <path d="M14 25l7 7 13-14" stroke="#16A34A" stroke-width="3.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="cb-text">
+            <div class="cb-title">¡Todas las mediciones cumplen con la normativa vigente!</div>
+            <div class="cb-sub">Los valores de resistencia del sistema de puesta a tierra se encuentran dentro de los
+              límites establecidos por las normas aplicables.</div>
+          </div>
+          <div class="cb-normas">
+            <span class="cb-norma-tag">NOM-001-SEDE-2012</span>
+            <span class="cb-norma-tag">NMX-J-549-ANCE-2005</span>
+            <span class="cb-norma-tag">NOM-022-STPS-2015</span>
+            <span class="cb-norma-tag">IEEE Std 80-2013</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 8. TABLA COMPARATIVA ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">09</div>
+        <div class="sec-title">Tabla Comparativa — Clasificación de Suelos</div>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="l">Tipo de suelo</th>
+              <th>Resistividad típica (Ω·m)</th>
+              <th>Dificultad SPT</th>
+              <th class="l">Solución recomendada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="l">Suelo húmedo / arcilloso</td>
+              <td class="mono">10 – 100</td>
+              <td><span class="badge b-ok">Baja</span></td>
+              <td class="l">Electrodo vertical simple; profundidad ≥ 2.4 m</td>
+            </tr>
+            <tr>
+              <td class="l">Suelo agrícola / limoso</td>
+              <td class="mono">100 – 300</td>
+              <td><span class="badge b-ok">Media-baja</span></td>
+              <td class="l">Varilla vertical 2.4 m o malla básica de cobre</td>
+            </tr>
+            <tr>
+              <td class="l">Suelo arenoso húmedo</td>
+              <td class="mono">300 – 1 000</td>
+              <td><span class="badge b-wait">Media</span></td>
+              <td class="l">Varios electrodos en paralelo + sales mineralizantes</td>
+            </tr>
+            <tr>
+              <td class="l">Suelo arenoso seco / pedregoso</td>
+              <td class="mono">1 000 – 5 000</td>
+              <td><span class="badge b-wait">Alta</span></td>
+              <td class="l">Malla de cobre + tratamiento químico (bentonita, carbonilla)</td>
+            </tr>
+            <tr>
+              <td class="l">Roca / concreto / arena seca</td>
+              <td class="mono">&gt; 5 000</td>
+              <td><span class="badge b-mal">Muy alta</span></td>
+              <td class="l">Diseño especializado: cimentación, jabalinas profundas, electrolitos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── 10. REGISTRO FOTOGRÁFICO ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">10</div>
+        <div class="sec-title">Registro Fotográfico</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>Registro fotográfico de la inspección realizada en el sitio. Todas las imágenes corresponden
+        a la visita de campo en <strong>Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4, Chihuahua,
+          Chih.</strong></p>
+
+      <!-- Fotos guía principales (6 slots) -->
+      <div class="photo-grid" style="margin-top:16px">
+
+        <div class="photo-slot" style="border:1.5px solid var(--border)">
+          <img class="photo-preview" src="img/CENTRAL.jpg" loading="lazy"
+            alt="Vista interior tablero principal — Square D con barra de tierra de cobre" style="display:block" />
+          <div class="photo-caption">
+            <div class="pc-num">Foto 1</div>
+            <div class="pc-label">Vista general del área — Interior tablero principal</div>
+          </div>
+        </div>
+
+        <div class="photo-slot" style="border:1.5px solid var(--border)">
+          <img class="photo-preview" src="img/TIERRA1.jpg" loading="lazy"
+            alt="ETCR2100+ sobre busbar de tierra — lectura 0.42 Ω" style="display:block" />
+          <div class="photo-caption">
+            <div class="pc-num">Foto 2</div>
+            <div class="pc-label">Sistema de tierra — busbar de tierra</div>
+          </div>
+        </div>
+
+        <div class="photo-slot" style="border:1.5px solid var(--border)">
+          <img class="photo-preview" src="img/PANELCENTRAL.jpg" loading="lazy"
+            alt="ETCR2100+ sobre cable de cobre desnudo — lectura 0.00 Ω" style="display:block" />
+          <div class="photo-caption">
+            <div class="pc-num">Foto 3</div>
+            <div class="pc-label">Equipo de medición en operación — ETCR2100+</div>
+          </div>
+        </div>
+
+        <div class="photo-slot" style="border:1.5px solid var(--border)">
+          <img class="photo-preview" src="img/TIERRA1.jpg" loading="lazy"
+            alt="Lectura telurómetro ETCR2100+ — 0.42 Ω sobre barra de tierra" style="display:block" />
+          <div class="photo-caption">
+            <div class="pc-num">Foto 4</div>
+            <div class="pc-label">Lectura instrumento — medición 1: <strong style="color:var(--green)">0.42 Ω</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-slot" style="border:1.5px solid var(--border)">
+          <img class="photo-preview" src="img/PANELCENTRAL.jpg" loading="lazy"
+            alt="Lectura telurómetro ETCR2100+ — 0.00 Ω sobre cable de cobre" style="display:block" />
+          <div class="photo-caption">
+            <div class="pc-num">Foto 5</div>
+            <div class="pc-label">Lectura instrumento — medición 2: <strong style="color:var(--green)">0.00 Ω</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="photo-slot" style="border:1.5px solid var(--border)">
+          <img class="photo-preview" src="img/PUERTACERRADAPANEL.jpg" loading="lazy"
+            alt="Puerta tablero eléctrico cerrada con señalización de seguridad" style="display:block" />
+          <div class="photo-caption">
+            <div class="pc-num">Foto 6</div>
+            <div class="pc-label">Condición general del sitio — cuarto eléctrico</div>
+          </div>
+        </div>
+
+      </div><!-- /.photo-grid -->
+
+      <!-- GALERÍA AMPLIADA POR CATEGORÍA -->
+
+      <div class="galeria-cat-titulo">Medidor CFE / Acometida</div>
+      <div class="galeria-grid">
+        <div class="galeria-item">
+          <img src="img/MEDIDOR.jpg" loading="lazy" alt="Medidor CFE Elster — display kWh, 3F 4H 480V">
+          <div class="galeria-caption"><strong>Medidor Elster CFE</strong><br>3Ø 4H · 120-480V · 60Hz · Serial 31006989
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/MEDIDORETIQ.jpg" loading="lazy" alt="Sello de seguridad CFE C25V936651">
+          <div class="galeria-caption"><strong>Sello CFE</strong><br>Núm. C25V936651</div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/REVISION_CASINO.jpg" loading="lazy" alt="Medidor CFE y sello de seguridad — vista completa">
+          <div class="galeria-caption"><strong>Medidor CFE PL965G</strong><br>Vista completa con sello y cuerpo</div>
+        </div>
+      </div>
+
+      <div class="galeria-cat-titulo">Transformador</div>
+      <div class="galeria-grid">
+        <div class="galeria-item">
+          <img src="img/ETIQUETADO.jpg" loading="lazy"
+            alt="Transformador trifásico seco Square D 225 kVA 480-220/127V — vista lateral">
+          <div class="galeria-caption"><strong>Transformador Square D</strong><br>225 kVA · 480-220/127 V · Tipo seco
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/ETIQUETAS_ADECUADAS.jpg" loading="lazy"
+            alt="Transformador Square D 225 kVA — vista frontal con señal PRECAUCION">
+          <div class="galeria-caption"><strong>Transformador Square D</strong><br>Vista frontal · Señalización ALTA
+            TENSIÓN</div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/REFRIGERACIONCUARTO.jpg" loading="lazy" alt="Minisplit York en cuarto eléctrico — set 20°C">
+          <div class="galeria-caption"><strong>Minisplit York</strong><br>Cuarto eléctrico · Set 20°C</div>
+        </div>
+      </div>
+
+      <div class="galeria-cat-titulo">Tableros principales y derivados</div>
+      <div class="galeria-grid">
+        <div class="galeria-item">
+          <img src="img/CENTRAL.jpg" loading="lazy"
+            alt="Interior tablero principal — 3 interruptores Square D y barra de tierra">
+          <div class="galeria-caption"><strong>Tablero principal</strong><br>3 interruptores · barra cobre tierra</div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/ETIQUETADOSTABL.jpg" loading="lazy"
+            alt="Tableros derivados con etiquetas VOL=220, PELIGRO ALTO VOLTAJE">
+          <div class="galeria-caption"><strong>Tableros derivados</strong><br>VOL=220 · Señalización de seguridad</div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELESTIQ.jpg" loading="lazy"
+            alt="Tablero UPS/contactos regulados FABER — Square D 15A y 20A, VOL=220">
+          <div class="galeria-caption"><strong>Tablero UPS/contactos regulados</strong><br>FABER · 15A/20A Square D ·
+            VOL=220</div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PUERTACERRADAPANEL.jpg" loading="lazy" alt="Puerta tablero eléctrico cerrada con señalización">
+          <div class="galeria-caption"><strong>Cuarto eléctrico</strong><br>Acceso restringido · Señalización</div>
+        </div>
+      </div>
+
+      <div class="galeria-cat-titulo">Sistema de tierra — Mediciones con ETCR2100+</div>
+      <div class="galeria-grid">
+        <div class="galeria-item">
+          <img src="img/TIERRA1.jpg" loading="lazy" alt="ETCR2100+ sobre busbar de tierra — lectura 0.42 Ω">
+          <div class="galeria-caption"><strong>ETCR2100+ · Busbar tierra</strong><br>Lectura: <strong>0.42&nbsp;Ω</strong>
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELCENTRAL.jpg" loading="lazy" alt="ETCR2100+ sobre cable de cobre desnudo — lectura 0.00 Ω">
+          <div class="galeria-caption"><strong>ETCR2100+ · Cable cobre</strong><br>Lectura: <strong>0.00&nbsp;Ω</strong>
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/TIERRA2.jpg" loading="lazy"
+            alt="ETCR2100++ sobre barra de tierra con múltiples conexiones — lectura 2.4 Ω">
+          <div class="galeria-caption"><strong>ETCR2100++ · Barra tierra multipunto</strong><br>Lectura: <strong>2.4
+             &nbsp;Ω</strong></div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELCENTRALTIER.jpg" loading="lazy"
+            alt="ETCR2100+ sobre cable cobre tablero principal — lectura ~0.01 Ω">
+          <div class="galeria-caption"><strong>ETCR2100+ · Cable tierra tablero</strong><br>Lectura: <strong>~0.01
+             &nbsp;Ω</strong></div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/TIERRAPANEL.jpg" loading="lazy"
+            alt="Fluke 376 FC sobre cable de tierra de cobre — tablero principal">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Cable tierra</strong><br>Medición en tablero principal
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/1YTIERRAPANEL.jpg" loading="lazy"
+            alt="Fluke 376 FC con iFlex en tablero principal — interior con interruptores">
+          <div class="galeria-caption"><strong>Fluke 376 FC iFlex · Tablero</strong><br>Lectura: <strong>~273 A</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="galeria-cat-titulo">Mediciones de corriente y voltaje — Fluke 376 FC</div>
+      <div class="galeria-grid">
+        <div class="galeria-item">
+          <img src="img/PANEL1.jpg" loading="lazy" alt="Fluke 376 FC con iFlex — lectura 29.5 A en tablero">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Corriente</strong><br>Lectura: <strong>29.5 A</strong>
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANEL2.jpg" loading="lazy" alt="Fluke 376 FC sobre conductores — lectura 32.8 A">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Corriente tablero</strong><br>Lectura: <strong>~32.8
+              A</strong></div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANEL3.jpg" loading="lazy" alt="Fluke 376 FC con iFlex — lectura ~34 A">
+          <div class="galeria-caption"><strong>Fluke 376 FC iFlex · Corriente</strong><br>Lectura: <strong>~34
+              A</strong></div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/1Y2PANEL.jpg" loading="lazy" alt="Fluke 376 FC — voltaje fase 1-2 ~473 V">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje L1-L2</strong><br>Lectura: <strong>~473 V</strong>
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/1Y3PANEL.jpg" loading="lazy" alt="Fluke 376 FC — voltaje fase 1-3 ~469 V">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje L1-L3</strong><br>Lectura: <strong>~469 V</strong>
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/2Y3PANEL.jpg" loading="lazy" alt="Fluke 376 FC — voltaje fase 2-3 ~474 V">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje L2-L3</strong><br>Lectura: <strong>~474 V</strong>
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/ENCHUFEMUL.jpg" loading="lazy" alt="Fluke 376 FC — voltaje ~125 V">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje fase-neutro</strong><br>Lectura: <strong>~125
+              V</strong></div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/ENCHUFE2.jpg" loading="lazy" alt="Fluke 376 FC — voltaje ~127 V">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Voltaje</strong><br>Lectura: <strong>~127 V</strong></div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELHIG1.jpg" loading="lazy" alt="Fluke 376 FC con iFlex — lectura ~65 A en tablero principal">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Corriente tablero</strong><br>Lectura: <strong>~65
+              A</strong></div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELHIG2.jpg" loading="lazy" alt="Fluke 376 FC — medición en tablero">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Medición tablero</strong><br>Medición adicional en tablero
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELHIG3.jpg" loading="lazy" alt="Fluke 376 FC — medición en tablero">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Medición tablero</strong><br>Medición adicional en tablero
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELRIG2.jpg" loading="lazy" alt="Fluke 376 FC — medición en tablero derivado">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Tablero derivado</strong><br>Medición en tablero derivado
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELRIG3.jpg" loading="lazy" alt="Fluke 376 FC — medición en tablero derivado">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Tablero derivado</strong><br>Medición en tablero derivado
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/PANELRIGH1.jpg" loading="lazy" alt="Fluke 376 FC — corriente ~45 A en tablero derivado">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Corriente derivado</strong><br>Lectura: <strong>~45
+              A</strong></div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/MULTIMETROPANEL.jpg" loading="lazy" alt="Fluke 376 FC con puntas — voltaje en tablero">
+          <div class="galeria-caption"><strong>Fluke 376 FC · Puntas voltaje</strong><br>Medición de voltaje en tablero
+          </div>
+        </div>
+        <div class="galeria-item">
+          <img src="img/ENCHUFE.jpg" loading="lazy" alt="Técnico midiendo voltaje con puntas — área operativa">
+          <div class="galeria-caption"><strong>Medición voltaje · Área operativa</strong><br>Puntas Fluke en tablero
+            local</div>
+        </div>
+      </div>
+
+      <div class="nota">
+        El registro fotográfico es parte integral del reporte conforme a las buenas prácticas de la
+        norma <strong>NOM-022-STPS-2015</strong>. Todas las imágenes corresponden a la visita de campo del sitio
+        inspeccionado.
+      </div>
+    </div>
+
+    <!-- ── 10. OBSERVACIONES ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">11</div>
+        <div class="sec-title">Observaciones y Recomendaciones</div>
+        <div class="sec-rule"></div>
+      </div>
+      <ul class="check">
+        <li>Los valores de resistencia de tierra medidos directamente en sitio determinan el estado del sistema de
+          puesta a tierra y la necesidad de mejoras o mantenimiento.</li>
+        <li>Si la resistencia del sistema supera <strong>25&nbsp;Ω</strong> (NOM-001-SEDE-2012), deberá instalarse un
+          electrodo adicional o aplicar tratamiento al suelo con sales ionizantes, bentonita o carbonilla.</li>
+        <li>Para equipos sensibles (cómputo, UPS, telecomunicaciones), la resistencia no debe exceder <strong>5
+           &nbsp;Ω</strong>; para instalaciones críticas o de telecomunicaciones, <strong>1&nbsp;Ω</strong>.</li>
+        <li>Se recomienda realizar mediciones de mantenimiento de forma <strong>anual</strong>, después de eventos
+          sísmicos, lluvias extraordinarias o modificaciones a la instalación eléctrica.</li>
+        <li>Los electrodos deben inspeccionarse visualmente en busca de corrosión; ante oxidación severa proceder a
+          reemplazo con varilla de acero galvanizado o cobre recubierto.</li>
+        <li>Documentar la ubicación exacta de los electrodos mediante croquis para facilitar el mantenimiento preventivo
+          futuro.</li>
+        <li>La resistencia puede mejorarse significativamente con la adición de humedad y sales mineralizantes alrededor
+          del electrodo (tratamiento in-situ).</li>
+      </ul>
+
+      <!-- Espacio para observaciones de campo adicionales -->
+      <div style="margin-top:16px">
+        <div class="section-lbl" style="margin-bottom:8px">Observaciones adicionales de campo (técnico)</div>
+        <div style="
+        min-height: 80px;
+        border: 1.5px dashed var(--border);
+        border-radius: var(--r-sm);
+        padding: 12px 14px;
+        font-size: .88rem;
+        line-height: 1.7;
+        color: var(--text);
+        background: var(--off);
+        outline: none;
+      " contenteditable="true" data-ph="Escribir observaciones de campo...">
+        </div>
+      </div>
+    </div>
+
+    <!-- ── HALLAZGOS Y NO CONFORMIDADES ── -->
+    <div class="sec" style="border-left: 4px solid #DC2626;">
+      <div class="sec-head">
+        <div class="sec-num" style="background:#7F1D1D; color:#FCA5A5;">NC</div>
+        <div class="sec-title" style="color:#7F1D1D;">Hallazgos y No Conformidades</div>
+        <div class="sec-rule" style="background:#FECACA;"></div>
+      </div>
+      <p>Las siguientes no conformidades fueron identificadas durante la inspección visual del sitio.</p>
+
+      <div class="tbl-wrap" style="margin-top:14px; overflow-x:auto;">
+        <table class="nc-table">
+          <thead>
+            <tr>
+              <th style="width:160px">Fotografía</th>
+              <th style="width:60px">NC</th>
+              <th>Descripción del hallazgo</th>
+              <th style="width:110px">Severidad</th>
+              <th>Norma incumplida</th>
+              <th>Recomendación / acción correctiva</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="nc-foto">
+                <img src="img/NOCONF.jpg" loading="eager"
+                  alt="Caja de conexiones abierta con cableado expuesto y empalmes sin protección">
+              </td>
+              <td class="mono" style="text-align:center; font-weight:700; color:var(--red)">NC-01</td>
+              <td class="l">
+                <strong>Caja de conexiones abierta con cableado expuesto y empalmes sin protección.</strong><br>
+                Se observa caja de conexiones en pared sin tapa, con conductores activos al descubierto y empalmes
+                realizados con cinta aislante. El cableado es accesible al personal no autorizado.
+              </td>
+              <td style="text-align:center"><span class="badge-alta">Alta</span></td>
+              <td class="l mono" style="font-size:.78rem">
+                <strong>NOM-001-SEDE-2012</strong> Art. 300-15<br>
+                <strong>NOM-022-STPS-2015</strong>
+              </td>
+              <td class="l" style="font-size:.82rem">
+                Instalar tapa adecuada en la caja de conexiones. Sustituir empalmes con cinta por conectores
+                certificados (Wirenuts/Scotchlok) o llevar conductores a tablero con bornes terminales. Verificar que no
+                existan conductores activos accesibles.
+              </td>
+            </tr>
+            <tr>
+              <td class="nc-foto">
+                <img src="img/NOCONFORMIDAD.jpg" loading="eager"
+                  alt="Caja de conexiones — vista adicional del cableado expuesto">
+              </td>
+              <td class="mono" style="text-align:center; font-weight:700; color:var(--red)">NC-01b</td>
+              <td class="l">
+                <strong>Vista complementaria NC-01.</strong> Segunda toma del mismo punto confirma la condición de
+                cableado expuesto. Se observa conductor de tierra (verde) accesible junto con conductores de fase sin
+                aislamiento adecuado.
+              </td>
+              <td style="text-align:center"><span class="badge-alta">Alta</span></td>
+              <td class="l mono" style="font-size:.78rem">NOM-001-SEDE-2012 Art. 300-15</td>
+              <td class="l" style="font-size:.82rem">Ver acción correctiva NC-01.</td>
+            </tr>
+            <tr>
+              <td class="nc-foto">
+                <img src="img/CONDUCTO_ABIERTONOCONF.jpg" loading="eager"
+                  alt="Conducto/registro abierto con residuo carbonizado — evidencia de arco eléctrico">
+              </td>
+              <td class="mono" style="text-align:center; font-weight:700; color:var(--red)">NC-02</td>
+              <td class="l">
+                <strong>Conducto / registro eléctrico abierto con evidencia de calentamiento severo.</strong><br>
+                Se observa registro o conducto metálico abierto con residuo carbonizado en su interior, indicativo
+                de arco eléctrico o sobrecalentamiento previo. Representa riesgo de incendio y choque eléctrico.
+              </td>
+              <td style="text-align:center"><span class="badge-alta">Alta</span></td>
+              <td class="l mono" style="font-size:.78rem">
+                <strong>NOM-022-STPS-2015</strong> Art. 7<br>
+                <strong>NOM-001-SEDE-2012</strong>
+              </td>
+              <td class="l" style="font-size:.82rem">
+                Instalar tapa o tapón adecuado al conducto. Inspeccionar internamente el recorrido del conductor
+                para detectar daños en el aislamiento. Realizar prueba de continuidad y reemplazar tramo dañado
+                si se confirma deterioro por calor.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="nota"
+        style="background:#FEF2F2; border-color:#FECACA; border-left-color:#DC2626; color:#7F1D1D; margin-top:14px;">
+        <strong>Nota de seguimiento:</strong> Favor de realizar las acciones mencionadas.
+        La resolución de estas no conformidades es indispensable para que la instalación cumpla con los requisitos
+        de <strong>NOM-022-STPS-2015</strong> y <strong>NOM-001-SEDE-2012</strong>.
+      </div>
+    </div>
+
+    <!-- ── 11. CONCLUSIONES ── -->
+    <div class="sec">
+      <div class="sec-head">
+        <div class="sec-num">12</div>
+        <div class="sec-title">Conclusiones</div>
+        <div class="sec-rule"></div>
+      </div>
+      <p>
+        Con base en las mediciones realizadas en el sitio ubicado en
+        <strong>Av. Las Torres 2111, Col. Lote Bravo, Local Subancla 4, C.P. 32575, Chihuahua, Chih.</strong>,
+        se concluye que las condiciones del suelo y los valores de resistencia del sistema de puesta a tierra
+        <strong id="conclusion-estado" style="background:#EFF6FF; border-radius:3px; padding:2px 10px; transition:background .3s,color .3s;">
+          PENDIENTE DE EVALUACIÓN
+        </strong>
+        con los límites establecidos por la norma <strong>NOM-022-STPS-2015</strong> y
+        <strong>NOM-001-SEDE-2012</strong>. Las recomendaciones técnicas enunciadas en la sección anterior
+        deberán atenderse para garantizar la continuidad operativa y la seguridad de la instalación eléctrica.
+      </p>
+      <div class="nota" style="margin-top:14px">
+        Este informe fue elaborado con base en las mediciones de campo efectuadas por el técnico designado y
+        tiene validez técnica únicamente para el sitio, condiciones ambientales y fecha indicados. Cualquier
+        modificación posterior a la instalación invalida parcialmente las conclusiones aquí presentadas.
+      </div>
+    </div>
+
+    <!-- FIRMAS -->
+    <div class="firma-section">
+      <div class="section-lbl">Validación y firmas autorizadas</div>
+      <div class="firma-grid">
+        <div class="firma-card">
+          <div class="firma-space">
+            <img src="../firma_transparente.png" alt="Firma Sixto Gallegos" />
+          </div>
+          <div class="firma-nombre" id="o-firma-resp">Ing. Sixto Gallegos</div>
+          <div class="firma-cargo">Responsable del Reporte</div>
+          <div class="firma-ced" id="o-ced-resp">Cédula / Reg.: —</div>
+        </div>
+        <div class="firma-card">
+          <div class="firma-space">
+            <img src="../firmasaul.png" alt="Firma Saúl Villalobos" />
+          </div>
+          <div class="firma-nombre">Saúl Villalobos</div>
+          <div class="firma-cargo">Elaboró el Reporte</div>
+          <div class="firma-ced">INTEGR</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="doc-footer">
+      <div class="df-l">INTEGR · Sistemas Eléctricos</div>
+      <div class="df-c">
+        Documento confidencial — propiedad de INTEGR.<br />
+        Prohibida su reproducción sin autorización expresa.
+      </div>
+      <div class="df-r">
+        Folio: <span id="o-folio-pie">INTG-TF-001</span><br />
+        <span id="o-fecha-pie">—</span>
+      </div>
+    </div>
+
+  </div><!-- /#documento -->
+
+
+  <script>
+    /* ════════════════════════════════════════
+       TABLAS DE DATOS
+    ════════════════════════════════════════ */
+
+    const resistencia = [
+      { n: 1, punto: "Busbar / barra de tierra principal", max: 25, norma: "NOM-001-SEDE-2012", val: "0.42", foto: "TIERRA1.jpg", estado: "ok" },
+      { n: 2, punto: "Conductor de cobre desnudo (cable de tierra)", max: 25, norma: "NOM-001-SEDE-2012", val: "0.00", foto: "PANELCENTRAL.jpg", estado: "ok" },
+      { n: 3, punto: "Cable de cobre — punto tablero principal", max: 10, norma: "NMX-J-549-ANCE-2005", val: "0.01", foto: "PANELCENTRALTIER.jpg", estado: "ok" },
+      { n: 4, punto: "Barra de cobre con múltiples conexiones de tierra", max: 10, norma: "NMX-J-549-ANCE-2005", val: "2.4", foto: "TIERRA2.jpg", estado: "ok" },
+    ];
+
+    /* ── Render tablas ── */
+    function renderTablas() {
+
+      document.getElementById("tb-resistencia").innerHTML = resistencia.map((d, i) => `
+    <tr id="fila-r-${i}">
+      <td class="mono">${d.n}</td>
+      <td class="l">${d.punto}</td>
+      <td class="mono" style="font-weight:700">${d.val} Ω</td>
+      <td class="mono">${d.max} Ω</td>
+      <td>
+        <select class="sel-estado" onchange="onSelEstado(this, ${i})" aria-label="Estado medición ${d.n}">
+          <option value="pend">— Pendiente —</option>
+          <option value="ok">✓ Cumple</option>
+          <option value="mal">✗ No cumple</option>
+        </select>
+        <span class="badge b-wait sel-print-badge" style="display:none" id="badge-print-${i}">— Pendiente —</span>
+      </td>
+      <td class="l mono">${d.norma}</td>
+    </tr>`).join("");
+    }
+    renderTablas();
+
+    function onSelEstado(sel, idx) {
+      sel.className = "sel-estado";
+      const badge = document.getElementById("badge-print-" + idx);
+      if (sel.value === "ok") {
+        sel.classList.add("s-ok");
+        badge.textContent = "✓ Cumple";
+        badge.className = "badge b-ok sel-print-badge";
+      } else if (sel.value === "mal") {
+        sel.classList.add("s-mal");
+        badge.textContent = "✗ No cumple";
+        badge.className = "badge b-mal sel-print-badge";
+      } else {
+        badge.textContent = "— Pendiente —";
+        badge.className = "badge b-wait sel-print-badge";
+      }
+      actualizarBanner();
+    }
+
+    function actualizarBanner() {
+      const selects = document.querySelectorAll("#tb-resistencia .sel-estado");
+      if (!selects.length) return;
+      const vals = [...selects].map(s => s.value);
+      const todasCumplen = vals.every(v => v === "ok");
+      const algunaFalla = vals.some(v => v === "mal");
+
+      /* Banner verde */
+      const banner = document.getElementById("cumplimiento-banner");
+      if (banner) banner.style.display = todasCumplen ? "block" : "none";
+
+      /* Strong en conclusión */
+      const tag = document.getElementById("conclusion-estado");
+      if (!tag) return;
+      if (todasCumplen) {
+        tag.textContent = "CUMPLE";
+        tag.style.background = "#D1FAE5";
+        tag.style.color = "#065F46";
+        tag.style.border = "1.5px solid #6EE7B7";
+        tag.style.fontWeight = "800";
+        tag.style.letterSpacing = ".04em";
+      } else if (algunaFalla) {
+        tag.textContent = "NO CUMPLE";
+        tag.style.background = "#FEE2E2";
+        tag.style.color = "#7F1D1D";
+        tag.style.border = "1.5px solid #FCA5A5";
+        tag.style.fontWeight = "800";
+        tag.style.letterSpacing = ".04em";
+      } else {
+        tag.textContent = "PENDIENTE DE EVALUACIÓN";
+        tag.style.background = "#EFF6FF";
+        tag.style.color = "#1D4ED8";
+        tag.style.border = "1.5px solid #BFDBFE";
+        tag.style.fontWeight = "700";
+        tag.style.letterSpacing = "";
+      }
+    }
+
+
+    /* ════════════════════════════════════════
+       BINDINGS DEL PANEL
+    ════════════════════════════════════════ */
+    const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
+      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+    const fmtL = iso => { if (!iso) return "—"; const [y, m, d] = iso.split("-"); return `${parseInt(d)} de ${MESES[+m - 1]} de ${y}`; };
+    const fmtC = iso => { if (!iso) return "—"; const [y, m, d] = iso.split("-"); return `${d}/${m}/${y}`; };
+    const ini = name => (name || "").trim().split(/\s+/).map(w => w[0] || "").join("").toUpperCase().slice(0, 2) || "—";
+
+    const bindings = [
+      ["i-folio", v => [["o-folio", v || "INTG-TF-001"], ["o-folio-pie", v || "INTG-TF-001"], ["pph-folio-val", v || "INTG-TF-001"]]],
+      ["i-fecha", v => [["o-fecha", fmtL(v)], ["o-fecha-pie", fmtC(v)], ["pph-fecha-val", fmtC(v)]]],
+      ["i-cliente", v => [["o-cliente", v]]],
+      ["i-ot", v => [["o-ot", v]]],
+      ["i-responsable", v => [["o-responsable", v || "Ing.Sixto Gallegos"], ["o-firma-resp", v || "Sixto Gallegos"], ["o-avatar-resp", ini(v || "Ing. Sixto Gallegos")]]],
+      ["i-ced-resp", v => [["o-ced-resp", v ? `Cédula: ${v}` : "Cédula / Reg.: —"]]],
+      ["i-ced-tec", v => [["o-ced-tec", v ? `Cédula: ${v}` : "Cédula / Reg.: —"]]],
+    ];
+
+    bindings.forEach(([id, fn]) => {
+      const inp = document.getElementById(id);
+      if (!inp) return;
+      const apply = () => {
+        fn(inp.value).forEach(([outId, val]) => {
+          const el = document.getElementById(outId);
+          if (!el) return;
+          el.textContent = val || "Sin asignar";
+          el.classList.toggle("empty", !val || val === "Sin asignar" || val === "—");
+        });
+      };
+      inp.addEventListener("input", apply);
+      apply();
+    });
+
+    /* ── Limpiar placeholder en campos editables ── */
+    document.querySelectorAll("[contenteditable][data-ph]").forEach(el => {
+      el.addEventListener("focus", () => {
+        if (el.textContent.trim() === el.dataset.ph) { el.textContent = ""; el.classList.remove("empty"); }
+      });
+      el.addEventListener("blur", () => {
+        if (!el.textContent.trim()) { el.textContent = el.dataset.ph; el.classList.add("empty"); }
+      });
+    });
+
+    /* ── Forzar carga de imágenes lazy antes de imprimir ── */
+    window.addEventListener("beforeprint", () => {
+      document.querySelectorAll("img[loading='lazy']").forEach(img => {
+        img.loading = "eager";
+        if (!img.complete) {
+          const src = img.src;
+          img.src = "";
+          img.src = src;
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

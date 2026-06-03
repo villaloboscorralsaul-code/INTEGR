@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INTEGR | Generador de Cotizaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <div class="page-background"></div>
+
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="hero-brandline">
+          <img id="heroLogo" class="brand-logo brand-logo-hero" data-logo-variant="light" alt="Logo INTEGR" />
+          <div class="hero-brandtext">
+            <p class="eyebrow">Formato profesional de cotizaciones</p>
+            <h1>Generador de cotizaciones con estilo INTEGR</h1>
+          </div>
+        </div>
+
+        <p class="hero-text">
+          Captura los datos del cliente en el formulario y observa una hoja
+          de cotización con composición inspirada en el documento de
+          referencia.
+        </p>
+
+        <div class="hero-badges">
+          <span>Qualified Thermographer Category 1</span>
+          <span>ID #250605</span>
+          <span>UVSEIE 769-UI</span>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <p class="hero-card-label">Emisor</p>
+        <p class="hero-card-title">Sixto Gallegos Rivera</p>
+        <ul class="hero-card-list">
+          <li><strong>Empresa:</strong> INTEGR Ingeniería y Tecnología</li>
+          <li><strong>RFC:</strong> GARS670612-632</li>
+          <li><strong>Tel:</strong> 656 104 3738</li>
+          <li><strong>Email:</strong> gallegosrivera@integr.mx</li>
+          <li><strong>Web:</strong> https://integr.mx</li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="editor-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Formulario editable</p>
+            <h2>Datos de la cotización</h2>
+          </div>
+          <span class="quote-chip" id="quoteChip">Folio pendiente</span>
+        </div>
+
+        <form id="quoteForm" class="quote-form">
+          <fieldset class="form-section">
+            <legend>Contacto del cliente</legend>
+            <div class="field-grid">
+              <label class="field">
+                <span>Nombre completo del contacto</span>
+                <input id="contactName" name="contactName" type="text" placeholder="Ej. María Fernanda Pérez"
+                  required />
+              </label>
+
+              <label class="field">
+                <span>Empresa (si aplica)</span>
+                <input id="clientCompany" name="clientCompany" type="text" placeholder="Ej. Energía del Norte" />
+              </label>
+
+              <label class="field">
+                <span>Correo electrónico</span>
+                <input id="clientEmail" name="clientEmail" type="email" placeholder="Ej. contacto@empresa.com" />
+              </label>
+
+              <label class="field field-full">
+                <span>Dirección del cliente</span>
+                <textarea id="clientAddress" name="clientAddress" rows="3"
+                  placeholder="Calle, número, colonia, ciudad, estado" required></textarea>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>Servicios a cotizar</legend>
+            <div id="itemsList"></div>
+            <button type="button" class="button button-ghost btn-add-item" id="addItemButton">+ Agregar
+              servicio</button>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>Valores y condiciones</legend>
+            <div class="field-grid">
+              <label class="field">
+                <span>¿Aplica descuento?</span>
+                <select id="discountType" name="discountType">
+                  <option value="none">No aplica</option>
+                  <option value="percent">Sí, porcentaje</option>
+                  <option value="fixed">Sí, monto fijo</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Monto del descuento</span>
+                <input id="discountValue" name="discountValue" type="number" min="0" step="0.01" value="0" disabled />
+              </label>
+
+              <label class="field">
+                <span>Fecha de la cotización</span>
+                <input id="quoteDate" name="quoteDate" type="date" required />
+              </label>
+
+              <label class="field">
+                <span>Vigencia sugerida (días)</span>
+                <input id="validityDays" name="validityDays" type="number" min="1" step="1" value="15" />
+              </label>
+
+              <label class="field field-full">
+                <span>Notas adicionales o condiciones</span>
+                <textarea id="notes" name="notes" rows="4"
+                  placeholder="Ej. Tiempo de entrega, condiciones de pago, exclusiones, viáticos o acceso a sitio."></textarea>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="action-row">
+            <button type="button" class="button button-secondary" id="resetButton">
+              Limpiar
+            </button>
+            <button type="button" class="button button-ghost" id="sampleButton">
+              Cargar ejemplo
+            </button>
+            <button type="button" class="button button-primary" id="downloadPdfButton">
+              Descargar PDF
+            </button>
+            <button type="button" class="button button-share" id="shareButton">
+              <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+              Compartir
+            </button>
+          </div>
+
+          <p class="status-message" id="statusMessage" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <aside class="preview-panel">
+        <div class="preview-card">
+          <div class="preview-topbar">
+            <div>
+              <p class="preview-kicker">Vista previa documental</p>
+              <h2>Composición estilo cotización oficial</h2>
+            </div>
+            <span class="preview-badge" id="previewPageLabel">Página 1 de 1</span>
+          </div>
+
+          <article class="quote-preview" id="quotePreview">
+            <!-- HOJA 1: Portada, Cliente y Catálogo de Conceptos -->
+            <div class="sheet-page" id="sheetPage1">
+              <div class="sheet-top-ribbon"></div>
+              <div class="sheet-top-ribbon-light"></div>
+
+              <div class="sheet-page-content">
+                <header class="sheet-header">
+                  <div class="sheet-header-left">
+                    <p class="sheet-site">integr.mx</p>
+                    <p class="sheet-credential">
+                      Qualified Thermographer Category 1
+                    </p>
+                  </div>
+
+                  <div class="sheet-header-right">
+                    <div class="logo-capsule">
+                      <img id="previewLogo1" class="brand-logo brand-logo-preview" data-logo-variant="light"
+                        alt="Logo INTEGR" />
+                    </div>
+                  </div>
+                </header>
+
+                <div class="sheet-meta-line">
+                  <p class="sheet-meta-item">
+                    <span>Folio:</span>
+                    <strong id="previewQuoteNumber" class="previewQuoteNumber">INT-0000</strong>
+                  </p>
+                  <p class="sheet-meta-item">
+                    <span>Fecha:</span>
+                    <strong id="previewQuoteDate" class="previewQuoteDate">Pendiente</strong>
+                  </p>
+                </div>
+
+                <section class="sheet-client-panel">
+                  <div class="sheet-client-title">CLIENTE:</div>
+                  <div class="sheet-client-grid">
+                    <div class="sheet-client-row">
+                      <span>CONTACTO</span>
+                      <strong id="previewContactName">Pendiente</strong>
+                    </div>
+                    <div class="sheet-client-row">
+                      <span>EMPRESA</span>
+                      <strong id="previewClientCompany">No especificada</strong>
+                    </div>
+                    <div class="sheet-client-row">
+                      <span>CORREO</span>
+                      <strong id="previewClientEmail">No especificado</strong>
+                    </div>
+                    <div class="sheet-client-row sheet-client-row-full">
+                      <span>DIRECCIÓN</span>
+                      <strong id="previewClientAddress">Pendiente</strong>
+                    </div>
+                    <div class="sheet-client-row">
+                      <span>COTIZACIÓN</span>
+                      <strong id="previewClientQuoteName">Servicio pendiente</strong>
+                    </div>
+                    <div class="sheet-client-row">
+                      <span>VIGENCIA</span>
+                      <strong id="previewValidity">15 días</strong>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="sheet-catalog">
+                  <p class="sheet-section-title">CATÁLOGO DE CONCEPTOS</p>
+
+                  <table class="concept-table">
+                    <thead>
+                      <tr>
+                        <th>Código</th>
+                        <th>Cant.</th>
+                        <th>Producto</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                      </tr>
+                    </thead>
+                    <tbody id="previewConceptBody"></tbody>
+                  </table>
+                </section>
+              </div>
+
+              <footer class="sheet-footer">
+                <div class="sheet-footer-bar-accent"></div>
+                <div class="sheet-footer-bar"></div>
+                <div class="sheet-footer-content">
+                  <div class="sheet-footer-col">
+                    <p class="sheet-footer-name">SIXTO GALLEGOS RIVERA</p>
+                    <p class="sheet-footer-creds">Qualified Thermographer<br>Category 1 | ID # 250605<br>UVSEIE 769 - UI
+                    </p>
+                  </div>
+                  <div class="sheet-footer-col">
+                    <span class="contact-item">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="16" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="4" />
+                        <line x1="8" y1="2" x2="8" y2="4" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </svg>
+                      <span>GARS670612-632</span>
+                    </span>
+                    <span class="contact-item footer-addr">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                      <span>Saint Germain No. 1<br>Campos Eliseos<br>Sector 3, C.P. 32472</span>
+                    </span>
+                  </div>
+                  <div class="sheet-footer-col">
+                    <span class="contact-item">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                          d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </svg>
+                      <span>https://integr.mx</span>
+                    </span>
+                    <span class="contact-item">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                      </svg>
+                      <span>gallegosrivera@integr.mx</span>
+                    </span>
+                    <span class="contact-item">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                      </svg>
+                      <span>656 104 3738</span>
+                    </span>
+                  </div>
+                </div>
+              </footer>
+            </div>
+
+            <!-- HOJA 2: Resumen Económico, Firmas y Notas -->
+            <div class="sheet-page" id="sheetPage2">
+              <div class="sheet-top-ribbon"></div>
+              <div class="sheet-top-ribbon-light"></div>
+
+              <div class="sheet-page-content">
+                <header class="sheet-header">
+                  <div class="sheet-header-left">
+                    <p class="sheet-site">integr.mx</p>
+                    <p class="sheet-credential">
+                      Qualified Thermographer Category 1
+                    </p>
+                  </div>
+
+                  <div class="sheet-header-right">
+                    <div class="logo-capsule">
+                      <img id="previewLogo2" class="brand-logo brand-logo-preview" data-logo-variant="light"
+                        alt="Logo INTEGR" />
+                    </div>
+                  </div>
+                </header>
+
+                <div class="sheet-meta-line">
+                  <p class="sheet-meta-item">
+                    <span>Folio:</span>
+                    <strong class="previewQuoteNumber">INT-0000</strong>
+                  </p>
+                  <p class="sheet-meta-item">
+                    <span>Fecha:</span>
+                    <strong class="previewQuoteDate">Pendiente</strong>
+                  </p>
+                </div>
+
+                <section class="sheet-summary-section">
+                  <p class="sheet-section-title">RESUMEN ECONÓMICO Y CONDICIONES</p>
+
+                  <div class="sheet-summary">
+                    <div class="sheet-summary-main">
+                      <p class="amount-in-words-label">Total en letra</p>
+                      <p class="amount-in-words" id="previewAmountWords">
+                        CERO PESOS 00/100 M.N.
+                      </p>
+
+                      <div class="sheet-notes-box">
+                        <p class="sheet-notes-title">Notas y condiciones</p>
+                        <p id="previewNotes" class="notes-box">
+                          Sin notas adicionales.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="sheet-totals-box">
+                      <div class="sheet-total-row discount-row">
+                        <span>Descuento</span>
+                        <strong id="previewDiscount">$0.00</strong>
+                      </div>
+                      <div class="sheet-total-row">
+                        <span>Total sin IVA</span>
+                        <strong id="previewBeforeTax">$0.00</strong>
+                      </div>
+                      <div class="sheet-total-row">
+                        <span>IVA 16%</span>
+                        <strong id="previewTax">$0.00</strong>
+                      </div>
+                      <div class="sheet-total-row sheet-total-row-final">
+                        <span>Total final</span>
+                        <strong id="previewFinalTotal">$0.00</strong>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Elegante área de firmas -->
+                <div class="signature-block">
+                  <div class="signature-line-container">
+                    <p class="signature-greeting">Atentamente,</p>
+                    <div class="signature-img-wrapper">
+                      <img src="./firma_transparente.png" alt="Firma Sixto Gallegos" class="signature-img" />
+                    </div>
+                    <div class="signature-placeholder"></div>
+                    <p class="signature-name">SIXTO GALLEGOS RIVERA</p>
+                    <p class="signature-title">Ingeniero de Proyectos</p>
+                    <p class="signature-company">INTEGR Ingeniería y Tecnología</p>
+                  </div>
+                </div>
+              </div>
+
+              <footer class="sheet-footer">
+                <div class="sheet-footer-bar-accent"></div>
+                <div class="sheet-footer-bar"></div>
+                <div class="sheet-footer-content">
+                  <div class="sheet-footer-col">
+                    <p class="sheet-footer-name">SIXTO GALLEGOS RIVERA</p>
+                    <p class="sheet-footer-creds">Qualified Thermographer<br>Category 1 | ID # 250605<br>UVSEIE 769 - UI
+                    </p>
+                  </div>
+                  <div class="sheet-footer-col">
+                    <span class="contact-item">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="16" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="4" />
+                        <line x1="8" y1="2" x2="8" y2="4" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </svg>
+                      <span>GARS670612-632</span>
+                    </span>
+                    <span class="contact-item footer-addr">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                      <span>Saint Germain No. 1<br>Campos Eliseos<br>Sector 3, C.P. 32472</span>
+                    </span>
+                  </div>
+                  <div class="sheet-footer-col">
+                    <span class="contact-item">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                          d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </svg>
+                      <span>https://integr.mx</span>
+                    </span>
+                    <span class="contact-item">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                      </svg>
+                      <span>gallegosrivera@integr.mx</span>
+                    </span>
+                    <span class="contact-item">
+                      <svg class="footer-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                          d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                      </svg>
+                      <span>656 104 3738</span>
+                    </span>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </article>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="./vendor/jspdf.umd.min.js"></script>
+  <script src="./vendor/jspdf.plugin.autotable.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+
+</html>
