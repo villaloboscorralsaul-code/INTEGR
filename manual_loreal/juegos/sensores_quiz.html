@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico de Sensores — L'Oréal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0a0a0a;
+      --gold: #C8A96E;
+      --green: #2ecc71;
+      --font-ui: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-main);
+      color: #fff;
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 15px; }
+    .brand img { height: 40px; filter: invert(1); }
+    h1 { font-size: 1.2rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+    .back-btn { color: #888; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+    .back-btn:hover { color: var(--gold); }
+
+    .game-container {
+      padding: 40px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .instructions {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #ccc;
+    }
+
+    /* ── SCENE ── */
+    .plant-diagram {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      width: 100%;
+      margin-bottom: 50px;
+    }
+
+    .process-card {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .process-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+    }
+
+    .process-title { font-weight: 600; margin-bottom: 5px; color: var(--gold); }
+    .process-desc { font-size: 0.8rem; color: #888; margin-bottom: 20px; }
+
+    /* Drop Zone */
+    .drop-zone {
+      width: 100%;
+      height: 80px;
+      background: rgba(255,255,255,0.02);
+      border: 2px dashed #444;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .drop-zone.dragover {
+      background: rgba(200, 169, 110, 0.1);
+      border-color: var(--gold);
+    }
+    .drop-zone.correct {
+      border: 2px solid var(--green);
+      background: rgba(46, 204, 113, 0.1);
+    }
+
+    /* ── INVENTORY ── */
+    .inventory {
+      background: #161616;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .sensor-item {
+      background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 15px;
+      cursor: grab;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 140px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .sensor-item:active { cursor: grabbing; }
+    .sensor-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); border-color: var(--gold); }
+
+    .sensor-item .s-icon { font-size: 2rem; margin-bottom: 10px; }
+    .sensor-item .s-name { font-size: 0.85rem; font-weight: 600; text-align: center; }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      border: 1px solid var(--gold);
+      padding: 40px;
+      border-radius: 12px;
+      z-index: 100;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+    }
+    .modal h2 { color: var(--gold); margin-bottom: 20px; font-size: 1.8rem; }
+    .modal p { color: #ccc; margin-bottom: 30px; }
+    .btn { background: var(--gold); color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    .shake { animation: shake 0.4s; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <img src="../img/image.png" alt="L'Oréal" />
+      <h1>Diagnóstico de Sensores</h1>
+    </div>
+    <a href="../index.html" class="back-btn">← Volver al Manual</a>
+  </header>
+
+  <div class="game-container">
+    <div class="instructions">
+      <p>Arrastra el instrumento correcto desde el inventario hacia el proceso industrial correspondiente.</p>
+    </div>
+
+    <!-- Escena -->
+    <div class="plant-diagram">
+      
+      <div class="process-card">
+        <div class="process-icon">🌡️</div>
+        <div class="process-title">Horno de Secado</div>
+        <div class="process-desc">Requiere medición precisa de temperatura de contacto hasta 250°C.</div>
+        <div class="drop-zone" data-accept="pt100">Soltar sensor aquí</div>
+      </div>
+
+      <div class="process-card">
+        <div class="process-icon">📦</div>
+        <div class="process-title">Banda Empacadora</div>
+        <div class="process-desc">Detectar cajas de cartón pasando rápidamente (sin contacto).</div>
+        <div class="drop-zone" data-accept="fotoelectrico">Soltar sensor aquí</div>
+      </div>
+
+      <div class="process-card">
+        <div class="process-icon">⚙️</div>
+        <div class="process-title">Eje de Motor Principal</div>
+        <div class="process-desc">Medición de RPM exactas y sentido de giro.</div>
+        <div class="drop-zone" data-accept="encoder">Soltar sensor aquí</div>
+      </div>
+
+      <div class="process-card">
+        <div class="process-icon">🧪</div>
+        <div class="process-title">Tanque de Ácido</div>
+        <div class="process-desc">Medición continua de nivel de líquido corrosivo (sin inmersión).</div>
+        <div class="drop-zone" data-accept="ultrasonico">Soltar sensor aquí</div>
+      </div>
+
+    </div>
+
+    <!-- Inventario -->
+    <div class="inventory" id="inventory">
+      <div class="sensor-item" draggable="true" data-type="encoder" id="s1">
+        <div class="s-icon">💿</div>
+        <div class="s-name">Encoder Incremental</div>
+      </div>
+      <div class="sensor-item" draggable="true" data-type="fotoelectrico" id="s2">
+        <div class="s-icon">👁️</div>
+        <div class="s-name">Fotoeléctrico (Barrera)</div>
+      </div>
+      <div class="sensor-item" draggable="true" data-type="pt100" id="s3">
+        <div class="s-icon">📍</div>
+        <div class="s-name">RTD PT100</div>
+      </div>
+      <div class="sensor-item" draggable="true" data-type="ultrasonico" id="s4">
+        <div class="s-icon">📡</div>
+        <div class="s-name">Sensor Ultrasónico</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="win-modal">
+    <h2>¡Excelente Diagnóstico!</h2>
+    <p>Has seleccionado correctamente toda la instrumentación para la planta.<br>Una especificación correcta asegura la confiabilidad del sistema de control.</p>
+    <button class="btn" onclick="location.reload()">Reiniciar</button>
+  </div>
+
+  <script>
+    const sensors = document.querySelectorAll('.sensor-item');
+    const dropZones = document.querySelectorAll('.drop-zone');
+    let correctCount = 0;
+
+    // Drag events para los sensores
+    sensors.forEach(sensor => {
+      sensor.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', sensor.dataset.type);
+        e.dataTransfer.setData('id', sensor.id);
+        sensor.style.opacity = '0.5';
+      });
+
+      sensor.addEventListener('dragend', () => {
+        sensor.style.opacity = '1';
+      });
+    });
+
+    // Drop events para las zonas
+    dropZones.forEach(zone => {
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault(); // Necesario para permitir el drop
+        if (!zone.classList.contains('correct')) {
+          zone.classList.add('dragover');
+        }
+      });
+
+      zone.addEventListener('dragleave', () => {
+        zone.classList.remove('dragover');
+      });
+
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('dragover');
+        
+        if (zone.classList.contains('correct')) return;
+
+        const draggedType = e.dataTransfer.getData('text/plain');
+        const draggedId = e.dataTransfer.getData('id');
+        const acceptType = zone.dataset.accept;
+
+        if (draggedType === acceptType) {
+          // Correcto
+          zone.classList.add('correct');
+          const sensorEl = document.getElementById(draggedId);
+          // Mover visualmente el contenido
+          zone.innerHTML = '';
+          zone.appendChild(sensorEl);
+          sensorEl.setAttribute('draggable', 'false');
+          sensorEl.style.width = '100%';
+          sensorEl.style.height = '100%';
+          sensorEl.style.boxShadow = 'none';
+          sensorEl.style.border = 'none';
+          sensorEl.style.background = 'transparent';
+          sensorEl.style.cursor = 'default';
+
+          correctCount++;
+          if (correctCount === 4) {
+            setTimeout(() => {
+              document.getElementById('win-modal').style.display = 'block';
+            }, 500);
+          }
+        } else {
+          // Incorrecto
+          zone.classList.add('shake');
+          setTimeout(() => zone.classList.remove('shake'), 400);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

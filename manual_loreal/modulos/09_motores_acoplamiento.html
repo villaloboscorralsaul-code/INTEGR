@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 9 — Motores Eléctricos y Sistemas de Acoplamiento | Manual L'Oréal</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Module-level overrides to work with the dark base theme */
+    body { background: #0F1015; color: #E0E0E0; }
+
+    .site-header {
+      background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+      border-bottom: 2px solid #C9A84C;
+      height: 70px; display: flex; align-items: center;
+      padding: 0 1.5rem; gap: 1.25rem;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .site-header .logo { height: 44px; width: auto; }
+    .header-divider { width: 2px; height: 36px; background: #C9A84C; border-radius: 2px; }
+    .header-text h1 { font-size: 1.05rem; font-weight: 700; color: #E8C96A; }
+    .header-text p  { font-size: .75rem; color: rgba(255,255,255,.5); }
+
+    .layout { display: flex; min-height: calc(100vh - 70px); }
+
+    /* Sidebar */
+    .sidebar {
+      width: 275px; background: #1A1A1A; flex-shrink: 0;
+      overflow-y: auto; position: sticky; top: 70px;
+      height: calc(100vh - 70px); padding-bottom: 2rem;
+      border-right: 1px solid #2A2A2A;
+    }
+    .sidebar-label {
+      font-size: .62rem; font-weight: 700; letter-spacing: 1.6px;
+      text-transform: uppercase; color: rgba(255,255,255,.3);
+      padding: 1.4rem 1.2rem .4rem;
+    }
+    .sidebar nav ul { list-style: none; padding: 0; }
+    .sidebar nav ul li a {
+      display: flex; align-items: center; gap: .6rem;
+      padding: .52rem 1.2rem; font-size: .81rem;
+      color: rgba(255,255,255,.65); text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: background .18s, color .18s, border-color .18s;
+      line-height: 1.35;
+    }
+    .sidebar nav ul li a:hover { background: #2A2A2A; color: #fff; border-left-color: #C9A84C; }
+    .sidebar nav ul li a.active { background: rgba(201,168,76,.15); color: #E8C96A; border-left-color: #C9A84C; font-weight: 600; }
+    .sidebar nav ul li a .num { font-size: .68rem; font-weight: 700; color: #C9A84C; min-width: 1.4rem; }
+
+    /* Main */
+    .main-content { flex: 1; padding: 2rem 2.5rem 4rem; max-width: 1060px; }
+
+    /* Hero */
+    .module-hero {
+      background: linear-gradient(135deg, #1A1A2E 0%, #8B0000 100%);
+      border-radius: 14px; padding: 2.5rem; margin-bottom: 2.5rem;
+      position: relative; overflow: hidden;
+    }
+    .module-hero::after {
+      content: ''; position: absolute; right: -60px; top: -60px;
+      width: 220px; height: 220px; background: rgba(255,255,255,.04); border-radius: 50%;
+    }
+    .module-hero .mod-num { font-size: .72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #E8C96A; margin-bottom: .5rem; }
+    .module-hero h2 { font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: .75rem; }
+    .module-hero p { font-size: .93rem; color: rgba(255,255,255,.7); max-width: 660px; }
+
+    /* Section card */
+    .section {
+      background: #1E1E1E; border: 1px solid #2A2A2A; border-radius: 12px;
+      padding: 2rem 2.25rem; margin-bottom: 1.75rem;
+    }
+    .section-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #2A2A2A; }
+    .sec-num { background: #8B0000; color: #fff; font-size: .72rem; font-weight: 700; padding: .28rem .62rem; border-radius: 5px; flex-shrink: 0; margin-top: .15rem; }
+    .section-header h3 { font-size: 1.15rem; font-weight: 700; color: #E8C96A; line-height: 1.3; }
+
+    h4 { font-size: .98rem; font-weight: 700; color: #E8C96A; margin: 1.4rem 0 .6rem; }
+    h5 { font-size: .88rem; font-weight: 700; color: #90CAF9; margin: 1rem 0 .4rem; text-transform: uppercase; letter-spacing: .5px; }
+    p  { font-size: .91rem; color: #CCC; line-height: 1.65; margin-bottom: .8rem; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: #E8C96A; }
+    ul, ol { padding-left: 1.5rem; margin-bottom: .85rem; }
+    ul li, ol li { font-size: .91rem; color: #CCC; margin-bottom: .3rem; }
+    ul li::marker { color: #C9A84C; }
+    ol li::marker { color: #C9A84C; font-weight: 700; }
+
+    /* Table */
+    .table-wrapper { overflow-x: auto; margin: 1.1rem 0; border-radius: 8px; border: 1px solid #2A2A2A; }
+    table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    thead tr { background: linear-gradient(135deg, #1A1A2E, #2A2A4E); }
+    thead th { padding: .7rem 1rem; text-align: left; font-weight: 700; font-size: .76rem; letter-spacing: .5px; color: #E8C96A; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid #2A2A2A; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: #252525; }
+    tbody tr:hover { background: #2A2A3A; }
+    tbody td { padding: .58rem 1rem; color: #CCC; vertical-align: top; }
+    tbody td strong { color: #E8C96A; }
+
+    /* Formula */
+    .formula-block {
+      background: linear-gradient(135deg, #0D0D1A, #1A1A35);
+      border-left: 4px solid #C9A84C;
+      border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1.1rem 0;
+      font-family: 'Roboto Mono', monospace; font-size: .93rem;
+      color: #D4AAFF; line-height: 1.85;
+    }
+    .formula-block .ftitle { font-family: 'Inter', sans-serif; font-size: .68rem; text-transform: uppercase; letter-spacing: 1.5px; color: #C9A84C; margin-bottom: .5rem; display: block; font-weight: 700; }
+    .formula-block .var { color: #93C5FD; font-style: italic; }
+    .formula-block .unit { color: #6EE7B7; font-size: .81rem; }
+    .formula-block .eq { color: #FCD34D; }
+
+    /* Callouts */
+    .callout { border-radius: 8px; padding: .9rem 1.2rem; margin: 1rem 0; border-left: 4px solid; font-size: .89rem; }
+    .callout p { font-size: .89rem; margin-bottom: 0; }
+    .callout .ctitle { font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .35rem; display: block; }
+    .ci { background: rgba(33,150,243,.12); border-color: #2196F3; color: #90CAF9; }
+    .cw { background: rgba(255,152,0,.12); border-color: #FF9800; color: #FFCC80; }
+    .cd { background: rgba(244,67,54,.12); border-color: #F44336; color: #EF9A9A; }
+    .cs { background: rgba(76,175,80,.12); border-color: #4CAF50; color: #A5D6A7; }
+    .cf { background: rgba(156,39,176,.12); border-color: #9C27B0; color: #CE93D8; }
+
+    /* Procedure */
+    .procedure { counter-reset: step; list-style: none; padding: 0; }
+    .procedure li { counter-increment: step; display: flex; gap: .9rem; align-items: flex-start; padding: .65rem 0; border-bottom: 1px dashed #2A2A2A; font-size: .9rem; color: #CCC; }
+    .procedure li:last-child { border-bottom: none; }
+    .procedure li::before { content: counter(step); background: #8B0000; color: #fff; font-size: .73rem; font-weight: 700; min-width: 1.75rem; height: 1.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    /* Cards grid */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(215px,1fr)); gap: 1rem; margin: 1rem 0; }
+    .card { background: #252525; border: 1px solid #2A2A2A; border-radius: 8px; padding: 1.1rem 1.2rem; border-top: 3px solid #C9A84C; }
+    .card h5 { margin-top: 0; color: #E8C96A; font-size: .8rem; }
+    .card p  { font-size: .81rem; color: #AAA; margin-bottom: 0; }
+
+    /* Two col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 1rem 0; }
+    @media (max-width: 680px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* Eval */
+    .eval-section { background: linear-gradient(135deg, #111120, #1A1A3A); border-radius: 12px; padding: 2rem 2.25rem; margin-bottom: 1.75rem; }
+    .eval-section h3 { color: #E8C96A; font-size: 1.12rem; margin-bottom: 1.5rem; }
+    .question { background: rgba(255,255,255,.05); border-radius: 8px; padding: .95rem 1.2rem; margin-bottom: .85rem; border-left: 3px solid #C9A84C; }
+    .question .qtext { color: rgba(255,255,255,.9); font-size: .89rem; font-weight: 600; margin-bottom: .45rem; }
+    .question .opts { list-style: none; padding: 0; }
+    .question .opts li { font-size: .84rem; color: rgba(255,255,255,.6); padding: .18rem 0; margin: 0; }
+    .question .opts li.correct { color: #81C784; font-weight: 600; }
+    .question .opts li.correct::before { content: '✓ '; }
+
+    /* Glossary */
+    .glosario-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: .8rem; margin: 1rem 0; }
+    .gterm { background: #252525; border: 1px solid #2A2A2A; border-radius: 8px; padding: .8rem 1rem; }
+    .gterm dt { font-weight: 700; font-size: .84rem; color: #C9A84C; margin-bottom: .22rem; }
+    .gterm dd { font-size: .81rem; color: #AAA; margin: 0; }
+
+    /* Footer */
+    .site-footer { background: #111; color: rgba(255,255,255,.4); text-align: center; padding: 1.2rem; font-size: .76rem; border-top: 1px solid #2A2A2A; }
+
+    /* Sidebar scrollbar */
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(201,168,76,.3); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <img src="../img/image.png" alt="L'Oréal" class="logo">
+  <div class="header-divider"></div>
+  <div class="header-text">
+    <h1>Manual de Mantenimiento Industrial</h1>
+    <p>Planta L'Oréal — Formación Técnica Continua</p>
+  </div>
+</header>
+
+<div class="layout">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-label">Módulos del Manual</div>
+  <nav>
+    <ul>
+      <li><a href="01_seguridad.html"><span class="num">01</span>Seguridad Industrial</a></li>
+      <li><a href="02_electricidad_basica.html"><span class="num">02</span>Electricidad Básica</a></li>
+      <li><a href="03_circuitos_control.html"><span class="num">03</span>Circuitos de Control</a></li>
+      <li><a href="04_medicion.html"><span class="num">04</span>Medición Eléctrica</a></li>
+      <li><a href="05_protecciones.html"><span class="num">05</span>Protecciones Eléctricas</a></li>
+      <li><a href="06_instalaciones.html"><span class="num">06</span>Instalaciones Eléctricas</a></li>
+      <li><a href="07_mantenimiento_prev.html"><span class="num">07</span>Mantenimiento Preventivo</a></li>
+      <li><a href="08_hidraulica_neumatica.html"><span class="num">08</span>Hidráulica y Neumática</a></li>
+      <li><a href="09_motores_acoplamiento.html" class="active"><span class="num">09</span>Motores y Acoplamientos</a></li>
+      <li><a href="10_lubricacion_vibracion.html"><span class="num">10</span>Lubricación y Vibraciones</a></li>
+      <li><a href="11_electronica_industrial.html"><span class="num">11</span>Electrónica Industrial</a></li>
+      <li><a href="12_instrumentacion.html"><span class="num">12</span>Instrumentación Industrial</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-label">Juegos y Evaluaciones</div>
+  <nav>
+    <ul>
+      <li><a href="../juegos/index.html"><span class="num">▶</span>Centro de Juegos</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════════════════════ -->
+<main class="main-content">
+
+  <!-- HERO -->
+  <div class="module-hero">
+    <div class="mod-num">Módulo 09</div>
+    <h2>Motores Eléctricos y Sistemas de Acoplamiento</h2>
+    <p>Fundamentos de motores de inducción, tipos de arranque, acoplamientos mecánicos, transmisiones por correa y cadena, reductores, bombas, ventiladores y transportadoras aplicados a la planta L'Oréal.</p>
+  </div>
+
+  <!-- ═══ 9.1 MOTOR DE INDUCCIÓN TRIFÁSICO ═══ -->
+  <div class="section" id="s91">
+    <div class="section-header">
+      <span class="sec-num">9.1</span>
+      <h3>Motor de Inducción Trifásico: Principio, Partes y Placa de Datos</h3>
+    </div>
+
+    <h4>Campo Giratorio y Principio de Inducción</h4>
+    <p>El motor de inducción trifásico es la máquina eléctrica más utilizada en la industria, representando aproximadamente el <strong>70% del consumo industrial de energía eléctrica</strong>. Su principio de funcionamiento se basa en la ley de Faraday: cuando tres bobinas desfasadas 120° eléctricamente (estátor) son alimentadas con corriente alterna trifásica, generan un <strong>campo magnético giratorio</strong> cuya velocidad de sincronismo es:</p>
+
+    <div class="formula-block">
+      <span class="ftitle">Velocidad sincrónica</span>
+      <span class="var">n<sub>s</sub></span> <span class="eq">=</span> (120 × <span class="var">f</span>) / <span class="var">p</span>
+      <br>
+      Donde: <span class="var">f</span> = frecuencia <span class="unit">[Hz]</span> | <span class="var">p</span> = número de polos
+      <br><br>
+      Ejemplo: f=60Hz, p=4 → n<sub>s</sub> = (120×60)/4 = <strong>1800 RPM</strong>
+      <br>
+      Ejemplo: f=60Hz, p=6 → n<sub>s</sub> = (120×60)/6 = <strong>1200 RPM</strong>
+    </div>
+
+    <p>El rotor (jaula de ardilla) tiene barras conductoras corto-circuitadas. El campo giratorio induce corriente en esas barras y éstas, al estar dentro del campo, experimentan una fuerza (torque) que los hace girar. El rotor <strong>nunca alcanza la velocidad sincrónica</strong>; siempre gira más lento, fenómeno llamado <em>deslizamiento</em>.</p>
+
+    <div class="formula-block">
+      <span class="ftitle">Deslizamiento (Slip)</span>
+      <span class="var">s</span> <span class="eq">=</span> (<span class="var">n<sub>s</sub></span> − <span class="var">n<sub>r</sub></span>) / <span class="var">n<sub>s</sub></span> × 100%
+      <br>
+      Donde: <span class="var">n<sub>r</sub></span> = velocidad real del rotor <span class="unit">[RPM]</span>
+      <br><br>
+      Rango típico a plena carga: <strong>2% a 8%</strong>
+      <br>
+      Motor 1800 RPM síncronas → velocidad nominal ~1750 RPM → s = (1800−1750)/1800 = 2.78%
+    </div>
+
+    <h4>Partes del Motor de Inducción</h4>
+    <div class="card-grid">
+      <div class="card">
+        <h5>Estátor</h5>
+        <p>Núcleo de láminas de acero al silicio, ranuras con bobinado de cobre distribuido en 3 fases. Genera el campo giratorio. La clase de aislamiento determina la temperatura máxima del bobinado.</p>
+      </div>
+      <div class="card">
+        <h5>Rotor Jaula de Ardilla</h5>
+        <p>Barras de aluminio o cobre fundido en ranuras del núcleo, conectadas por anillos de cortocircuito. Más del 90% de los motores industriales son de este tipo. Mantenimiento mínimo.</p>
+      </div>
+      <div class="card">
+        <h5>Rotor Bobinado</h5>
+        <p>Bobinas de cobre accesibles mediante anillos rozantes. Permite insertar resistencias externas para control de arranque y par. Usado en equipos de elevación pesada y molinos.</p>
+      </div>
+      <div class="card">
+        <h5>Carcasa y Ventilación</h5>
+        <p>Fundición de aluminio (hasta 75kW) o hierro fundido. Clasificación IP: IP54 (polvo limitado, salpicadura), IP55, IP65 (a prueba de polvo y chorro). Ventilador externo en eje trasero.</p>
+      </div>
+      <div class="card">
+        <h5>Cojinetes (Rodamientos)</h5>
+        <p>Rodamientos de bolas o rodillos. Lado accionamiento (DE) soporta cargas radiales y axiales. Lado libre (NDE) solo radial. Lubricación semestral o según fabricante.</p>
+      </div>
+      <div class="card">
+        <h5>Caja de Bornes</h5>
+        <p>6 bornes para conexión estrella o delta. Bornes marcados: U1,U2,V1,V2,W1,W2. Bornera de tierra obligatoria. IP igual o superior al motor.</p>
+      </div>
+    </div>
+
+    <h4>Placa de Datos — Cómo Leerla</h4>
+    <div class="callout ci">
+      <span class="ctitle">Dato crítico en planta L'Oréal</span>
+      <p>Antes de realizar cualquier trabajo en un motor, fotografíe y registre TODOS los datos de la placa. Son la referencia absoluta para seleccionar protecciones, variadores, capacitores y repuestos.</p>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Dato en Placa</th><th>Significado</th><th>Ejemplo Típico</th><th>Uso en Mantenimiento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Potencia (HP / kW)</strong></td><td>Potencia mecánica nominal en eje</td><td>15 HP / 11.2 kW</td><td>Selección de protección termomagnética</td></tr>
+          <tr><td><strong>Voltaje (V)</strong></td><td>Tensión de alimentación nominal</td><td>220/440 V</td><td>Definir conexión Δ (220V) o Y (440V)</td></tr>
+          <tr><td><strong>Corriente (A)</strong></td><td>Corriente nominal a plena carga (FLA)</td><td>42/21 A</td><td>Ajuste del relé térmico: 1.0–1.1 × I<sub>n</sub></td></tr>
+          <tr><td><strong>RPM</strong></td><td>Velocidad nominal (a plena carga)</td><td>1750 RPM</td><td>Cálculo de relaciones de transmisión</td></tr>
+          <tr><td><strong>Hz</strong></td><td>Frecuencia de red</td><td>60 Hz</td><td>Parámetro frecuencia base en VFD</td></tr>
+          <tr><td><strong>Factor de Potencia (FP / PF / cos φ)</strong></td><td>Relación potencia activa/aparente</td><td>0.86</td><td>Cálculo de corriente real y banco de capacitores</td></tr>
+          <tr><td><strong>Eficiencia (η)</strong></td><td>Potencia mecánica / eléctrica × 100%</td><td>91.7%</td><td>Consumo energético real = kW / η</td></tr>
+          <tr><td><strong>Clase de Aislamiento</strong></td><td>Temperatura máxima del bobinado</td><td>Clase F (155°C)</td><td>Determina vida útil y condiciones de operación</td></tr>
+          <tr><td><strong>Servicio</strong></td><td>Ciclo de trabajo</td><td>S1 (continuo)</td><td>S3 = servicio periódico, ED% definido</td></tr>
+          <tr><td><strong>IP (Índice de Protección)</strong></td><td>Grado de protección mecánica</td><td>IP55</td><td>Verificar compatibilidad con el área</td></tr>
+          <tr><td><strong>NEMA / IEC</strong></td><td>Norma de diseño</td><td>NEMA 213T / IEC 132M</td><td>Compatibilidad de brida y eje</td></tr>
+          <tr><td><strong>SF (Service Factor)</strong></td><td>Sobrecarga continua permitida</td><td>1.15</td><td>Motor 10HP con SF=1.15 puede operar a 11.5HP</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="formula-block">
+      <span class="ftitle">Cálculos de placa — relaciones clave</span>
+      Potencia eléctrica consumida: <span class="var">P<sub>elec</sub></span> <span class="eq">=</span> √3 × <span class="var">V<sub>L</sub></span> × <span class="var">I<sub>L</sub></span> × cos φ  <span class="unit">[W]</span>
+      <br>
+      Potencia mecánica en eje:     <span class="var">P<sub>mec</sub></span>  <span class="eq">=</span> <span class="var">P<sub>elec</sub></span> × η
+      <br>
+      Par nominal: <span class="var">T<sub>n</sub></span> <span class="eq">=</span> (9550 × <span class="var">P<sub>kW</sub></span>) / <span class="var">n<sub>RPM</sub></span>  <span class="unit">[N·m]</span>
+      <br><br>
+      Ejemplo: P=11.2kW, n=1750RPM → T<sub>n</sub> = (9550×11.2)/1750 = <strong>61.1 N·m</strong>
+    </div>
+
+    <h4>Clases de Aislamiento</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Clase</th><th>Temp. Máxima Bobinado</th><th>Elevación Máx. (amb. 40°C)</th><th>Aplicación</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A</strong></td><td>105°C</td><td>60°C</td><td>Motores pequeños, obsoleto en industrial</td></tr>
+          <tr><td><strong>B</strong></td><td>130°C</td><td>80°C</td><td>Estándar antiguo</td></tr>
+          <tr><td><strong>F</strong></td><td>155°C</td><td>105°C</td><td>Estándar industrial actual (más común)</td></tr>
+          <tr><td><strong>H</strong></td><td>180°C</td><td>125°C</td><td>Servicio severo, arrancadores frecuentes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout cw">
+      <span class="ctitle">Regla de los 10°C</span>
+      <p>Por cada 10°C que exceda la temperatura de diseño del aislamiento, la vida útil del bobinado se reduce a la <strong>mitad</strong>. Un motor clase F operando a 175°C en lugar de 155°C tiene la mitad de vida esperada.</p>
+    </div>
+  </div>
+
+  <!-- ═══ 9.2 TIPOS DE MOTORES ═══ -->
+  <div class="section" id="s92">
+    <div class="section-header">
+      <span class="sec-num">9.2</span>
+      <h3>Tipos de Motores Eléctricos — Aplicaciones en Planta L'Oréal</h3>
+    </div>
+
+    <h4>Motor de Inducción Trifásico (3Ø)</h4>
+    <p>Es el motor más común en planta. <strong>Ventajas:</strong> robusto, bajo mantenimiento, par de arranque moderado, disponible de ¼ HP a miles de HP, eficiencia IE3/IE4 disponible. <strong>Aplicaciones L'Oréal:</strong> bombas de proceso, mezcladores, transportadoras, HVAC, compresores.</p>
+
+    <h4>Motores Monofásicos</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Tipo</th><th>Principio</th><th>Arranque</th><th>Aplicación Planta</th><th>Rango</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Capacitor de arranque</strong></td><td>Fase desplazada por capacitor en serie con bobina auxiliar; se desconecta al ~75% velocidad</td><td>Par alto 150–200% T<sub>n</sub></td><td>Compresores pequeños, bombas 1Ø</td><td>1/3–10 HP</td></tr>
+          <tr><td><strong>Capacitor permanente (PSC)</strong></td><td>Capacitor siempre conectado a bobina auxiliar</td><td>Par moderado 30–80% T<sub>n</sub></td><td>Ventiladores HVAC, extractores</td><td>1/40–5 HP</td></tr>
+          <tr><td><strong>Arranque por resistencia (split-phase)</strong></td><td>Bobina auxiliar de alta resistencia</td><td>Par bajo, alta corriente</td><td>Electrodomésticos industriales pequeños</td><td>≤1/2 HP</td></tr>
+          <tr><td><strong>Universal</strong></td><td>En serie DC/AC, colector + escobillas</td><td>Auto, muy alto par</td><td>Herramientas portátiles, mezcladoras</td><td>Fraccional</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Motores Brushless DC (BLDC)</h4>
+    <p>Motor de corriente directa sin escobillas. Utiliza imanes permanentes en el rotor y bobinado en el estátor. Requiere <strong>controlador electrónico (ESC/drive)</strong> para conmutar las fases según posición del rotor (sensor Hall o encoders). Características: eficiencia 90-96%, velocidad variable, vida útil larga, bajo mantenimiento. <strong>Aplicación L'Oréal:</strong> bombas de dosificación de precisión, agitadores de laboratorio, servo de empaque.</p>
+
+    <h4>Servomotores</h4>
+    <p>Motores (generalmente brushless o paso a paso) con <strong>control preciso de posición, velocidad y par</strong> mediante realimentación de encoder o resolver. Se utilizan con servo-drives que cierran la laza de control. Características clave: respuesta dinámica alta, baja inercia, par constante hasta velocidad base. <strong>Aplicación L'Oréal:</strong> eje de dosificación en líneas de llenado, posicionamiento de cabezales tapadores, control de tensión de banda en empaque.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Característica</th><th>Motor Inducción 3Ø</th><th>BLDC</th><th>Servomotor</th><th>Motor Paso (Stepper)</th></tr></thead>
+        <tbody>
+          <tr><td>Control velocidad</td><td>VFD necesario</td><td>ESC/Drive</td><td>Servo-drive</td><td>Controlador de pasos</td></tr>
+          <tr><td>Control posición</td><td>No nativo</td><td>Con encoder</td><td>Excelente (&lt;0.1°)</td><td>Bueno (sin encoder)</td></tr>
+          <tr><td>Par a baja vel.</td><td>Bajo</td><td>Alto</td><td>Constante hasta vel. base</td><td>Alto (sin carga alta)</td></tr>
+          <tr><td>Mantenimiento</td><td>Muy bajo</td><td>Bajo</td><td>Bajo-medio</td><td>Bajo</td></tr>
+          <tr><td>Costo</td><td>Bajo</td><td>Medio</td><td>Alto</td><td>Medio</td></tr>
+          <tr><td>Eficiencia</td><td>85-93%</td><td>90-96%</td><td>88-95%</td><td>60-70%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ 9.3 CURVA PAR-VELOCIDAD ═══ -->
+  <div class="section" id="s93">
+    <div class="section-header">
+      <span class="sec-num">9.3</span>
+      <h3>Curva Par-Velocidad del Motor — Relación con VFD</h3>
+    </div>
+
+    <p>La curva par-velocidad (T-n) del motor de inducción describe el par electromagnético disponible en función de la velocidad del rotor. Es fundamental para seleccionar el sistema de arranque y el variador adecuado.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Punto en la Curva</th><th>Velocidad</th><th>Par Típico (% T<sub>n</sub>)</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Par de arranque (T<sub>st</sub>)</strong></td><td>0 RPM (rotor parado)</td><td>150–200%</td><td>Par disponible al energizar desde cero. Determina si el motor puede arrancar con la carga.</td></tr>
+          <tr><td><strong>Par de aceleración (T<sub>acc</sub>)</strong></td><td>0 → ~70% n<sub>s</sub></td><td>150–250%</td><td>Zona de aceleración; el motor aumenta velocidad si T<sub>motor</sub> &gt; T<sub>carga</sub></td></tr>
+          <tr><td><strong>Par de colapso / máximo (T<sub>max</sub>)</strong></td><td>~70-80% n<sub>s</sub></td><td>200–350%</td><td>Punto de inestabilidad. Si la carga supera T<sub>max</sub>, el motor se detiene (stall).</td></tr>
+          <tr><td><strong>Par nominal (T<sub>n</sub>)</strong></td><td>~94-98% n<sub>s</sub></td><td>100%</td><td>Punto de operación nominal. Slip nominal 2-8%.</td></tr>
+          <tr><td><strong>Par en vacío (T<sub>0</sub>)</strong></td><td>~100% n<sub>s</sub></td><td>~1-3%</td><td>Solo vence pérdidas mecánicas (fricción, ventilador).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Implicaciones para VFD</h4>
+    <p>Al utilizar un <strong>VFD (Variador de Frecuencia)</strong>, el motor opera sobre curvas T-n paralelas a diferentes frecuencias. En modo <strong>V/Hz constante</strong>, el par máximo se mantiene aproximadamente constante desde 0 hasta la frecuencia base (60 Hz). Por encima de la frecuencia base se opera en <em>debilitamiento de campo</em> (field weakening): el par disponible decrece pero la potencia se mantiene constante.</p>
+
+    <div class="callout ci">
+      <span class="ctitle">Regla práctica V/Hz</span>
+      <p>Para mantener par constante: el VFD debe ajustar el voltaje proporcionalmente a la frecuencia. A 30 Hz → 220V; a 60 Hz → 440V (para motor 440V). Si el voltaje es insuficiente, el flujo cae y el par máximo se reduce.</p>
+    </div>
+
+    <div class="formula-block">
+      <span class="ftitle">Par en función de deslizamiento (aproximación)</span>
+      <span class="var">T</span> <span class="eq">≈</span> (3 × <span class="var">V<sub>1</sub></span>² × <span class="var">R<sub>2</sub></span> / <span class="var">s</span>) / (ω<sub>s</sub> × [(<span class="var">R<sub>1</sub></span> + <span class="var">R<sub>2</sub></span>/<span class="var">s</span>)² + (<span class="var">X<sub>1</sub></span>+<span class="var">X<sub>2</sub></span>)²])
+      <br><br>
+      Para deslizamientos pequeños (zona estable): <span class="var">T</span> <span class="eq">≈</span> K × <span class="var">V<sub>1</sub></span>² × <span class="var">s</span>
+      <br>
+      → El par es proporcional al cuadrado del voltaje: reducir V al 80% → T cae al 64%
+    </div>
+  </div>
+
+  <!-- ═══ 9.4 SISTEMAS DE ARRANQUE ═══ -->
+  <div class="section" id="s94">
+    <div class="section-header">
+      <span class="sec-num">9.4</span>
+      <h3>Sistemas de Arranque de Motores — Comparativa Completa</h3>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Método</th><th>Corriente de Arranque (I<sub>n</sub> múltiple)</th><th>Par de Arranque</th><th>Suavidad</th><th>Costo Relativo</th><th>Aplicación Típica L'Oréal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Arranque Directo (DOL)</strong></td>
+            <td>5 – 8 × I<sub>n</sub></td>
+            <td>150–200% T<sub>n</sub></td>
+            <td>Nulo — golpe mecánico fuerte</td>
+            <td>$ (más barato)</td>
+            <td>Bombas &lt;5HP, ventiladores pequeños sin carga</td>
+          </tr>
+          <tr>
+            <td><strong>Estrella-Delta (Y-Δ)</strong></td>
+            <td>1.5 – 2.5 × I<sub>n</sub></td>
+            <td>33% T<sub>n</sub> (en Y)</td>
+            <td>Moderada — transición Y→Δ genera pico</td>
+            <td>$$ </td>
+            <td>Compresores de aire 15-75HP, bombas de agua</td>
+          </tr>
+          <tr>
+            <td><strong>Arrancador Suave (Soft-Starter)</strong></td>
+            <td>2 – 4 × I<sub>n</sub> (ajustable)</td>
+            <td>30–80% T<sub>n</sub> (ajustable)</td>
+            <td>Excelente — rampa configurable</td>
+            <td>$$$ </td>
+            <td>Bombas centrífugas de proceso, mezcladores, bandas</td>
+          </tr>
+          <tr>
+            <td><strong>Variador de Frecuencia (VFD)</strong></td>
+            <td>1.0 – 1.5 × I<sub>n</sub></td>
+            <td>Hasta 150% T<sub>n</sub> desde 0 Hz</td>
+            <td>Óptima — curva de rampa programable</td>
+            <td>$$$$ (mayor inversión, mayor ahorro)</td>
+            <td>Bombas VSD, transportadoras, HVAC, agitadores</td>
+          </tr>
+          <tr>
+            <td><strong>Resistencias de arranque</strong></td>
+            <td>2 – 4 × I<sub>n</sub></td>
+            <td>Proporcional</td>
+            <td>Moderada</td>
+            <td>$$ </td>
+            <td>Motores bobinado (grúas, molinos)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Procedimiento de Arranque Estrella-Delta</h4>
+    <ol class="procedure">
+      <li>El contactor principal (K1) y el contactor estrella (K2) cierran simultáneamente. Los 6 terminales del motor se conectan en Y. El motor arranca con voltaje de fase = V<sub>línea</sub>/√3.</li>
+      <li>El temporizador cuenta el tiempo de transición (típicamente 5-15 segundos según la carga). El motor acelera al ~80-90% de la velocidad nominal en configuración Y.</li>
+      <li>K2 (estrella) abre. Breve pausa de 50-100 ms para que el flux del motor decaiga.</li>
+      <li>K3 (delta) cierra. El motor queda en conexión delta, con tensión de línea completa. Puede ocurrir un pico transitorio de corriente (transient switching spike) de hasta 4×I<sub>n</sub>.</li>
+      <li>El motor alcanza velocidad nominal y opera normalmente.</li>
+    </ol>
+
+    <div class="callout cw">
+      <span class="ctitle">Advertencia: arranque estrella-delta con carga</span>
+      <p>Si la carga es alta durante la transición Y→Δ, el pico de corriente puede ser mayor que en DOL. Este método solo es efectivo para cargas de bajo par de arranque (bombas centrífugas, ventiladores). NO usar en compresores de tornillo con válvula cerrada, bandas transportadoras cargadas o cargas de par constante.</p>
+    </div>
+
+    <h4>Parámetros Clave del Soft-Starter</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Parámetro</th><th>Rango Típico</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td>Voltaje inicial (Vs)</td><td>30–70% V<sub>n</sub></td><td>Voltaje al inicio de la rampa. Determina par inicial.</td></tr>
+          <tr><td>Tiempo de rampa arranque</td><td>2–60 s</td><td>Tiempo para pasar de Vs a voltaje nominal.</td></tr>
+          <tr><td>Límite de corriente</td><td>200–500% I<sub>n</sub></td><td>Limita la corriente máxima durante arranque.</td></tr>
+          <tr><td>Tiempo de rampa paro</td><td>2–30 s</td><td>Parada suave. Útil para evitar golpe de ariete en bombas.</td></tr>
+          <tr><td>Protección stall</td><td>Configurable</td><td>Disparo si el motor no llega a velocidad en tiempo definido.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ 9.5 ACOPLAMIENTO RÍGIDO ═══ -->
+  <div class="section" id="s95">
+    <div class="section-header">
+      <span class="sec-num">9.5</span>
+      <h3>Acoplamiento Directo (Rígido): Tipos, Alineación y Tolerancias</h3>
+    </div>
+
+    <p>El acoplamiento rígido une dos ejes de forma que giren como si fueran uno solo. <strong>No admite desalineación</strong>; cualquier desalineación genera fuerzas enormes en rodamientos y sellos. Requiere alineación casi perfecta (laser recomendado).</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Tipo</th><th>Descripción</th><th>Aplicación</th><th>Par Máximo</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Manguito (Sleeve)</strong></td><td>Cilindro macizo sobre ambos ejes, fijado con chaveta y tornillos de presión</td><td>Ejes coaxiales perfectamente alineados</td><td>Depende del diámetro</td></tr>
+          <tr><td><strong>Brida rígida (Rigid Flange)</strong></td><td>Dos bridas de acero unidas con pernos de alta resistencia</td><td>Ejes de gran diámetro (bombas, reductores)</td><td>Alto (miles N·m)</td></tr>
+          <tr><td><strong>Disco rígido</strong></td><td>Discos de acero delgados para absorber mínima desalineación angular</td><td>Máquinas de alta precisión</td><td>Medio</td></tr>
+          <tr><td><strong>Dientes (Gear Coupling)</strong></td><td>Dientes externos en buje / dientes internos en manguito</td><td>Altos pares, tolera pequeña desalineación</td><td>Muy alto</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Tolerancias de Alineación — Acoplamiento Rígido</h4>
+    <div class="callout cd">
+      <span class="ctitle">Importante</span>
+      <p>En acoplamientos rígidos, la desalineación angular y paralela tolerada es típicamente <strong>menor de 0.025 mm (25 µm)</strong> en cada plano. Para lograrlo siempre se usa alineación láser; el método de reloj comparador no es suficientemente preciso para rígidos.</p>
+    </div>
+  </div>
+
+  <!-- ═══ 9.6 ACOPLAMIENTO FLEXIBLE ═══ -->
+  <div class="section" id="s96">
+    <div class="section-header">
+      <span class="sec-num">9.6</span>
+      <h3>Acoplamientos Flexibles: Tipos, Absorción de Vibración y Mantenimiento</h3>
+    </div>
+
+    <p>Los acoplamientos flexibles permiten cierta desalineación angular, paralela y axial, y absorben choques y vibraciones. Son la elección estándar en la mayoría de las aplicaciones industriales.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Tipo</th><th>Elemento Flexible</th><th>Desalineación Admitida</th><th>Absorción Vibración</th><th>Aplicación L'Oréal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Jaw / Araña (Spider)</strong></td><td>Araña de elastómero (poliuretano)</td><td>Angular ±1°, Paralela ±0.25mm</td><td>Excelente (amortiguación)</td><td>Bombas pequeñas, mezcladores, transportadoras</td></tr>
+          <tr><td><strong>Oldham</strong></td><td>Disco central deslizante (nylon, acero)</td><td>Paralela hasta 0.5mm, Angular ≈0</td><td>Moderada</td><td>Cabezales de dosificación, ejes paralelos</td></tr>
+          <tr><td><strong>Junta Universal (Cardan)</strong></td><td>Cruceta metálica y bujes</td><td>Angular 15-30°</td><td>Baja (genera pulsaciones a ángulos altos)</td><td>Ejes no colineales, accionamientos de agitadores</td></tr>
+          <tr><td><strong>Disco Flexible (Disc)</strong></td><td>Paquete de discos de acero inoxidable</td><td>Angular ±0.5°, Axial ±1mm</td><td>Baja — transmisión de alta frecuencia</td><td>Servomotores, alta precisión</td></tr>
+          <tr><td><strong>Neumático / Donut</strong></td><td>Elemento toroidal de goma</td><td>Alta en todos los ejes</td><td>Excelente</td><td>Equipos con vibración fuerte, compresores</td></tr>
+          <tr><td><strong>Engranado (Gear)</strong></td><td>Dientes con holgura de flanco</td><td>Angular ±1.5°, Paralela ±0.5mm</td><td>Baja</td><td>Reductores, altos pares, molinos</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Inspección y Mantenimiento del Acoplamiento Jaw</h4>
+    <ol class="procedure">
+      <li>Con la máquina DESENERGIZADA y bloqueada (LOTO), remover guardas de protección.</li>
+      <li>Inspeccionar visualmente el elastómero (araña): buscar grietas, deformación permanente, dureza excesiva (envejecimiento), contaminación con aceite.</li>
+      <li>Medir el diámetro externo de la araña y comparar con dimensión original. Una araña aplastada más del 30% debe reemplazarse.</li>
+      <li>Verificar holgura axial entre bujes: debe ser la especificada (típicamente 2-5mm). Holgura excesiva causa impacto.</li>
+      <li>Verificar desgaste en los dientes del buje: bordes redondeados indican mal alineación o sobrecarga.</li>
+      <li>Revisar tornillos de fijación del buje al eje (chaveta + tornillo de presión o pasador): deben estar apretados al torque especificado.</li>
+      <li>Reemplazar la araña según frecuencia del programa de mantenimiento o ante cualquier anomalía visual. Registrar en historial del equipo.</li>
+    </ol>
+  </div>
+
+  <!-- ═══ 9.7 CORREAS Y POLEAS ═══ -->
+  <div class="section" id="s97">
+    <div class="section-header">
+      <span class="sec-num">9.7</span>
+      <h3>Correas y Poleas (Belt Drive): Tipos, Tensión, Deflexión y Mantenimiento</h3>
+    </div>
+
+    <p>Las transmisiones por correa son económicas, silenciosas, y actúan como fusibles mecánicos (la correa se rompe antes que dañar el motor o la carga). La eficiencia varía de 95-98% para correas en V bien mantenidas.</p>
+
+    <div class="formula-block">
+      <span class="ftitle">Relación de transmisión y velocidades</span>
+      <span class="var">i</span> <span class="eq">=</span> <span class="var">d<sub>2</sub></span> / <span class="var">d<sub>1</sub></span> <span class="eq">=</span> <span class="var">n<sub>1</sub></span> / <span class="var">n<sub>2</sub></span>
+      <br>
+      Donde: <span class="var">d<sub>1</sub></span> = diámetro polea conductora, <span class="var">d<sub>2</sub></span> = polea conducida
+      <br>
+      Velocidad periférica: <span class="var">v</span> <span class="eq">=</span> π × <span class="var">d</span> × <span class="var">n</span> / 60  <span class="unit">[m/s]</span>  (d en metros)
+      <br><br>
+      Ejemplo: d<sub>1</sub>=150mm, d<sub>2</sub>=300mm, n<sub>1</sub>=1750RPM → i=2, n<sub>2</sub>=875 RPM
+    </div>
+
+    <h4>Tipos de Correas en V</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Sección</th><th>Ancho Superior (mm)</th><th>Alto (mm)</th><th>Potencia Máx. (HP)</th><th>Velocidad Peri. Óptima (m/s)</th><th>Uso Típico</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A</strong></td><td>13</td><td>8</td><td>≤ 5</td><td>10-20</td><td>Ventiladores pequeños, bombas fraccionarias</td></tr>
+          <tr><td><strong>B</strong></td><td>17</td><td>11</td><td>≤ 15</td><td>10-22</td><td>Bombas hasta 10HP, ventiladores medios</td></tr>
+          <tr><td><strong>C</strong></td><td>22</td><td>14</td><td>≤ 75</td><td>12-24</td><td>Compresores, ventiladores industriales</td></tr>
+          <tr><td><strong>D</strong></td><td>32</td><td>19</td><td>≤ 200</td><td>15-28</td><td>Compresores grandes, equipos pesados</td></tr>
+          <tr><td><strong>SPC (Narrow)</strong></td><td>22</td><td>18</td><td>≤ 100</td><td>15-30</td><td>Transmisiones compactas, alta potencia/ancho</td></tr>
+          <tr><td><strong>SPB</strong></td><td>17</td><td>14</td><td>≤ 40</td><td>12-26</td><td>Equipos de tamaño medio, HVAC</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Verificación de Tensión por Deflexión</h4>
+    <p>El método de deflexión es la forma estándar de verificar la tensión de una correa en campo sin instrumentos especializados. Consiste en aplicar una fuerza perpendicular al ramal libre y medir la deflexión producida.</p>
+
+    <div class="formula-block">
+      <span class="ftitle">Método de deflexión para tensión de correa</span>
+      Deflexión estándar: <span class="var">δ</span> <span class="eq">=</span> <span class="var">L</span> / 64  <span class="unit">[mm]</span>  donde L = longitud entre centros de poleas <span class="unit">[mm]</span>
+      <br><br>
+      Fuerza aplicada y deflexión → consultar tabla de fabricante por sección de correa
+      <br><br>
+      Ejemplo: L = 500mm → δ = 500/64 = 7.8 mm de deflexión
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Sección</th><th>Fuerza para deflexión (N) — Correa nueva</th><th>Fuerza mínima (N) — Operación</th><th>Señal de sobre-tensión</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A</strong></td><td>25–35</td><td>18</td><td>Chirrido al arranque, calentamiento de rodamientos</td></tr>
+          <tr><td><strong>B</strong></td><td>40–55</td><td>30</td><td>Vibración lateral, desgaste prematuro de flanco</td></tr>
+          <tr><td><strong>C</strong></td><td>65–90</td><td>48</td><td>Falla de rodamientos, sobresfuerzo en eje</td></tr>
+          <tr><td><strong>SPC</strong></td><td>80–110</td><td>60</td><td>Deformación del eje motriz</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout cw">
+      <span class="ctitle">Reglas de mantenimiento de correas</span>
+      <p><strong>1.</strong> Nunca mezclar correas nuevas y viejas en un juego de poleas múltiples — siempre reemplazar el juego completo. <strong>2.</strong> Verificar alineación de poleas con regla o láser antes de instalar correas nuevas. La desalineación lateral de 1mm en la polea produce hasta 30% de reducción en vida útil. <strong>3.</strong> Revisar tensión a las 24-48 horas de puesta en marcha (correas nuevas se estiran).</p>
+    </div>
+  </div>
+
+  <!-- ═══ 9.8 CADENAS Y PIÑONES ═══ -->
+  <div class="section" id="s98">
+    <div class="section-header">
+      <span class="sec-num">9.8</span>
+      <h3>Cadenas y Piñones: Tipos, Lubricación y Mantenimiento</h3>
+    </div>
+
+    <p>Las cadenas de rodillos ofrecen relación de transmisión exacta (sin deslizamiento), son adecuadas para velocidades bajas a medias y cargas moderadas a altas. Eficiencia: 97-99% cuando están correctamente lubricadas.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Número ANSI</th><th>Paso (mm)</th><th>Ancho rodillo (mm)</th><th>Carga rotura (kN)</th><th>Velocidad max. (m/s)</th><th>Aplicación</th></tr></thead>
+        <tbody>
+          <tr><td><strong>#25</strong></td><td>6.35</td><td>3.18</td><td>3.6</td><td>5</td><td>Equipos pequeños, accionamientos livianos</td></tr>
+          <tr><td><strong>#35</strong></td><td>9.525</td><td>4.76</td><td>7.8</td><td>6</td><td>Transportadoras livianas</td></tr>
+          <tr><td><strong>#40</strong></td><td>12.7</td><td>7.95</td><td>14.1</td><td>7</td><td>Transmisiones medias, transportadoras</td></tr>
+          <tr><td><strong>#50</strong></td><td>15.875</td><td>10.16</td><td>21.8</td><td>8</td><td>Equipos de producción, bandas cadena</td></tr>
+          <tr><td><strong>#60</strong></td><td>19.05</td><td>12.7</td><td>31.1</td><td>9</td><td>Compresores, reductores de alta carga</td></tr>
+          <tr><td><strong>#80</strong></td><td>25.4</td><td>15.88</td><td>55.6</td><td>10</td><td>Transmisiones pesadas, maquinaria de proceso</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Desgaste y Elongación de Cadena</h4>
+    <div class="formula-block">
+      <span class="ftitle">Verificación de elongación por desgaste</span>
+      Elongación permisible: ≤ 2% de la longitud nominal de 12 eslabones
+      <br>
+      Longitud 12 eslabones nominal: 12 × <span class="var">p</span>  donde p = paso en mm
+      <br><br>
+      Cadena #50 (paso 15.875mm): L<sub>nominal</sub> = 12×15.875 = 190.5mm
+      <br>
+      Límite de reemplazo: L<sub>máx</sub> = 190.5 × 1.02 = <strong>194.3 mm</strong>
+      <br><br>
+      Medir con calibrador entre pines a 12 eslabones. Si excede → reemplazar.
+    </div>
+
+    <h4>Lubricación de Cadenas</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Método</th><th>Velocidad (m/s)</th><th>Descripción</th><th>Lubricante</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Manual (brocha)</strong></td><td>&lt; 1.5</td><td>Aplicar aceite en junta articulada cada 8h de operación</td><td>SAE 30–SAE 50</td></tr>
+          <tr><td><strong>Goteo</strong></td><td>1.5–3</td><td>Recipiente con ajuste de goteo; 5–30 gotas/min al ramal interior</td><td>SAE 20–SAE 40</td></tr>
+          <tr><td><strong>Baño de aceite</strong></td><td>3–8</td><td>La cadena pasa por un baño de aceite en la carcasa</td><td>SAE 30 a 150 ISO VG</td></tr>
+          <tr><td><strong>Pulverización (spray)</strong></td><td>4–12</td><td>Bomba de presión aplica lubricante por boquillas al ramal tenso</td><td>SAE 20–30</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ 9.9 REDUCTORES ═══ -->
+  <div class="section" id="s99">
+    <div class="section-header">
+      <span class="sec-num">9.9</span>
+      <h3>Reductores de Velocidad: Tipos, Relación de Reducción y Eficiencia</h3>
+    </div>
+
+    <div class="formula-block">
+      <span class="ftitle">Parámetros fundamentales del reductor</span>
+      Relación de reducción: <span class="var">i</span> <span class="eq">=</span> <span class="var">n<sub>entrada</sub></span> / <span class="var">n<sub>salida</sub></span>
+      <br>
+      Par de salida: <span class="var">T<sub>sal</sub></span> <span class="eq">=</span> <span class="var">T<sub>ent</sub></span> × <span class="var">i</span> × <span class="var">η</span>
+      <br>
+      Potencia de salida: <span class="var">P<sub>sal</sub></span> <span class="eq">=</span> <span class="var">P<sub>ent</sub></span> × <span class="var">η</span>
+      <br><br>
+      Ejemplo: Motor 1750 RPM, P=5.5kW, T<sub>ent</sub>=30N·m, reductor i=20, η=0.94
+      <br>
+      → n<sub>sal</sub>=87.5 RPM | T<sub>sal</sub>=30×20×0.94=<strong>564 N·m</strong>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Tipo de Reductor</th><th>Relación Típica</th><th>Eficiencia</th><th>Reversible</th><th>Aplicación L'Oréal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Engranajes helicoidales</strong></td><td>2:1 a 70:1 por etapa</td><td>96–99%</td><td>Sí</td><td>Transportadoras, bombas de desplazamiento</td></tr>
+          <tr><td><strong>Sinfín-Corona (Worm)</strong></td><td>5:1 a 100:1 por etapa</td><td>40–90% (↓ con i alto)</td><td>Generalmente no (auto-bloqueante)</td><td>Agitadores de tanque, mezcladoras</td></tr>
+          <tr><td><strong>Planetario</strong></td><td>3:1 a 100:1</td><td>95–99%</td><td>Sí</td><td>Alta densidad de potencia, servomotores</td></tr>
+          <tr><td><strong>Biselado (Bevel)</strong></td><td>1:1 a 6:1</td><td>96–98%</td><td>Sí</td><td>Cambio de dirección de eje</td></tr>
+          <tr><td><strong>Cicloidal</strong></td><td>6:1 a 87:1 por etapa</td><td>92–96%</td><td>Sí</td><td>Robots, dosificadores de precisión</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout cw">
+      <span class="ctitle">Eficiencia del sinfín-corona vs temperatura</span>
+      <p>Los reductores sinfín-corona con relaciones altas (i=60–100) tienen eficiencias del 40–60%, lo que significa que del 40–60% de la energía de entrada se disipa como calor en el reductor. Es crítico respetar el nivel y tipo de aceite lubricante especificado por el fabricante y monitorear temperatura de operación (máximo típico: 80-90°C en carcasa).</p>
+    </div>
+
+    <h4>Selección de Reductor por Par Requerido</h4>
+    <ol class="procedure">
+      <li>Determinar la velocidad de salida requerida (<strong>n<sub>sal</sub></strong>) de la aplicación.</li>
+      <li>Calcular la relación de reducción: i = n<sub>motor</sub> / n<sub>sal</sub>.</li>
+      <li>Calcular el par de salida requerido: T<sub>sal</sub> = (9550 × P<sub>kW</sub> × i × η) / n<sub>motor</sub>.</li>
+      <li>Seleccionar el reductor con <strong>par nominal ≥ T<sub>sal</sub></strong> y verificar el factor de servicio (FS) según el tipo de carga (uniforme=1.0, ligeros choques=1.25, choques moderados=1.5, choques fuertes=2.0).</li>
+      <li>Verificar que el par nominal del reductor ÷ FS ≥ T<sub>sal</sub>.</li>
+    </ol>
+  </div>
+
+  <!-- ═══ 9.10 BOMBAS ═══ -->
+  <div class="section" id="s910">
+    <div class="section-header">
+      <span class="sec-num">9.10</span>
+      <h3>Bombas: Centrífugas vs Volumétricas, Curva H-Q, NPSH y Cavitación</h3>
+    </div>
+
+    <h4>Clasificación de Bombas</h4>
+    <div class="two-col">
+      <div class="card" style="border-top-color: #2196F3;">
+        <h5>Bombas Centrífugas</h5>
+        <p>Impusor rotatorio transforma energía cinética en presión. Caudal variable con la presión. Curva H-Q descendente. Alta Q, baja-media presión. <strong>Uso L'Oréal:</strong> agua de proceso, enfriamiento, circulación de fluidos de baja viscosidad.</p>
+      </div>
+      <div class="card" style="border-top-color: #FF9800;">
+        <h5>Bombas Volumétricas</h5>
+        <p>Desplazan volumen fijo por ciclo (engranajes, pistón, tornillo, peristáltica). Caudal casi constante independiente de la presión. <strong>Uso L'Oréal:</strong> dosificación de ingredientes viscosos, cremas, pastas, colorantes concentrados.</p>
+      </div>
+    </div>
+
+    <h4>Curva Característica de Bomba Centrífuga (H-Q)</h4>
+    <p>La curva H-Q relaciona la altura manométrica (H) con el caudal (Q) a velocidad constante. El <strong>punto de operación</strong> es la intersección de la curva de la bomba con la curva del sistema (resistencia de la instalación).</p>
+
+    <div class="formula-block">
+      <span class="ftitle">Leyes de afinidad de bombas (con VFD)</span>
+      Caudal:   <span class="var">Q<sub>2</sub></span> / <span class="var">Q<sub>1</sub></span>  <span class="eq">=</span>  <span class="var">n<sub>2</sub></span> / <span class="var">n<sub>1</sub></span>
+      <br>
+      Altura:   <span class="var">H<sub>2</sub></span> / <span class="var">H<sub>1</sub></span>  <span class="eq">=</span>  (<span class="var">n<sub>2</sub></span> / <span class="var">n<sub>1</sub></span>)²
+      <br>
+      Potencia: <span class="var">P<sub>2</sub></span> / <span class="var">P<sub>1</sub></span>  <span class="eq">=</span>  (<span class="var">n<sub>2</sub></span> / <span class="var">n<sub>1</sub></span>)³
+      <br><br>
+      Ejemplo: Reducir velocidad al 80% (n<sub>2</sub>/n<sub>1</sub>=0.8):
+      Q→80%, H→64%, P→51.2%
+      → <strong>Ahorro energético del 48.8%</strong>
+    </div>
+
+    <h4>NPSH y Cavitación</h4>
+    <p>El <strong>NPSH</strong> (Net Positive Suction Head — Altura Neta de Succión Positiva) es la energía mínima que debe tener el fluido en la entrada de la bomba para evitar vaporización (cavitación).</p>
+
+    <div class="formula-block">
+      <span class="ftitle">NPSH disponible (NPSH<sub>D</sub>)</span>
+      <span class="var">NPSH<sub>D</sub></span> <span class="eq">=</span> (<span class="var">P<sub>atm</sub></span> − <span class="var">P<sub>v</sub></span>) / (ρg) + <span class="var">h<sub>z</sub></span> − <span class="var">h<sub>f</sub></span>
+      <br>
+      Donde: P<sub>v</sub>=presión de vapor del fluido, h<sub>z</sub>=diferencia de nivel, h<sub>f</sub>=pérdidas en succión
+      <br><br>
+      Condición para evitar cavitación: NPSH<sub>D</sub> ≥ NPSH<sub>R</sub> + <strong>0.5 m</strong> (margen de seguridad)
+    </div>
+
+    <h4>Síntomas de Cavitación y Solución</h4>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Síntoma</th><th>Causa</th><th>Solución</th></tr></thead>
+        <tbody>
+          <tr><td>Ruido tipo "grava" o "crepitación"</td><td>Implosión de burbujas de vapor</td><td>Aumentar NPSH<sub>D</sub>: bajar bomba, subir nivel depósito, reducir temperatura</td></tr>
+          <tr><td>Caída de caudal y altura</td><td>Zona de vaporización en ojo del impusor</td><td>Reducir velocidad de la bomba (VFD)</td></tr>
+          <tr><td>Vibración y pulsaciones</td><td>Colapso irregular de burbujas</td><td>Revisar aislamiento de succión, evitar restricciones</td></tr>
+          <tr><td>Erosión en impusor</td><td>Efecto mecánico de implosiones repetidas</td><td>Cambio de impusor, rediseño hidráulico</td></tr>
+          <tr><td>Falla prematura de sellos mecánicos</td><td>Pulsaciones de presión</td><td>Instalar cámara de amortiguación, verificar alineación</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══ 9.11 VENTILADORES Y COMPRESORES ═══ -->
+  <div class="section" id="s911">
+    <div class="section-header">
+      <span class="sec-num">9.11</span>
+      <h3>Ventiladores y Compresores: Tipos, Selección y Punto de Operación</h3>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Tipo</th><th>Principio</th><th>Presión Estática</th><th>Caudal</th><th>Aplicación L'Oréal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Axial</strong></td><td>Propelas; flujo paralelo al eje</td><td>Baja (25–250 Pa)</td><td>Alto (&gt;5000 m³/h)</td><td>Extractores de zona, ventilación general HVAC</td></tr>
+          <tr><td><strong>Centrífugo backward-inclined</strong></td><td>Álabe inclinado hacia atrás; más estable</td><td>Media (250–2500 Pa)</td><td>Medio-alto</td><td>Manejadoras de aire, ductos de proceso</td></tr>
+          <tr><td><strong>Centrífugo forward-curved</strong></td><td>Álabe inclinado hacia adelante; curva inestable</td><td>Media-alta</td><td>Medio</td><td>Extractores de cocina, cabinas de pintura</td></tr>
+          <tr><td><strong>Compresor tornillo</strong></td><td>Rotores helicoidales comprimen gas</td><td>Alta (6–13 bar)</td><td>Medio</td><td>Aire comprimido de planta, instrumentos neumáticos</td></tr>
+          <tr><td><strong>Compresor pistón</strong></td><td>Pistón alternativo; descarga discontinua</td><td>Muy alta (hasta 400 bar)</td><td>Bajo</td><td>Llenado de cilindros, presión muy alta</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Surge en Compresores Centrífugos</h4>
+    <p>El <strong>surge</strong> (inestabilidad aerodinámica) ocurre cuando el caudal cae por debajo del mínimo de la curva estable del compresor. Se manifiesta con vibraciones violentas, ruido tipo "golpe", inversión de flujo periódica y daño severo a alabes. Para prevenirlo se instala un <strong>anti-surge valve</strong> (válvula de reciclaje) que mantiene caudal mínimo.</p>
+  </div>
+
+  <!-- ═══ 9.12 TRANSPORTADORAS ═══ -->
+  <div class="section" id="s912">
+    <div class="section-header">
+      <span class="sec-num">9.12</span>
+      <h3>Transportadoras (Conveyor Belts): Tipos, Tensión de Banda y Mantenimiento</h3>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Tipo</th><th>Descripción</th><th>Carga Típica</th><th>Velocidad</th><th>Aplicación L'Oréal</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Banda plana</strong></td><td>Banda continua de PVC/PU/caucho sobre deslizadores o rodillos</td><td>≤ 50 kg/m</td><td>0.1–3 m/s</td><td>Líneas de llenado, etiquetado, empaque</td></tr>
+          <tr><td><strong>Cadena modular</strong></td><td>Eslabones plásticos o metálicos interconectados</td><td>≤ 200 kg/m</td><td>0.05–1 m/s</td><td>Transporte de cajas, pallets ligeros</td></tr>
+          <tr><td><strong>Rodillos de gravedad</strong></td><td>Rodillos sin motor; transporte por inclinación</td><td>≤ 500 kg/unidad</td><td>Variable</td><td>Acumulación de cajas, almacén</td></tr>
+          <tr><td><strong>Transportadora de tornillo (screw)</strong></td><td>Tornillo de Arquímedes en canalón</td><td>Alta — polvo/granulado</td><td>Variable</td><td>Manejo de ingredientes en polvo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Tensión de Banda — Cálculo y Ajuste</h4>
+    <div class="formula-block">
+      <span class="ftitle">Tensión efectiva en banda</span>
+      <span class="var">T<sub>e</sub></span> <span class="eq">=</span> <span class="var">P<sub>kW</sub></span> × 1000 / <span class="var">v</span>  <span class="unit">[N]</span>   donde v = velocidad banda m/s
+      <br><br>
+      Tensión de trabajo (ramal tenso): <span class="var">T<sub>1</sub></span> <span class="eq">=</span> <span class="var">T<sub>e</sub></span> / (1 − e<sup>−μα</sup>)  × e<sup>−μα</sup>
+      <br>
+      Tensión ramal flojo: <span class="var">T<sub>2</sub></span> <span class="eq">=</span> <span class="var">T<sub>1</sub></span> − <span class="var">T<sub>e</sub></span>
+      <br>
+      Donde: μ=coeficiente rozamiento banda-polea, α=ángulo de abrazo <span class="unit">[rad]</span>
+    </div>
+
+    <h4>Procedimiento de Alineación de Banda</h4>
+    <ol class="procedure">
+      <li>Operar la banda sin carga a velocidad normal durante 10 minutos y observar tendencia de deriva (hacia qué lado se desplaza la banda).</li>
+      <li>Si la banda deriva hacia un lado, el rodillo de retorno o el tambor de cola de ese lado está inclinado. Ajustar el tornillo de tensión del extremo hacia donde deriva la banda: avanzar media vuelta y esperar 5 minutos.</li>
+      <li>Para desvíos persistentes en zona central, verificar rectitud de la cama de rodillos (nivel y alineación en plano horizontal). Tolerancia: ≤1mm/metro de longitud.</li>
+      <li>Verificar que todos los rodillos giren libremente. Rodillos trabados causan deriva y desgaste de borde.</li>
+      <li>Ajustar la tensión del tambor de cola: la flecha máxima del ramal inferior debe ser ≤ 1% de la distancia entre centros.</li>
+    </ol>
+  </div>
+
+  <!-- ═══ 9.13 GLOSARIO ═══ -->
+  <div class="section" id="s913">
+    <div class="section-header">
+      <span class="sec-num">9.13</span>
+      <h3>Glosario del Módulo 9</h3>
+    </div>
+    <div class="glosario-grid">
+      <dl class="gterm"><dt>Deslizamiento (Slip)</dt><dd>Diferencia porcentual entre velocidad sincrónica y velocidad real del rotor en motor de inducción.</dd></dl>
+      <dl class="gterm"><dt>FLA (Full Load Amps)</dt><dd>Corriente nominal del motor a plena carga, dato de placa usado para ajuste de protecciones.</dd></dl>
+      <dl class="gterm"><dt>Par de colapso</dt><dd>Par máximo que puede desarrollar el motor; si la carga lo supera, el motor se para.</dd></dl>
+      <dl class="gterm"><dt>Soft-Starter</dt><dd>Arrancador electrónico de estado sólido (SCRs) que limita la tensión (y par) durante el arranque.</dd></dl>
+      <dl class="gterm"><dt>NPSH</dt><dd>Net Positive Suction Head: energía mínima en succión de bomba para evitar cavitación.</dd></dl>
+      <dl class="gterm"><dt>Cavitación</dt><dd>Formación y colapso violento de burbujas de vapor en el impusor de una bomba por presión insuficiente.</dd></dl>
+      <dl class="gterm"><dt>Acoplamiento jaw</dt><dd>Acoplamiento flexible con araña de elastómero que absorbe vibraciones y desalineación leve.</dd></dl>
+      <dl class="gterm"><dt>Leyes de Afinidad</dt><dd>Relaciones que describen cómo caudal, presión y potencia de una bomba cambian al variar la velocidad.</dd></dl>
+      <dl class="gterm"><dt>Factor de Servicio (SF)</dt><dd>Sobrecarga continua admisible en un motor. SF=1.15 → puede operar al 115% de su potencia nominal.</dd></dl>
+      <dl class="gterm"><dt>Surge (compresor)</dt><dd>Inestabilidad aerodinámica en compresor por caída de caudal bajo el límite estable de la curva.</dd></dl>
+      <dl class="gterm"><dt>Relación de Transmisión (i)</dt><dd>Cociente entre velocidad de entrada y salida en una transmisión por correa, cadena o engranaje.</dd></dl>
+      <dl class="gterm"><dt>DOL (Direct On Line)</dt><dd>Arranque directo: el motor se conecta directamente a la red sin reducción de tensión.</dd></dl>
+      <dl class="gterm"><dt>V-belt SPC</dt><dd>Correa de sección estrecha estándar de alta potencia; transmite más potencia por unidad de ancho.</dd></dl>
+      <dl class="gterm"><dt>NEMA</dt><dd>National Electrical Manufacturers Association; norma dimensional y eléctrica de motores en Norteamérica.</dd></dl>
+      <dl class="gterm"><dt>Reductor planetario</dt><dd>Reductor de alta eficiencia con engranajes planetarios (sol, planetas, corona). Alta densidad de par.</dd></dl>
+      <dl class="gterm"><dt>Clase de aislamiento F</dt><dd>Temperatura máxima de bobinado de 155°C; estándar actual en motores industriales.</dd></dl>
+    </div>
+  </div>
+
+  <!-- ═══ EVALUACIÓN ═══ -->
+  <div class="eval-section" id="eval">
+    <h3>Evaluación — Módulo 9 (20 Preguntas)</h3>
+
+    <div class="question">
+      <p class="qtext">1. ¿Cuál es la velocidad sincrónica de un motor de 4 polos alimentado a 60 Hz?</p>
+      <ul class="opts">
+        <li>a) 3600 RPM</li>
+        <li class="correct">b) 1800 RPM</li>
+        <li>c) 1750 RPM</li>
+        <li>d) 1200 RPM</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">2. El deslizamiento nominal de un motor de inducción a plena carga es típicamente:</p>
+      <ul class="opts">
+        <li>a) 10–20%</li>
+        <li class="correct">b) 2–8%</li>
+        <li>c) &lt;0.5%</li>
+        <li>d) 20–30%</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">3. Un motor de 15 HP tiene un Factor de Servicio de 1.15. ¿Cuánta potencia puede operar continuamente?</p>
+      <ul class="opts">
+        <li>a) 13 HP</li>
+        <li>b) 15 HP</li>
+        <li class="correct">c) 17.25 HP</li>
+        <li>d) 20 HP</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">4. ¿Qué método de arranque produce menor corriente de arranque de red?</p>
+      <ul class="opts">
+        <li>a) Arranque directo (DOL)</li>
+        <li>b) Estrella-Delta</li>
+        <li>c) Soft-Starter</li>
+        <li class="correct">d) VFD (variador de frecuencia)</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">5. La clase de aislamiento F de un motor permite temperatura máxima de bobinado de:</p>
+      <ul class="opts">
+        <li>a) 105°C</li>
+        <li>b) 130°C</li>
+        <li class="correct">c) 155°C</li>
+        <li>d) 180°C</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">6. Al aumentar la velocidad de una bomba centrífuga al 120%, la potencia consumida será:</p>
+      <ul class="opts">
+        <li>a) 1.2× la original</li>
+        <li>b) 1.44× la original</li>
+        <li class="correct">c) 1.728× la original</li>
+        <li>d) 1.56× la original</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">7. ¿Qué indica un ruido tipo "granulado" o "grava" en una bomba centrífuga?</p>
+      <ul class="opts">
+        <li>a) Desbalanceo del impusor</li>
+        <li class="correct">b) Cavitación</li>
+        <li>c) Rodamiento deteriorado</li>
+        <li>d) Sello mecánico desgastado</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">8. La relación de transmisión de una correa con polea motriz de 150mm y conducida de 450mm es:</p>
+      <ul class="opts">
+        <li>a) 1:2</li>
+        <li class="correct">b) 1:3</li>
+        <li>c) 3:1</li>
+        <li>d) 1:4.5</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">9. Un acoplamiento tipo "jaw" utiliza como elemento flexible:</p>
+      <ul class="opts">
+        <li>a) Disco de acero delgado</li>
+        <li>b) Cruceta de Cardan</li>
+        <li class="correct">c) Araña de elastómero (poliuretano)</li>
+        <li>d) Engranajes con holgura</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">10. En arranque estrella-delta, ¿cuál es el par disponible durante la fase en estrella?</p>
+      <ul class="opts">
+        <li>a) 100% T<sub>n</sub></li>
+        <li>b) 57.7% T<sub>n</sub></li>
+        <li class="correct">c) 33% T<sub>n</sub></li>
+        <li>d) 150% T<sub>n</sub></li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">11. La elongación máxima permitida antes de reemplazar una cadena de rodillos es:</p>
+      <ul class="opts">
+        <li>a) 5%</li>
+        <li class="correct">b) 2%</li>
+        <li>c) 10%</li>
+        <li>d) 0.5%</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">12. Un reductor sinfín-corona con relación de reducción i=80 tiene eficiencia aproximada de:</p>
+      <ul class="opts">
+        <li class="correct">b) 40–55%</li>
+        <li>a) 90–95%</li>
+        <li>c) 70–80%</li>
+        <li>d) 98–99%</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">13. La condición para evitar cavitación es:</p>
+      <ul class="opts">
+        <li>a) NPSH<sub>D</sub> = NPSH<sub>R</sub></li>
+        <li class="correct">b) NPSH<sub>D</sub> ≥ NPSH<sub>R</sub> + 0.5m</li>
+        <li>c) NPSH<sub>D</sub> &lt; NPSH<sub>R</sub></li>
+        <li>d) No importa el NPSH si la bomba es grande</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">14. La deflexión estándar para verificar tensión de correa en V es:</p>
+      <ul class="opts">
+        <li>a) L/32</li>
+        <li class="correct">b) L/64</li>
+        <li>c) L/100</li>
+        <li>d) L/16</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">15. El dato de placa "corriente nominal (FLA)" se usa principalmente para:</p>
+      <ul class="opts">
+        <li>a) Seleccionar el tipo de correa</li>
+        <li class="correct">b) Ajustar el relé térmico de protección</li>
+        <li>c) Calcular la relación de reducción</li>
+        <li>d) Definir el número de polos</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">16. ¿Cuál es el ventaje principal de un motor BLDC frente a uno de inducción?</p>
+      <ul class="opts">
+        <li>a) No necesita controlador electrónico</li>
+        <li class="correct">b) Mayor eficiencia (90–96%) y control preciso de velocidad sin deslizamiento</li>
+        <li>c) Es más económico</li>
+        <li>d) No genera calor</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">17. El par nominal de un motor de 11.2 kW a 1750 RPM es aproximadamente:</p>
+      <ul class="opts">
+        <li>a) 50 N·m</li>
+        <li class="correct">b) 61 N·m</li>
+        <li>c) 75 N·m</li>
+        <li>d) 45 N·m</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">18. En la curva T-n de un motor de inducción, ¿qué ocurre si la carga supera el par de colapso?</p>
+      <ul class="opts">
+        <li>a) El motor aumenta velocidad</li>
+        <li>b) El motor opera en zona inestable temporalmente</li>
+        <li class="correct">c) El motor se detiene (stall) y debe ser desenergizado</li>
+        <li>d) El motor cambia automáticamente a estrella</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">19. La ventiladora axial se selecciona cuando se requiere:</p>
+      <ul class="opts">
+        <li>a) Alta presión estática y bajo caudal</li>
+        <li class="correct">b) Alto caudal y baja presión estática</li>
+        <li>c) Alta presión y caudal moderado</li>
+        <li>d) Control de temperatura preciso</li>
+      </ul>
+    </div>
+
+    <div class="question">
+      <p class="qtext">20. Al reducir la velocidad de una bomba a 80% usando un VFD (leyes de afinidad), el ahorro energético es aproximadamente:</p>
+      <ul class="opts">
+        <li>a) 20%</li>
+        <li>b) 36%</li>
+        <li class="correct">c) 49%</li>
+        <li>d) 64%</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<footer class="site-footer">
+  <p>Manual de Mantenimiento Industrial — L'Oréal México &nbsp;|&nbsp; Módulo 9: Motores Eléctricos y Sistemas de Acoplamiento &nbsp;|&nbsp; Uso interno — Prohibida su reproducción sin autorización</p>
+</footer>
+
+</body>
+</html>

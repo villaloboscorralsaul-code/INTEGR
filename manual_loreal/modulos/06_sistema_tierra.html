@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Módulo 6 — Sistema de Tierra Física | Manual Técnico L'Oréal</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="main-header">
+  <div class="header-inner">
+    <img src="../img/image.png" alt="L'Oréal Logo" class="header-logo"/>
+    <div class="header-text">
+      <span class="header-brand">L'Oréal Plant Maintenance</span>
+      <h1 class="header-title">Módulo 6 — Sistema de Tierra Física (Puesta a Tierra)</h1>
+    </div>
+    <div class="progress-box">
+      <span class="progress-label">Progreso del curso</span>
+      <div class="progress-bar-outer"><div class="progress-bar-inner" style="width:50%"></div></div>
+      <span class="progress-pct">6 / 12 módulos</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout-wrapper">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-header">Contenido del Curso</div>
+  <ul class="sidebar-nav">
+    <li><a href="01_seguridad.html">01 — Seguridad Eléctrica</a></li>
+    <li><a href="02_fundamentos.html">02 — Fundamentos Eléctricos</a></li>
+    <li><a href="03_motores.html">03 — Motores Eléctricos</a></li>
+    <li><a href="04_variadores.html">04 — Variadores de Frecuencia</a></li>
+    <li><a href="05_canalizaciones.html">05 — Canalizaciones Eléctricas</a></li>
+    <li class="active"><a href="06_sistema_tierra.html">06 — Sistema de Tierra Física</a></li>
+    <li><a href="07_tableros_interruptores.html">07 — Tableros e Interruptores</a></li>
+    <li><a href="08_codigo_cableado.html">08 — Código de Cableado</a></li>
+    <li><a href="09_instrumentacion.html">09 — Instrumentación</a></li>
+    <li><a href="10_plcs.html">10 — PLCs y Automatización</a></li>
+    <li><a href="11_termografia.html">11 — Termografía</a></li>
+    <li><a href="12_mantenimiento.html">12 — Mantenimiento Preventivo</a></li>
+    <li class="sidebar-sep"><a href="../juegos/index.html">🎮 Juegos de Práctica</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+  <!-- INTRO CARD -->
+  <div class="module-intro-card">
+    <div class="module-intro-icon">⚡</div>
+    <div class="module-intro-text">
+      <h2>Sistema de Tierra Física</h2>
+      <p>La puesta a tierra es la columna vertebral de la seguridad eléctrica. Sin un sistema de tierra adecuado, un fallo de aislamiento puede resultar en electrocución, incendio o daño catastrófico de equipos. Este módulo explica los fundamentos, métodos de medición, diseño, mantenimiento y el proceso de estudio de tierras físicas utilizado por INTEGR Ingeniería en las instalaciones L'Oréal.</p>
+    </div>
+  </div>
+
+  <!-- ===================== SECCIÓN 6.1 ===================== -->
+  <section class="content-section" id="s6-1">
+    <h2 class="section-title"><span class="section-num">6.1</span> Fundamentos de la Tierra Física</h2>
+
+    <h3>6.1.1 ¿Por qué es necesaria la tierra física?</h3>
+    <p>La <strong>tierra física</strong> (puesta a tierra, ground) es la conexión intencional entre el sistema eléctrico y la tierra (suelo). Su función es triple:</p>
+
+    <div class="three-col-grid">
+      <div class="info-card">
+        <h4>Seguridad Personal</h4>
+        <p>En caso de falla de aislamiento en un equipo, la corriente de falla fluye hacia la tierra en lugar de a través del cuerpo humano. El interruptor de protección (termomagnético o diferencial) detecta la corriente de falla y desconecta el circuito en milisegundos.</p>
+      </div>
+      <div class="info-card">
+        <h4>Protección de Equipos</h4>
+        <p>Proporciona una trayectoria de baja impedancia para corrientes de falla, sobretensiones transitorias y descargas de rayos. Sin tierra, estas corrientes fluirían por los circuitos de señal o control, destruyendo electrónica sensible.</p>
+      </div>
+      <div class="info-card">
+        <h4>Calidad de Señal</h4>
+        <p>En instrumentación y control, la tierra de señal (reference ground) establece un potencial de referencia común para todos los equipos, eliminando lazos de tierra (ground loops) que causarían ruido y errores de medición.</p>
+      </div>
+    </div>
+
+    <h3>6.1.2 Conceptos Fundamentales</h3>
+    <ul>
+      <li><strong>Resistencia de tierra (R_t):</strong> Resistencia eléctrica entre el electrodo de tierra y la tierra remota (punto de potencial cero). Se mide en Ohmios (Ω). Un valor bajo indica mejor capacidad de disipar corrientes de falla.</li>
+      <li><strong>Resistividad del suelo (ρ):</strong> Propiedad intrínseca del suelo para oponerse al flujo de corriente. Se mide en Ω·m. Varía con el tipo de suelo, humedad, temperatura y composición mineral.</li>
+      <li><strong>Tierra remota:</strong> Punto del suelo suficientemente alejado del electrodo donde la resistencia del suelo al electrodo es prácticamente cero (generalmente a ≥15 m para electrodos unitarios).</li>
+      <li><strong>Potencial de tierra:</strong> Diferencia de voltaje entre la superficie del suelo y la tierra remota durante el paso de corriente de falla. Puede provocar "tensión de toque" y "tensión de paso" peligrosas.</li>
+    </ul>
+
+    <h3>6.1.3 Cómo Actúa la Tierra en una Falla</h3>
+    <p>Consideremos un motor 480V cuyo aislamiento falla y la fase hace contacto con la carcasa metálica:</p>
+    <ol>
+      <li>La corriente de falla fluye desde la fase → carcasa del motor → conductor de tierra (conductor verde) → barra de tierra del tablero → electrodo de tierra → suelo → neutro del transformador (completando el circuito).</li>
+      <li>Si la impedancia del lazo de tierra es baja, la corriente de falla es alta (ley de Ohm: I = V/Z).</li>
+      <li>Una alta corriente de falla activa rápidamente el interruptor termomagnético (característica magnética: actúa en &lt;0.05 s a 10× In).</li>
+      <li>Si la impedancia es alta (tierra en mal estado), la corriente de falla puede ser baja, el interruptor no actúa, y la carcasa del motor queda energizada a voltaje peligroso — riesgo de electrocución.</li>
+    </ol>
+
+    <div class="info-box danger">
+      <strong>Principio crítico:</strong> Una tierra de ALTA resistencia es tan peligrosa como no tener tierra. La tierra solo protege si su resistencia es suficientemente baja para que la corriente de falla sea alta y active la protección en tiempo.
+    </div>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.2 ===================== -->
+  <section class="content-section" id="s6-2">
+    <h2 class="section-title"><span class="section-num">6.2</span> Tipos de Puesta a Tierra</h2>
+
+    <h3>6.2.1 Tierra de Protección (PE — Protective Earth)</h3>
+    <p>Es la tierra de <strong>seguridad</strong>. Conecta las masas metálicas de equipos (carcasas de motores, tableros, estructuras metálicas) al sistema de tierra para protección contra contacto indirecto. Características:</p>
+    <ul>
+      <li>Color del conductor: <strong>verde</strong> o <strong>verde/amarillo</strong> (norma internacional)</li>
+      <li>No debe interrumpirse nunca (no se le instalan fusibles ni interruptores)</li>
+      <li>Calibre mínimo según NOM-001-SEDE Tabla 250.122 (función del interruptor de protección)</li>
+      <li>En el tablero, va a la barra de tierra (PE bus) que está conectada al electrodo</li>
+    </ul>
+
+    <h3>6.2.2 Tierra de Trabajo (Neutro del Sistema)</h3>
+    <p>Es la tierra del <strong>sistema de distribución</strong>. Conecta el punto neutro del transformador o generador a tierra, estabilizando el voltaje del sistema respecto a tierra y permitiendo que los dispositivos de protección actúen en fallas a tierra.</p>
+    <ul>
+      <li>Color del conductor: <strong>blanco</strong> (120/208V) o <strong>gris</strong> (480V)</li>
+      <li>Solo se une a la tierra de protección en un único punto: el <strong>primer servicio</strong> (tablero principal / TGBT)</li>
+      <li>En tableros derivados: el neutro y la tierra PE se mantienen SEPARADOS (de lo contrario se crean lazos de tierra)</li>
+    </ul>
+
+    <div class="info-box warning">
+      <strong>Error común:</strong> Unir neutro y tierra PE en tableros de distribución secundarios. Esto crea lazos de tierra que generan corrientes parásitas, interferencias en instrumentación y pueden enmascarar fallas a tierra.
+    </div>
+
+    <h3>6.2.3 Tierra de Señal / Instrumental</h3>
+    <p>En sistemas de instrumentación, el ruido eléctrico se convierte en error de medición. La tierra de señal tiene requisitos especiales:</p>
+    <ul>
+      <li><strong>Tierra de señal aislada (isolated signal ground):</strong> El shield del cable coaxial o el cable apantallado se conecta a tierra en UN SOLO EXTREMO (generalmente en el transmisor o en el panel de control, no en ambos).</li>
+      <li><strong>Tierra de señal referenciada (referenced):</strong> Ambos extremos del shield están conectados a tierra. Usado cuando la frecuencia de ruido es muy alta (RF) o en instalaciones donde la diferencia de potencial entre los dos extremos es mínima.</li>
+      <li>Los sistemas 4–20 mA con aislamiento galvánico tienen menos problemas de lazos de tierra que los sistemas con señales sin aislamiento.</li>
+    </ul>
+
+    <h3>6.2.4 Tierra de RF (Radio Frequency Ground)</h3>
+    <p>Para equipos de comunicación (antenas, radios, variadores de frecuencia con módulo de comunicación), la tierra de RF requiere:</p>
+    <ul>
+      <li>Conexión de muy baja impedancia a alta frecuencia (no solo baja resistencia DC)</li>
+      <li>Conductores cortos y anchos (planas de cobre en lugar de conductores redondos)</li>
+      <li>Bonding (equipotencialización) de todas las masas metálicas cercanas</li>
+      <li>Malla de tierra de baja impedancia para HF</li>
+    </ul>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.3 ===================== -->
+  <section class="content-section" id="s6-3">
+    <h2 class="section-title"><span class="section-num">6.3</span> Componentes del Sistema de Tierra</h2>
+
+    <h3>6.3.1 Electrodo de Tierra</h3>
+    <p>El <strong>electrodo de tierra</strong> es el elemento que hace contacto eléctrico con el suelo. Existen varios tipos:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Tipo de Electrodo</th><th>Descripción</th><th>Dimensiones típicas</th><th>Aplicación</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Varilla copperweld (Rod)</td><td>Varilla de acero con recubrimiento de cobre electrolítico ≥0.25 mm</td><td>Ø 16–25 mm, longitud 1.8–3.0 m</td><td>Aplicación general, fácil instalación</td></tr>
+        <tr><td>Varilla de cobre sólido</td><td>Cobre puro. Excelente conductividad pero costosa</td><td>Ø 16 mm, 1.5–3.0 m</td><td>Sitios con suelo muy corrosivo</td></tr>
+        <tr><td>Placa de cobre</td><td>Placa plana enterrada verticalmente</td><td>600×600 mm, espesor 3 mm mínimo</td><td>Suelos rocosos donde no se pueden hundir varillas</td></tr>
+        <tr><td>Electrodo de cinta (ribbon)</td><td>Cinta de cobre desnudo enterrada horizontalmente</td><td>Ancho 25–50 mm, longitud variable</td><td>Terrenos planos con capa superficial conductora</td></tr>
+        <tr><td>Malla de tierra (ground grid)</td><td>Conductores de cobre desnudo cruzados enterrados en cuadrícula</td><td>Espaciado 3–10 m entre conductores</td><td>Subestaciones, plantas industriales grandes</td></tr>
+        <tr><td>Electrodo de fundación (Ufer)</td><td>Conductor embebido en el concreto de la cimentación</td><td>Mínimo 6 m de longitud dentro del concreto</td><td>Construcciones nuevas con cimentación de concreto</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.3.2 Conductor de Tierra (Cobre Desnudo)</h3>
+    <p>El conductor de tierra conecta el electrodo con la barra de tierra del tablero. Especificaciones:</p>
+    <ul>
+      <li><strong>Material:</strong> Cobre desnudo (bare copper) o con aislamiento verde. Nunca aluminio para conductores enterrados (corrosión en suelo).</li>
+      <li><strong>Calibre mínimo:</strong> Ver tabla NOM-001-SEDE basada en la capacidad del servicio de entrada:
+        <ul>
+          <li>Hasta 200A: 6 AWG (13.3 mm²)</li>
+          <li>Hasta 300A: 4 AWG (21.2 mm²)</li>
+          <li>Hasta 400A: 3 AWG (26.7 mm²)</li>
+          <li>Hasta 600A: 1 AWG (42.4 mm²)</li>
+          <li>Hasta 800A: 1/0 AWG (53.5 mm²)</li>
+          <li>Hasta 1000A: 2/0 AWG (67.4 mm²)</li>
+          <li>Más de 1100A: 3/0 AWG o 350 kcmil</li>
+        </ul>
+      </li>
+      <li>El conductor de tierra no debe correr en tuberías metálicas cerradas (induce pérdidas en CA)</li>
+    </ul>
+
+    <h3>6.3.3 Conector Exotérmico (Cadweld / Thermoweld)</h3>
+    <p>El <strong>conector exotérmico</strong> (cadweld, thermoweld) es la unión de mayor calidad entre conductores de tierra y electrodos. Utiliza una reacción química exotérmica (aluminio + óxido de cobre → cobre + alúmina + calor) para fundir los conductores entre sí, creando una unión molecular permanente.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Característica</th><th>Conector Exotérmico</th><th>Conector Mecánico (tornillo)</th><th>Conector de compresión</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Resistencia de unión</td><td>Igual al conductor (unión molecular)</td><td>Variable (depende del torque)</td><td>Muy baja cuando bien instalado</td></tr>
+        <tr><td>Resistencia a corrosión</td><td>Excelente (unión sólida)</td><td>Media (puede aflojarse y oxidarse)</td><td>Buena</td></tr>
+        <tr><td>Resistencia mecánica</td><td>Muy alta</td><td>Media</td><td>Alta</td></tr>
+        <tr><td>Corriente de falla</td><td>Soporta corrientes de falla altas sin daño</td><td>Puede abrirse bajo alta corriente</td><td>Alta</td></tr>
+        <tr><td>Aplicación típica</td><td>Electrodo-conductor (enterrado)</td><td>Barra de tierra en tableros</td><td>Terminales de equipos</td></tr>
+        <tr><td>Desmontable</td><td>NO (permanente)</td><td>Sí</td><td>No (generalmente)</td></tr>
+        <tr><td>Costo</td><td>Alto (molde + carga)</td><td>Bajo</td><td>Medio</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.3.4 Barra de Tierra (Busbar de PE)</h3>
+    <p>La <strong>barra de tierra</strong> es la barra de cobre dentro del tablero donde llegan todos los conductores de tierra de los circuitos derivados. Especificaciones:</p>
+    <ul>
+      <li>Material: Cobre electrolítico ≥99.9% de pureza</li>
+      <li>Sección mínima: calculada según la corriente de falla máxima y el tiempo de despeje</li>
+      <li>En tablero principal (TGBT): la barra PE y la barra de neutro están unidas entre sí y al electrodo</li>
+      <li>En tableros derivados: la barra PE y la barra de neutro están <strong>separadas</strong></li>
+      <li>Todos los conductores tierra de los circuitos y equipos se conectan aquí</li>
+      <li>Accesible para pruebas; debe permitir la desconexión del conductor al electrodo para medición</li>
+    </ul>
+
+    <h3>6.3.5 Conductor de Equipotencialización (Bonding)</h3>
+    <p>La <strong>equipotencialización</strong> conecta todas las masas metálicas de la instalación (estructuras, tuberías, ductos de aire, bandejas, canalizaciones) al sistema de tierra, asegurando que no existan diferencias de potencial peligrosas entre superficies accesibles.</p>
+    <ul>
+      <li>Obligatorio en: tuberías metálicas de agua, gas, vapor; estructuras metálicas; bandeja portacables metálica; carcasas de equipos</li>
+      <li>Conductor mínimo: 6 AWG para equipotencialización de tuberías no conductoras de corriente de falla</li>
+      <li>Forma parte del sistema SPE (Sistema de Protección contra Electrocución) según IEC 60364</li>
+    </ul>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.4 ===================== -->
+  <section class="content-section" id="s6-4">
+    <h2 class="section-title"><span class="section-num">6.4</span> Resistencia del Electrodo: Valores Aceptables</h2>
+
+    <h3>6.4.1 Valores Normativos</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Tipo de instalación</th><th>Resistencia máxima</th><th>Norma de referencia</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Instalación eléctrica general (industrial/comercial)</td><td>≤ 25 Ω</td><td>NOM-001-SEDE-2012, Art. 250</td></tr>
+        <tr><td>Sistemas críticos (hospitales, CPDs, planta de proceso)</td><td>≤ 10 Ω</td><td>NOM-001-SEDE, IEEE Std 142</td></tr>
+        <tr><td>Alta sensibilidad (instrumentación, PLC, variadores)</td><td>≤ 5 Ω</td><td>IEEE Std 1100 (Emerald Book)</td></tr>
+        <tr><td>Equipos médicos (grado hospitalario)</td><td>≤ 1 Ω</td><td>NOM-FRGP, IEC 60601</td></tr>
+        <tr><td>Protección contra rayos (SPAT)</td><td>≤ 10 Ω</td><td>NOM-022-STPS, IEC 62305</td></tr>
+        <tr><td>Subestaciones eléctricas</td><td>Diseño por tensión de paso/toque, generalmente &lt;1 Ω</td><td>IEEE Std 80-2013</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.4.2 ¿Por qué importa el valor numérico?</h3>
+    <p>Supongamos una falla de fase a tierra en un sistema 480V con protección de 100A:</p>
+    <p>Con R_tierra = 1 Ω: I_falla = 480/1 = <strong>480 A</strong> → Interruptor de 100A actúa instantáneamente (corriente 4.8× In, zona magnética)</p>
+    <p>Con R_tierra = 10 Ω: I_falla = 480/10 = <strong>48 A</strong> → Interruptor de 100A NO actúa por zona magnética (48A &lt; 100A×5), actúa en zona térmica con retardo de varios minutos</p>
+    <p>Con R_tierra = 50 Ω: I_falla = 480/50 = <strong>9.6 A</strong> → Interruptor de 100A definitivamente no actúa. La carcasa del motor queda energizada a ~270V respecto a tierra mientras el operador la toca.</p>
+
+    <div class="info-box danger">
+      <strong>Conclusión fundamental:</strong> La resistencia de tierra debe ser lo suficientemente baja para que la corriente de falla sea suficientemente alta para actuar la protección. En sistemas de 480V con interruptores grandes, el requisito de ≤25 Ω puede ser insuficiente. L'Oréal requiere ≤10 Ω en áreas de proceso y ≤5 Ω en cuartos de instrumentación.
+    </div>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.5 ===================== -->
+  <section class="content-section" id="s6-5">
+    <h2 class="section-title"><span class="section-num">6.5</span> Métodos de Medición de Resistencia de Tierra</h2>
+
+    <h3>6.5.1 Método de Wenner (4 Picas — 4 Electrodos)</h3>
+    <p>El <strong>método de Wenner</strong> (o método de 4 electrodos en línea) no mide la resistencia de un electrodo específico, sino la <strong>resistividad del suelo</strong> (ρ en Ω·m). Con este dato se puede diseñar el sistema de tierra antes de instalarlo.</p>
+
+    <p><strong>Configuración:</strong></p>
+    <ul>
+      <li>Se instalan 4 picas en línea recta con espaciado igual (a).</li>
+      <li>Las picas externas (C1 y C2) inyectan corriente de prueba.</li>
+      <li>Las picas internas (P1 y P2) miden la diferencia de voltaje.</li>
+      <li>El telurómetro calcula la resistencia aparente R = V/I.</li>
+    </ul>
+
+    <p><strong>Fórmula de resistividad (Wenner):</strong></p>
+    <div class="formula-box">
+      ρ = 2π × a × R<br>
+      <br>
+      Donde:<br>
+      ρ = Resistividad del suelo (Ω·m)<br>
+      a = Espaciado entre picas (m)<br>
+      R = Resistencia medida por el telurómetro (Ω)<br>
+      π = 3.14159
+    </div>
+
+    <p><strong>Procedimiento de campo:</strong></p>
+    <ol>
+      <li>Seleccionar el sitio de medición. Evitar áreas próximas a estructuras metálicas enterradas (±30 m).</li>
+      <li>Instalar 4 picas de prueba de acero en línea recta, separadas a = 1.5 m (primera medición), luego a = 3 m, 5 m, 10 m.</li>
+      <li>Conectar el telurómetro (Ejemplo: FLUKE 1625 o ETCR3000): C1→pica externa izq., P1→pica interna izq., P2→pica interna der., C2→pica externa der.</li>
+      <li>Activar la medición. El instrumento inyecta corriente AC de prueba (generalmente 128 Hz para evitar interferencia con la red).</li>
+      <li>Registrar el valor R para cada espaciado a.</li>
+      <li>Calcular ρ = 2πaR para cada medición.</li>
+      <li>El perfil de resistividad a diferentes profundidades (que aumentan con el espaciado a) permite identificar la estratificación del suelo.</li>
+    </ol>
+
+    <h3>6.5.2 Método de Caída de Potencial (Fall of Potential — 3 Picas)</h3>
+    <p>El <strong>método de caída de potencial</strong> (también llamado método de 3 picas o método de la pica central) mide directamente la <strong>resistencia del electrodo de tierra instalado</strong>.</p>
+
+    <p><strong>Configuración:</strong></p>
+    <ul>
+      <li><strong>E (Earth):</strong> Se conecta al electrodo de tierra cuya resistencia se quiere medir (el sistema real instalado).</li>
+      <li><strong>C (Current):</strong> Pica auxiliar de corriente, instalada a 30–50 m del electrodo E.</li>
+      <li><strong>P (Potential):</strong> Pica auxiliar de voltaje, instalada a 62% de la distancia EC desde el electrodo E.</li>
+    </ul>
+
+    <p><strong>Fundamento de la regla del 62%:</strong> La zona de influencia del electrodo E y la zona de influencia del electrodo C se superponen mínimamente cuando P está al 62% de la distancia EC. En ese punto, la medición de voltaje/corriente da la resistencia real del electrodo E.</p>
+
+    <div class="formula-box">
+      R_tierra = V_P / I_C<br>
+      <br>
+      Donde:<br>
+      R_tierra = Resistencia del electrodo (Ω)<br>
+      V_P = Voltaje medido en la pica P (V)<br>
+      I_C = Corriente inyectada por la pica C (A)
+    </div>
+
+    <p><strong>Procedimiento detallado paso a paso:</strong></p>
+    <ol>
+      <li><strong>Preparación:</strong> Desconectar el electrodo de tierra del conductor que va a la barra de tierra del tablero. IMPORTANTE: verificar que el sistema sigue protegido por tierra temporal.</li>
+      <li><strong>Selección de distancias:</strong> Para varilla unitaria de 1.8 m, usar D_EC = 30 m mínimo. La pica C en 30 m, la pica P en 0.62 × 30 = 18.6 m desde E.</li>
+      <li><strong>Instalación de picas auxiliares:</strong> Hundir picas de prueba de ½" × 450 mm con martillo. La pica P debe quedar en línea recta entre E y C.</li>
+      <li><strong>Conexión del instrumento (FLUKE 1625-2 / ETCR3000 / Megger DET4TC2):</strong>
+        <ul>
+          <li>Terminal E (verde) → Conductor del electrodo de tierra del sistema</li>
+          <li>Terminal P (amarillo) → Pica auxiliar de voltaje (18.6 m)</li>
+          <li>Terminal C (rojo) → Pica auxiliar de corriente (30 m)</li>
+        </ul>
+      </li>
+      <li><strong>Medición:</strong> Seleccionar modo "Fall of Potential" o "3-pole test". Presionar medir. El instrumento inyecta corriente AC (128 Hz) de prueba entre E y C, mide el voltaje en P y calcula R = V/I.</li>
+      <li><strong>Verificación por desplazamiento:</strong> Para confirmar que el resultado es correcto, medir también con P a 52% y 72% de D_EC. Si los tres valores son similares (±2%), el resultado central es válido. Si varían más de 5%, aumentar la distancia D_EC.</li>
+      <li><strong>Registro:</strong> Anotar temperatura del suelo, condición de humedad reciente, coordenadas GPS del punto, valor medido en Ω, instrumento usado y calibración vigente.</li>
+      <li><strong>Reconexión:</strong> Volver a conectar el conductor de tierra al electrodo. Verificar apriete de la conexión.</li>
+    </ol>
+
+    <h3>6.5.3 Método del Telurómetro de Gancho (Clamp-On Method)</h3>
+    <p>El <strong>telurómetro de gancho</strong> (pinza de tierra, clamp-on earth tester — ETCR2100B+, Fluke 1630) permite medir la resistencia de cada electrodo en un sistema con múltiples electrodos en paralelo, <strong>sin desconectar nada</strong> y <strong>sin picas auxiliares</strong>. Es el método más rápido para verificaciones periódicas.</p>
+
+    <p><strong>Principio de funcionamiento:</strong></p>
+    <p>La pinza tiene un núcleo toroidal que actúa como transformador de inyección de voltaje y transformador de medición de corriente. Al colocarla alrededor del conductor de tierra:</p>
+    <ul>
+      <li>Inyecta un voltaje V a frecuencia específica (1820 Hz) en el lazo formado por: conductor de tierra → electrodo → suelo → otros electrodos en paralelo → retorno al tablero.</li>
+      <li>Mide la corriente I resultante en el mismo conductor.</li>
+      <li>Calcula R_total del lazo = V/I.</li>
+      <li>Como R_lazo = R_electrodo_medido ÷ (R_electrodo_medido + R_paralelo_otros), al conocer la resistencia en paralelo de los demás electrodos, se puede estimar la del electrodo individual.</li>
+    </ul>
+
+    <p><strong>Ventajas del método de gancho:</strong></p>
+    <ul>
+      <li>No requiere interrupción del servicio</li>
+      <li>No requiere picas auxiliares (sin perforaciones en pisos o pavimentos)</li>
+      <li>Rápido: medición en &lt;5 segundos por punto</li>
+      <li>Ideal para inspecciones periódicas anuales en planta</li>
+    </ul>
+    <p><strong>Limitaciones:</strong></p>
+    <ul>
+      <li>Solo válido cuando hay múltiples electrodos interconectados (el método requiere un lazo completo)</li>
+      <li>No aplica para electrodo unitario sin conexión a otros electrodos en paralelo</li>
+      <li>La frecuencia de 1820 Hz puede producir lecturas erróneas en presencia de corrientes de armónicos similares</li>
+    </ul>
+
+    <h3>6.5.4 Equipo ETCR2100B+ — Características Técnicas</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Parámetro</th><th>Especificación ETCR2100B+</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Rango de medición de resistencia</td><td>0.01 Ω – 200 Ω</td></tr>
+        <tr><td>Resolución</td><td>0.01 Ω</td></tr>
+        <tr><td>Exactitud</td><td>±2% ±0.03 Ω (0.01–10 Ω); ±2% (10–100 Ω)</td></tr>
+        <tr><td>Frecuencia de prueba</td><td>1820 Hz</td></tr>
+        <tr><td>Apertura de la pinza</td><td>32 mm</td></tr>
+        <tr><td>Medición de corriente de tierra</td><td>0–30 A AC (simultáneo)</td></tr>
+        <tr><td>Temperatura de operación</td><td>−10°C a +50°C</td></tr>
+        <tr><td>Grado de protección</td><td>IP54</td></tr>
+        <tr><td>Alimentación</td><td>6 × 1.5V AA</td></tr>
+        <tr><td>Peso</td><td>~800 g</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.6 ===================== -->
+  <section class="content-section" id="s6-6">
+    <h2 class="section-title"><span class="section-num">6.6</span> Mejora de la Resistencia de Tierra</h2>
+
+    <h3>6.6.1 Resistividad del Suelo por Tipo</h3>
+    <p>La resistencia del electrodo depende directamente de la resistividad del suelo (ρ). La resistividad varía enormemente:</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Tipo de suelo</th><th>Resistividad ρ (Ω·m) — Húmedo</th><th>Resistividad ρ (Ω·m) — Seco</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Agua de mar</td><td>0.1 – 1</td><td>—</td></tr>
+        <tr><td>Arcilla húmeda, tierra negra</td><td>5 – 50</td><td>50 – 200</td></tr>
+        <tr><td>Limo, arena fina con humedad</td><td>20 – 100</td><td>100 – 500</td></tr>
+        <tr><td>Arena gruesa, grava húmeda</td><td>100 – 500</td><td>500 – 3000</td></tr>
+        <tr><td>Caliza</td><td>200 – 1000</td><td>1000 – 10000</td></tr>
+        <tr><td>Granito, roca dura</td><td>1000 – 10000</td><td>10000 – 100000</td></tr>
+        <tr><td>Suelo arenoso con alto contenido de sales</td><td>2 – 10</td><td>—</td></tr>
+        <tr><td>Suelo con carbonato de calcio (caliche)</td><td>500 – 5000</td><td>5000 – 50000</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box info">
+      <strong>Región norte de México (Monterrey, Saltillo):</strong> Los suelos de caliche y roca caliza son frecuentes. La resistividad puede superar los 1000 Ω·m, lo que hace que alcanzar ≤10 Ω con una sola varilla sea prácticamente imposible. Se requieren sistemas de mejora del suelo o electrodos múltiples.
+    </div>
+
+    <h3>6.6.2 Profundidad vs. Resistencia</h3>
+    <p>La resistencia de una varilla copperweld cilíndrica de radio r y longitud L enterrada verticalmente en suelo de resistividad ρ (fórmula de Dwight):</p>
+    <div class="formula-box">
+      R = (ρ / 2πL) × [ln(4L/d) − 1]<br>
+      <br>
+      Donde:<br>
+      R = Resistencia del electrodo (Ω)<br>
+      ρ = Resistividad del suelo (Ω·m)<br>
+      L = Longitud de la varilla (m)<br>
+      d = Diámetro de la varilla (m)<br>
+      ln = Logaritmo natural
+    </div>
+
+    <p><strong>Ejemplo numérico:</strong> Varilla copperweld Ø 16 mm (d = 0.016 m) en suelo con ρ = 100 Ω·m:</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Longitud L (m)</th><th>R calculada (Ω)</th><th>Reducción respecto a 1.8 m</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1.8 m</td><td>47.3 Ω</td><td>— (referencia)</td></tr>
+        <tr><td>3.0 m</td><td>31.2 Ω</td><td>−34%</td></tr>
+        <tr><td>6.0 m</td><td>18.5 Ω</td><td>−61%</td></tr>
+        <tr><td>9.0 m</td><td>13.3 Ω</td><td>−72%</td></tr>
+        <tr><td>12.0 m</td><td>10.5 Ω</td><td>−78%</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Observación:</strong> Doblar la longitud no reduce la resistencia a la mitad. La reducción por profundidad adicional disminuye con cada metro añadido. Para reducir significativamente, se requieren electrodos múltiples en paralelo.</p>
+
+    <h3>6.6.3 Electrodos Múltiples en Paralelo</h3>
+    <p>La resistencia de n electrodos en paralelo perfectamente separados (separación ≥ longitud del electrodo):</p>
+    <div class="formula-box">
+      R_paralelo = R_single / n × K_factor<br>
+      <br>
+      K_factor ≈ 1.0 para separación ≥ 2L (sin interferencia)<br>
+      K_factor ≈ 1.1–1.3 para separación = L (interferencia moderada)<br>
+      K_factor ≈ 1.5–2.0 para separación &lt; 0.5L (alta interferencia)
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Número de varillas (separadas &gt;3.6 m)</th><th>R resultante (% de R_single)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>100%</td></tr>
+        <tr><td>2</td><td>~66%</td></tr>
+        <tr><td>3</td><td>~47%</td></tr>
+        <tr><td>4</td><td>~37%</td></tr>
+        <tr><td>6</td><td>~28%</td></tr>
+        <tr><td>8</td><td>~22%</td></tr>
+        <tr><td>10</td><td>~18%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.6.4 Tratamiento del Suelo con Aditivos</h3>
+    <p>Cuando la resistividad del suelo es muy alta y no es práctico aumentar el número o longitud de electrodos, se aplican <strong>aditivos para reducir la resistividad</strong>:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Aditivo</th><th>Mecanismo</th><th>Reducción típica de R</th><th>Duración</th><th>Notas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Bentonita (GEM / Erico)</td><td>Arcilla absorbente de agua que incrementa el contacto suelo-electrodo</td><td>30–70%</td><td>Permanente si hay humedad</td><td>No contamina el suelo, ecológico</td></tr>
+        <tr><td>GEM (Ground Enhancement Material)</td><td>Material de carbono conductor de grafito mezclado con cemento</td><td>50–90%</td><td>Permanente (endurece)</td><td>No se lixivia, no contamina</td></tr>
+        <tr><td>Cem-EARTH / LYNCOLE XIT</td><td>Compuesto de sales minerales</td><td>40–80%</td><td>5–10 años (se lixivia)</td><td>Puede contaminar el manto freático</td></tr>
+        <tr><td>Sal común (NaCl)</td><td>Aumenta conductividad del suelo</td><td>30–60%</td><td>2–5 años</td><td>Puede corroer el electrodo y contaminar suelo. NO recomendado.</td></tr>
+        <tr><td>Carbón vegetal</td><td>Conductor carbonoso de bajo costo</td><td>20–40%</td><td>10–20 años</td><td>Opción económica en instalaciones rurales</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box tip">
+      <strong>Recomendación INTEGR:</strong> Para instalaciones nuevas en suelos de caliche en el norte de México, usar <strong>GEM (Ground Enhancement Material)</strong> colocado alrededor de cada varilla en una columna de 100–150 mm de diámetro y la longitud completa del electrodo. Garantiza ≤10 Ω en la mayoría de suelos con 3–4 varillas.
+    </div>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.7 ===================== -->
+  <section class="content-section" id="s6-7">
+    <h2 class="section-title"><span class="section-num">6.7</span> Diseño de Malla de Tierra (IEEE Std 80-2013)</h2>
+
+    <h3>6.7.1 Concepto de Malla de Tierra</h3>
+    <p>Para subestaciones e instalaciones industriales grandes, el sistema de tierra consiste en una <strong>malla de conductores de cobre desnudo</strong> enterrados horizontalmente en cuadrícula, conectados entre sí y a varillas verticales en sus intersecciones o extremos. El objetivo es reducir la resistencia de tierra y, más importante, controlar los <strong>gradientes de potencial en superficie</strong>.</p>
+
+    <h3>6.7.2 Tensión de Toque y Tensión de Paso</h3>
+    <p>Durante una falla a tierra, el suelo desarrolla gradientes de voltaje que pueden ser mortales:</p>
+    <ul>
+      <li><strong>Tensión de toque (Touch Voltage):</strong> Diferencia de potencial entre la mano de una persona de pie en la superficie (que toca una estructura metálica energizada) y sus pies. El cuerpo humano en este caso está en paralelo con parte de la resistencia de tierra.</li>
+      <li><strong>Tensión de paso (Step Voltage):</strong> Diferencia de potencial entre los dos pies de una persona parada en el suelo, separados ~1 metro. Ocurre cuando el gradiente de potencial del suelo es elevado en la periferia del electrodo.</li>
+    </ul>
+
+    <p><strong>Corriente máxima tolerable por el cuerpo humano (IEEE Std 80-2013):</strong></p>
+    <div class="formula-box">
+      I_tolerable = 0.116 / √t_s &nbsp; (para 50 kg de peso corporal, t_s en segundos)<br>
+      I_tolerable = 0.157 / √t_s &nbsp; (para 70 kg de peso corporal)<br>
+      <br>
+      Para t_s = 0.5 s (tiempo de despeje del interruptor):<br>
+      I = 0.116 / √0.5 = 0.164 A = 164 mA (50 kg)<br>
+      I = 0.157 / √0.5 = 0.222 A = 222 mA (70 kg)<br>
+      <br>
+      Tensión de toque tolerable:<br>
+      E_touch = I × (R_cuerpo + R_contacto_pies/2)<br>
+      Para suelo de concreto (ρ_s = 3000 Ω·m), R_pies ≈ 3 × ρ_s = 9000 Ω<br>
+      E_touch ≈ 0.164 × (1000 + 4500) ≈ 902 V (suelo de concreto)
+    </div>
+
+    <h3>6.7.3 Diseño Simplificado de Malla</h3>
+    <p>Para la planta L'Oréal, el diseño de malla sigue estos pasos (simplificado, referirse a IEEE Std 80 para diseño completo):</p>
+    <ol>
+      <li>Determinar la corriente de falla máxima If del sistema (dato del estudio de corto circuito).</li>
+      <li>Determinar el tiempo de despeje t_s (dato del ajuste de protecciones).</li>
+      <li>Calcular la tensión de toque y paso máximas tolerables para ese tiempo de despeje.</li>
+      <li>Estimar la resistencia de malla requerida: R_malla = E_tolerable / (If × Sf), donde Sf es factor de reducción de corriente de falla a tierra.</li>
+      <li>Seleccionar el espaciado de la malla: cuadrículas de 3×3 m a 10×10 m según el área a proteger.</li>
+      <li>Calcular la sección del conductor de cobre: I = A × K / √t (ANSI/IEEE formula de fusión del conductor).</li>
+      <li>Especificar varillas en esquinas y a lo largo del perímetro.</li>
+    </ol>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Parámetro de diseño</th><th>Valor típico en L'Oréal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Corriente de falla máxima 480V</td><td>25–65 kA (según subestación)</td></tr>
+        <tr><td>Tiempo de despeje interruptor principal</td><td>0.1–0.5 s</td></tr>
+        <tr><td>Conductor de malla principal</td><td>4/0 AWG (107 mm²) cobre desnudo</td></tr>
+        <tr><td>Espaciado entre conductores</td><td>5 × 5 m</td></tr>
+        <tr><td>Profundidad de enterrado de malla</td><td>500–600 mm</td></tr>
+        <tr><td>Varillas de tierra</td><td>Ø 16 mm × 1.8 m copperweld, en cada intersección periférica</td></tr>
+        <tr><td>Objetivo de resistencia</td><td>≤ 1 Ω (subestación) — ≤5 Ω (tableros de piso)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.8 ===================== -->
+  <section class="content-section" id="s6-8">
+    <h2 class="section-title"><span class="section-num">6.8</span> Puesta a Tierra de Equipos Específicos</h2>
+
+    <h3>6.8.1 Transformadores</h3>
+    <ul>
+      <li>El neutro del secundario debe conectarse a tierra en el TGBT (tablero general de baja tensión) solo, no en otros puntos del sistema.</li>
+      <li>La carcasa metálica del transformador se conecta al sistema de tierra de protección con conductor verde calibrado según NOM-001 Tabla 250.122.</li>
+      <li>Los transformadores de instrumentación (TC y TP) deben tener un terminal de su secundario conectado a tierra para evitar acumulación de voltaje estático.</li>
+    </ul>
+
+    <h3>6.8.2 Tableros Eléctricos y Centros de Control</h3>
+    <ul>
+      <li>La estructura metálica (gabinete) del tablero se conecta a tierra PE.</li>
+      <li>La barra PE es el punto de conexión de todos los conductores de tierra de los circuitos derivados.</li>
+      <li>En el TGBT, la barra PE y la barra N (neutro) se unen mediante un conductor de equipotencialización (main bonding jumper).</li>
+      <li>En tableros derivados: barra PE y barra N están físicamente separadas (distintas barras, no interconectadas localmente).</li>
+    </ul>
+
+    <h3>6.8.3 Motores Eléctricos</h3>
+    <ul>
+      <li>La carcasa del motor se conecta a tierra mediante el conductor verde del cable de alimentación o una conexión dedicada a la estructura.</li>
+      <li>Para motores sobre bases antivibrantes (silentblocks de goma), la base aísla eléctricamente el motor de la estructura. Se requiere jumper de tierra independiente entre la carcasa del motor y la estructura metálica de la planta.</li>
+      <li>En motores con variador de frecuencia, la tierra debe conectarse al tablero del VFD mediante conductor de baja impedancia (corto y recto). Los VFD generan corrientes de modo común que requieren tierra efectiva a alta frecuencia.</li>
+    </ul>
+
+    <h3>6.8.4 Instrumentación y Señales Analógicas</h3>
+    <p>La tierra en instrumentación requiere atención especial para evitar lazos de tierra (ground loops) que generan ruido en las señales:</p>
+    <ul>
+      <li><strong>Lazo 4-20 mA no aislado:</strong> Conectar el shield del cable en UN solo extremo (normalmente en el panel de control). Dejar el otro extremo libre (flotante).</li>
+      <li><strong>Lazo 4-20 mA con aislamiento galvánico (aisladores de lazo):</strong> El shield puede conectarse en ambos extremos sin problema de lazo.</li>
+      <li><strong>Comunicación RS-485/Modbus:</strong> El shield se conecta a tierra solo en el maestro (controlador/PLC), no en los esclavos (transmisores, variadores).</li>
+      <li><strong>Tierra de señal separada:</strong> En salas de control con equipos críticos, implementar una barra de tierra de señal (ISG — Instrument Signal Ground) que se conecta al sistema de tierra principal en un ÚNICO punto (principio de tierra limpia).</li>
+    </ul>
+
+    <h3>6.8.5 Sistemas de Protección contra Rayos (SPR / LPS)</h3>
+    <p>La <strong>NOM-022-STPS-2015</strong> e <strong>IEC 62305</strong> definen los requisitos para sistemas de pararrayos. La tierra del SPR debe:</p>
+    <ul>
+      <li>Resistencia ≤ 10 Ω (mide con caída de potencial)</li>
+      <li>Conectarse al mismo sistema de tierra de la instalación (equipotencialidad) — nunca un sistema de tierra separado ("tierra de rayos aislada" es un concepto obsoleto y peligroso)</li>
+      <li>El conductor bajante (down conductor) debe ser de cobre de mínimo 50 mm² o equivalente de aluminio 70 mm²</li>
+      <li>Instalar descargadores de sobretensión (SPD tipo 1) en el tablero principal donde entra la acometida</li>
+    </ul>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.9 ===================== -->
+  <section class="content-section" id="s6-9">
+    <h2 class="section-title"><span class="section-num">6.9</span> Topologías de Sistema de Tierra: TN, TT, IT</h2>
+
+    <p>La norma IEC 60364 (adoptada en México por NOM-001-SEDE en sus artículos generales) clasifica los sistemas de distribución según la forma en que el punto neutro y las masas metálicas se conectan a tierra:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Topología</th><th>Significado</th><th>Descripción</th><th>Uso en L'Oréal</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>TN-S</strong></td>
+          <td>T=Tierra (neutro en fuente), N=Neutro (masas a neutro), S=Separado</td>
+          <td>El neutro y la tierra PE son conductores separados en todo el sistema. El más seguro y recomendado para instalaciones industriales nuevas.</td>
+          <td>Tableros principales y derivados en áreas de producción. Cuartos de instrumentación.</td>
+        </tr>
+        <tr>
+          <td><strong>TN-C</strong></td>
+          <td>C=Combinado (PEN conductor)</td>
+          <td>El neutro y la tierra PE se combinan en un solo conductor (PEN). Solo permitido en conductores de sección ≥10 mm². Prohibido en instalaciones nuevas en México.</td>
+          <td>No se usa en L'Oréal (instalación moderna TN-S).</td>
+        </tr>
+        <tr>
+          <td><strong>TN-C-S</strong></td>
+          <td>Combinación de TN-C y TN-S</td>
+          <td>El conductor PEN llega hasta el tablero principal (TN-C) y de ahí en adelante se separan en N y PE (TN-S).</td>
+          <td>En instalaciones heredadas (anteriores a 2005) donde el transformador ya tenía PEN.</td>
+        </tr>
+        <tr>
+          <td><strong>TT</strong></td>
+          <td>T=Tierra (neutro en fuente), T=Tierra (masas a tierra local)</td>
+          <td>El neutro del transformador se conecta a tierra en la fuente. Las masas de los equipos se conectan a un electrodo de tierra local (independiente del neutro). Requiere interruptores diferenciales.</td>
+          <td>Conexiones a la red pública de CFE donde no se tiene transformador propio. Instalaciones rurales.</td>
+        </tr>
+        <tr>
+          <td><strong>IT</strong></td>
+          <td>I=Aislado (neutro aislado), T=Tierra (masas)</td>
+          <td>El neutro del transformador NO está conectado a tierra (flota). Las masas sí están conectadas a tierra. Una primera falla no crea corriente, solo una alarma. Requiere monitor de aislamiento permanente.</td>
+          <td>Cuartos de cirugía/médicos (si hubiera áreas médicas). Sistemas de energía ininterrumpible críticos. Laboratorios de R&amp;D de alta seguridad.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box info">
+      <strong>L'Oréal planta:</strong> El sistema principal es <strong>TN-S</strong> para toda la distribución de potencia. Los UPS críticos operan en modo IT (aislado) para las áreas de instrumentación de mayor sensibilidad, con monitor de aislamiento IMD (Insulation Monitoring Device) tipo BENDER o equivalente.
+    </div>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.10 ===================== -->
+  <section class="content-section" id="s6-10">
+    <h2 class="section-title"><span class="section-num">6.10</span> Mantenimiento del Sistema de Tierra</h2>
+
+    <h3>6.10.1 Programa de Verificación Periódica</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Actividad</th><th>Frecuencia</th><th>Método / Instrumento</th><th>Criterio de aceptación</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Medición de resistencia de cada electrodo</td><td>Anual (NOM-022 requiere anual)</td><td>Caída de potencial (3 picas) o gancho ETCR2100+</td><td>≤10 Ω sistema crítico, ≤25 Ω general</td></tr>
+        <tr><td>Inspección visual de conexiones en tableros</td><td>Semestral</td><td>Visual + destornillador / llave</td><td>Sin corrosión, tornillos apretados, conductor sin daño</td></tr>
+        <tr><td>Inspección de conexiones exotérmicas enterradas (si accesibles)</td><td>Anual</td><td>Visual en registro de tierra</td><td>Unión íntegra, sin corrosión visible</td></tr>
+        <tr><td>Prueba de continuidad de tierra en equipos</td><td>Semestral</td><td>Ohmímetro de baja resistencia (miliohmímetro)</td><td>&lt;1 Ω desde carcasa del equipo a barra PE del tablero</td></tr>
+        <tr><td>Verificación de bonding (equipotencialización)</td><td>Anual</td><td>Ohmímetro / gancho</td><td>&lt;0.5 Ω entre puntos del sistema de bonding</td></tr>
+        <tr><td>Inspección de protección anticorrosiva en electrodos (visible en registros)</td><td>Anual</td><td>Visual</td><td>Sin corrosión puntual, capa de GEM/bentonita intacta</td></tr>
+        <tr><td>Medición de resistividad del suelo (zona de electrodos)</td><td>Cada 5 años</td><td>Método Wenner (4 picas)</td><td>Comparar con medición original; cambio &gt;20% requiere investigación</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.10.2 Puntos de Inspección Visual en Tableros</h3>
+    <ul>
+      <li>Conductor verde de tierra: verificar que no esté partido, aplastado o corroído.</li>
+      <li>Terminales en barra PE: verificar apriete correcto (par de apriete según tamaño del terminal — ver Módulo 8).</li>
+      <li>Separación entre barra PE y barra N (en tableros derivados): confirmar que NO hay puentes instalados entre ambas barras.</li>
+      <li>Color verde de conductores de tierra: confirmar que no hay conductores de otro color conectados a la barra PE (error de instalación).</li>
+      <li>Conductor de equipotencialización a bandeja y estructura: verificar continuidad mecánica del jumper.</li>
+    </ul>
+
+    <h3>6.10.3 Registro de Mediciones</h3>
+    <p>Todo estudio de tierra debe quedar documentado con la siguiente información mínima:</p>
+    <ul>
+      <li>Folio del estudio (INTEGR: INTG-TF-XXXX-AÑO)</li>
+      <li>Fecha y hora de medición</li>
+      <li>Temperatura y humedad del suelo (condición de medición)</li>
+      <li>Instrumento usado, número de serie y fecha de calibración vigente</li>
+      <li>Método de medición empleado</li>
+      <li>Plano con ubicación de cada electrodo medido y las picas auxiliares</li>
+      <li>Valores medidos en cada electrodo (Ω)</li>
+      <li>Diagnóstico y recomendaciones</li>
+      <li>Nombre y firma del técnico INTEGR responsable</li>
+    </ul>
+
+    <h3>6.10.4 Corrosión en Conexiones de Tierra</h3>
+    <p>La corrosión es el principal enemigo del sistema de tierra. Tipos y tratamiento:</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Tipo de corrosión</th><th>Causa</th><th>Solución</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Corrosión galvánica</td><td>Unión de metales distintos (cobre-acero) en presencia de humedad</td><td>Usar solo cobre en el sistema de tierra enterrado; aislar contactos cobre-aluminio con pasta inhibidora</td></tr>
+        <tr><td>Corrosión electrolítica</td><td>Corrientes parásitas de CD o CA de sistemas industriales</td><td>Eliminar la fuente de corriente parásita; separar el conductor de tierra del sistema ofensor</td></tr>
+        <tr><td>Oxidación superficial en conexiones atornilladas</td><td>Humedad + temperatura variable</td><td>Limpiar con cepillo de alambre, aplicar pasta inhibidora de oxidación (No-Ox ID A Special), apretar al par correcto</td></tr>
+        <tr><td>Reducción de sección por corrosión en el electrodo</td><td>Suelo ácido o altamente salino</td><td>Reemplazar el electrodo; considerar varilla de SS 316 o con mayor espesor de recubrimiento de cobre</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================== SECCIÓN 6.11 ===================== -->
+  <section class="content-section" id="s6-11">
+    <h2 class="section-title"><span class="section-num">6.11</span> Estudio de Tierras — Procedimiento INTEGR</h2>
+
+    <h3>6.11.1 Folio y Alcance</h3>
+    <p>INTEGR Ingeniería realiza estudios de tierras físicas bajo la clave <strong>INTG-TF</strong> (Tierra Física). El alcance del estudio incluye:</p>
+    <ul>
+      <li>Inventario de todos los electrodos de tierra en la instalación</li>
+      <li>Medición de resistencia de cada electrodo con método de caída de potencial</li>
+      <li>Medición de resistividad del suelo en las áreas de mayor importancia</li>
+      <li>Medición de corrientes de tierra y corrientes parásitas (si se detectan anomalías)</li>
+      <li>Verificación de continuidad del sistema de bonding</li>
+      <li>Clasificación de resultados: ✓ Aprobado / ⚠ Observación / ✗ Requiere corrección inmediata</li>
+      <li>Recomendaciones técnicas con especificaciones de corrección</li>
+    </ul>
+
+    <h3>6.11.2 Equipos INTEGR para Estudios de Tierra</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Equipo</th><th>Modelo</th><th>Uso principal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Telurómetro de gancho (pinza)</td><td>ETCR2100B+</td><td>Medición rápida sin desconexión en sistemas con múltiples electrodos</td></tr>
+        <tr><td>Telurómetro 4 terminales</td><td>FLUKE 1625-2 GEO</td><td>Caída de potencial (3 picas) y resistividad Wenner (4 picas)</td></tr>
+        <tr><td>Megger de tierra</td><td>Megger DET4TC2</td><td>Mediciones de alta exactitud en subestaciones y mallas de tierra</td></tr>
+        <tr><td>Multímetro de alta resolución</td><td>FLUKE 289</td><td>Continuidad de tierra en equipos y tableros</td></tr>
+        <tr><td>Miliohmímetro</td><td>AEMC 6240</td><td>Medición de resistencia de conexiones de tierra (&lt;0.1 Ω)</td></tr>
+        <tr><td>Analizador de calidad de energía</td><td>FLUKE 435-II</td><td>Corrientes de tierra, armónicos, corrientes parásitas</td></tr>
+      </tbody>
+    </table>
+
+    <h3>6.11.3 Qué Incluye un Reporte Profesional INTG-TF</h3>
+    <p>El reporte de estudio de tierras entregado a L'Oréal incluye:</p>
+    <ol>
+      <li><strong>Portada:</strong> Folio INTG-TF, cliente, planta, fecha, técnico responsable, firma y sello.</li>
+      <li><strong>Introducción y alcance:</strong> Descripción del sistema evaluado y áreas de la planta incluidas.</li>
+      <li><strong>Marco normativo:</strong> Normas aplicadas (NOM-001-SEDE, NOM-022, IEEE 142, etc.).</li>
+      <li><strong>Descripción del sistema de tierra existente:</strong> Tipo, número y ubicación de electrodos; topología del sistema.</li>
+      <li><strong>Metodología:</strong> Instrumentos usados, método de medición, condiciones del suelo al momento de la medición.</li>
+      <li><strong>Resultados de medición:</strong> Tabla con cada punto de medición, valor medido, criterio aplicable y clasificación (✓/⚠/✗).</li>
+      <li><strong>Plano de tierra:</strong> Plano de la planta con la ubicación de cada electrodo, valor medido y clasificación.</li>
+      <li><strong>Análisis y diagnóstico:</strong> Interpretación de los resultados, comparación con mediciones anteriores, identificación de degradación.</li>
+      <li><strong>Fotografías de campo:</strong> Evidencia fotográfica de la medición, condición de electrodos y conexiones.</li>
+      <li><strong>Conclusiones y recomendaciones:</strong> Acciones correctivas priorizadas, especificaciones técnicas para corrección.</li>
+      <li><strong>Cronograma de mediciones futuras:</strong> Programación del próximo estudio (NOM-022 requiere anual).</li>
+    </ol>
+
+    <div class="info-box tip">
+      <strong>Valor añadido INTEGR:</strong> El reporte INTG-TF cumple con los requisitos de documentación exigidos en las auditorías de seguros industriales y en las inspecciones de la STPS (Secretaría del Trabajo y Previsión Social), que verifica el cumplimiento de NOM-022-STPS en instalaciones con riesgo eléctrico.
+    </div>
+  </section>
+
+  <!-- ===================== GLOSARIO ===================== -->
+  <section class="content-section" id="glosario">
+    <h2 class="section-title">6.12 Glosario del Sistema de Tierra</h2>
+    <div class="glossary-grid">
+      <div class="glossary-item"><span class="glossary-term">Tierra física (Ground)</span><span class="glossary-def">Conexión intencional entre un sistema eléctrico y la tierra (suelo), con baja impedancia.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Resistencia de tierra (R_t)</span><span class="glossary-def">Resistencia eléctrica entre el electrodo de tierra y la tierra remota (punto de potencial cero). Medida en Ohmios.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Resistividad del suelo (ρ)</span><span class="glossary-def">Resistencia específica del suelo al flujo de corriente eléctrica. Se expresa en Ω·m. Depende del tipo de suelo, humedad y temperatura.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Electrodo de tierra</span><span class="glossary-def">Elemento conductor enterrado que hace contacto eléctrico con el suelo para disipar corrientes de falla.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Varilla copperweld</span><span class="glossary-def">Electrodo de tierra tipo varilla, fabricado de acero con recubrimiento de cobre electrolítico ≥0.25 mm de espesor.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Conector exotérmico (Cadweld)</span><span class="glossary-def">Unión permanente entre conductores de cobre producida por la reacción exotérmica de aluminio con óxido de cobre. Resistencia igual al conductor base.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Barra de tierra (PE Bus)</span><span class="glossary-def">Barra de cobre dentro de un tablero eléctrico donde se conectan todos los conductores de tierra de protección (PE).</span></div>
+      <div class="glossary-item"><span class="glossary-term">Bonding (Equipotencialización)</span><span class="glossary-def">Conexión intencional de masas metálicas entre sí y al sistema de tierra para evitar diferencias de potencial peligrosas.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Lazo de tierra (Ground loop)</span><span class="glossary-def">Corriente que fluye por el shield del cable de señal a consecuencia de diferencias de potencial entre los puntos de tierra en los dos extremos del cable. Causa ruido en señales analógicas.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Método de caída de potencial</span><span class="glossary-def">Método de 3 picas para medir la resistencia de un electrodo de tierra instalado. La pica auxiliar de voltaje se coloca al 62% de la distancia entre el electrodo y la pica de corriente.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Método de Wenner</span><span class="glossary-def">Método de 4 picas en línea equiespaciadas para medir la resistividad del suelo. ρ = 2πaR.</span></div>
+      <div class="glossary-item"><span class="glossary-term">ETCR2100B+</span><span class="glossary-def">Telurómetro de gancho (pinza) para medición de resistencia de tierra sin desconexión ni picas auxiliares. Rango 0.01–200 Ω.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Tensión de toque</span><span class="glossary-def">Diferencia de potencial entre la mano de una persona que toca una estructura metálica y sus pies durante una falla a tierra.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Tensión de paso</span><span class="glossary-def">Diferencia de potencial entre los dos pies de una persona parada en el suelo, separados ~1 m, durante el flujo de corriente de falla por el suelo.</span></div>
+      <div class="glossary-item"><span class="glossary-term">GEM (Ground Enhancement Material)</span><span class="glossary-def">Material conductor a base de carbono y grafito que se aplica alrededor del electrodo para reducir la resistencia de tierra en suelos de alta resistividad.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Bentonita</span><span class="glossary-def">Arcilla altamente absorbente de agua usada como aditivo de suelo para reducir la resistencia de tierra. Es ecológica y permanente.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Sistema TN-S</span><span class="glossary-def">Topología de distribución donde el neutro y la tierra PE son conductores separados en todo el sistema. El más seguro para instalaciones industriales modernas.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Sistema IT</span><span class="glossary-def">Topología de distribución con neutro aislado de tierra. Una primera falla a tierra no crea corriente de falla. Requiere monitor de aislamiento IMD.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Malla de tierra (Ground grid)</span><span class="glossary-def">Red de conductores de cobre desnudo enterrados en cuadrícula, usada en subestaciones para controlar gradientes de potencial en la superficie del suelo.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Electrodo Ufer (fundación)</span><span class="glossary-def">Conductor de cobre o acero embebido en el concreto de la cimentación de un edificio, usado como electrodo de tierra por la conductividad eléctrica del concreto húmedo.</span></div>
+      <div class="glossary-item"><span class="glossary-term">INTG-TF</span><span class="glossary-def">Clave de folio del reporte de estudio de tierras físicas de INTEGR Ingeniería. Incluye mediciones, diagnóstico y recomendaciones en formato profesional.</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== EVALUACIÓN ===================== -->
+  <section class="content-section" id="evaluacion">
+    <h2 class="section-title">Evaluación del Módulo 6</h2>
+
+    <div class="question-block">
+      <p class="question-text">1. ¿Cuál es la resistencia de tierra máxima aceptable para sistemas críticos en L'Oréal (instrumentación y PLCs)?</p>
+      <div class="options"><label><input type="radio" name="q1" value="a"/> a) 25 Ω</label><label><input type="radio" name="q1" value="b"/> b) 10 Ω</label><label><input type="radio" name="q1" value="c"/> c) 5 Ω</label><label><input type="radio" name="q1" value="d"/> d) 1 Ω</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">2. ¿En qué porcentaje de la distancia entre electrodos E y C se coloca la pica de voltaje P en el método de caída de potencial?</p>
+      <div class="options"><label><input type="radio" name="q2" value="a"/> a) 50%</label><label><input type="radio" name="q2" value="b"/> b) 62%</label><label><input type="radio" name="q2" value="c"/> c) 75%</label><label><input type="radio" name="q2" value="d"/> d) 80%</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">3. ¿Cuál es el color del conductor de tierra de protección (PE) en México?</p>
+      <div class="options"><label><input type="radio" name="q3" value="a"/> a) Blanco</label><label><input type="radio" name="q3" value="b"/> b) Gris</label><label><input type="radio" name="q3" value="c"/> c) Verde o verde/amarillo</label><label><input type="radio" name="q3" value="d"/> d) Azul</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">4. ¿Dónde se unen la barra de neutro (N) y la barra de tierra (PE) en un sistema TN-S?</p>
+      <div class="options"><label><input type="radio" name="q4" value="a"/> a) En cada tablero derivado</label><label><input type="radio" name="q4" value="b"/> b) Solo en el tablero principal (TGBT)</label><label><input type="radio" name="q4" value="c"/> c) Solo en el transformador</label><label><input type="radio" name="q4" value="d"/> d) En todos los tableros simultáneamente</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">5. ¿Qué tipo de aditivo de suelo es el más recomendado por INTEGR para suelos de caliche en el norte de México?</p>
+      <div class="options"><label><input type="radio" name="q5" value="a"/> a) Sal común (NaCl)</label><label><input type="radio" name="q5" value="b"/> b) GEM (Ground Enhancement Material)</label><label><input type="radio" name="q5" value="c"/> c) Arena húmeda</label><label><input type="radio" name="q5" value="d"/> d) Cal viva</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">6. ¿Qué fenómeno ocurre cuando el shield de un cable de señal 4-20 mA se conecta a tierra en AMBOS extremos en un sistema sin aislamiento galvánico?</p>
+      <div class="options"><label><input type="radio" name="q6" value="a"/> a) La señal se amplifica</label><label><input type="radio" name="q6" value="b"/> b) Se crea un lazo de tierra que genera ruido en la señal</label><label><input type="radio" name="q6" value="c"/> c) Mejora la protección contra EMI</label><label><input type="radio" name="q6" value="d"/> d) El shield protege mejor la señal</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">7. La fórmula de Wenner para resistividad del suelo es ρ = 2πaR. ¿Qué representa "a"?</p>
+      <div class="options"><label><input type="radio" name="q7" value="a"/> a) El área del electrodo</label><label><input type="radio" name="q7" value="b"/> b) El espaciado entre las cuatro picas</label><label><input type="radio" name="q7" value="c"/> c) La longitud total del conductor de tierra</label><label><input type="radio" name="q7" value="d"/> d) La profundidad de la malla de tierra</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">8. ¿Cuál es la frecuencia de prueba del telurómetro de gancho ETCR2100B+?</p>
+      <div class="options"><label><input type="radio" name="q8" value="a"/> a) 60 Hz</label><label><input type="radio" name="q8" value="b"/> b) 128 Hz</label><label><input type="radio" name="q8" value="c"/> c) 1820 Hz</label><label><input type="radio" name="q8" value="d"/> d) 3000 Hz</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">9. ¿Qué topología de sistema eléctrico usa la planta L'Oréal para su distribución principal de potencia?</p>
+      <div class="options"><label><input type="radio" name="q9" value="a"/> a) TT</label><label><input type="radio" name="q9" value="b"/> b) TN-C</label><label><input type="radio" name="q9" value="c"/> c) IT</label><label><input type="radio" name="q9" value="d"/> d) TN-S</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">10. ¿Qué es la "tensión de paso"?</p>
+      <div class="options"><label><input type="radio" name="q10" value="a"/> a) Voltaje entre la mano y el pie de una persona que toca un equipo energizado</label><label><input type="radio" name="q10" value="b"/> b) Diferencia de potencial entre los dos pies de una persona en el suelo durante un flujo de corriente de falla</label><label><input type="radio" name="q10" value="c"/> c) Caída de voltaje en el conductor de tierra</label><label><input type="radio" name="q10" value="d"/> d) Tensión de operación del sistema de tierra</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">11. ¿Cuál es la ventaja principal de un conector exotérmico (Cadweld) frente a un conector atornillado en tierra?</p>
+      <div class="options"><label><input type="radio" name="q11" value="a"/> a) Es más económico y rápido de instalar</label><label><input type="radio" name="q11" value="b"/> b) Es desmontable para verificación</label><label><input type="radio" name="q11" value="c"/> c) Crea una unión molecular permanente con resistencia igual al conductor base y soporta corrientes de falla altas</label><label><input type="radio" name="q11" value="d"/> d) No requiere limpieza de los conductores previo a la instalación</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">12. Un motor sobre base de silentblocks de goma requiere:</p>
+      <div class="options"><label><input type="radio" name="q12" value="a"/> a) No requiere tierra, los silentblocks aíslan las vibraciones eléctricas</label><label><input type="radio" name="q12" value="b"/> b) Un jumper de tierra independiente entre la carcasa del motor y la estructura metálica de la planta</label><label><input type="radio" name="q12" value="c"/> c) Solo el conductor verde del cable de alimentación</label><label><input type="radio" name="q12" value="d"/> d) Tierra solo si el motor supera los 100 kW</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">13. Con un sistema 480V y una tierra de R=50 Ω, la corriente de falla a tierra es aproximadamente:</p>
+      <div class="options"><label><input type="radio" name="q13" value="a"/> a) 480 A</label><label><input type="radio" name="q13" value="b"/> b) 48 A</label><label><input type="radio" name="q13" value="c"/> c) 9.6 A</label><label><input type="radio" name="q13" value="d"/> d) 0.96 A</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">14. ¿Qué frecuencia mínima establece NOM-022 para la verificación de resistencia de tierra en instalaciones?</p>
+      <div class="options"><label><input type="radio" name="q14" value="a"/> a) Mensual</label><label><input type="radio" name="q14" value="b"/> b) Trimestral</label><label><input type="radio" name="q14" value="c"/> c) Anual</label><label><input type="radio" name="q14" value="d"/> d) Cada 5 años</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">15. En un sistema TN-S con tablero derivado, ¿qué sucede si se conecta un puente (jumper) entre la barra N y la barra PE en ese tablero derivado?</p>
+      <div class="options"><label><input type="radio" name="q15" value="a"/> a) Mejora la protección contra fallas a tierra</label><label><input type="radio" name="q15" value="b"/> b) Reduce el riesgo de electrocución</label><label><input type="radio" name="q15" value="c"/> c) Se crean lazos de tierra con corrientes parásitas, interferencias en instrumentación y enmascaramiento de fallas a tierra</label><label><input type="radio" name="q15" value="d"/> d) No tiene efecto en el sistema</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">16. ¿Qué norma internacional define los requisitos de diseño de malla de tierra para subestaciones, incluyendo tensiones de toque y paso?</p>
+      <div class="options"><label><input type="radio" name="q16" value="a"/> a) NEC Art. 250</label><label><input type="radio" name="q16" value="b"/> b) IEEE Std 80-2013</label><label><input type="radio" name="q16" value="c"/> c) NOM-022-STPS</label><label><input type="radio" name="q16" value="d"/> d) IEC 60364</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">17. El telurómetro de gancho (pinza) ETCR2100B+ tiene la limitación de que:</p>
+      <div class="options"><label><input type="radio" name="q17" value="a"/> a) Requiere desconectar el electrodo de tierra para medir</label><label><input type="radio" name="q17" value="b"/> b) Solo mide resistencias mayores a 25 Ω</label><label><input type="radio" name="q17" value="c"/> c) Solo es válido cuando hay múltiples electrodos interconectados formando un lazo completo</label><label><input type="radio" name="q17" value="d"/> d) No puede usarse en instalaciones industriales</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">18. ¿Cuál es el tipo de electrodo de tierra que se usa en nuevas construcciones aprovechando la cimentación de concreto?</p>
+      <div class="options"><label><input type="radio" name="q18" value="a"/> a) Varilla copperweld</label><label><input type="radio" name="q18" value="b"/> b) Electrodo de placa</label><label><input type="radio" name="q18" value="c"/> c) Electrodo Ufer (de fundación)</label><label><input type="radio" name="q18" value="d"/> d) Electrodo de cinta horizontal</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">19. Para protección contra rayos, la resistencia de tierra del sistema pararrayo debe ser:</p>
+      <div class="options"><label><input type="radio" name="q19" value="a"/> a) ≤ 25 Ω</label><label><input type="radio" name="q19" value="b"/> b) ≤ 10 Ω</label><label><input type="radio" name="q19" value="c"/> c) ≤ 1 Ω</label><label><input type="radio" name="q19" value="d"/> d) ≤ 50 Ω</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">20. ¿Cuál es la clave del folio del reporte de estudio de tierras físicas de INTEGR Ingeniería?</p>
+      <div class="options"><label><input type="radio" name="q20" value="a"/> a) INTG-TR</label><label><input type="radio" name="q20" value="b"/> b) INTG-ET</label><label><input type="radio" name="q20" value="c"/> c) INTG-TF</label><label><input type="radio" name="q20" value="d"/> d) INTG-PT</label></div>
+    </div>
+
+    <div class="answers-reveal">
+      <button class="btn-reveal" onclick="document.getElementById('ans6').style.display='block'">Ver Respuestas</button>
+      <div id="ans6" style="display:none;" class="answers-box">
+        <strong>Respuestas correctas:</strong><br>
+        1-c | 2-b | 3-c | 4-b | 5-b | 6-b | 7-b | 8-c | 9-d | 10-b |
+        11-c | 12-b | 13-c | 14-c | 15-c | 16-b | 17-c | 18-c | 19-b | 20-c
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<!-- FOOTER -->
+<footer class="main-footer">
+  <div class="footer-inner">
+    <img src="../img/image.png" alt="L'Oréal" class="footer-logo"/>
+    <div class="footer-text">
+      <p><strong>INTEGR Ingeniería</strong> — Manual Técnico de Mantenimiento Eléctrico</p>
+      <p>Desarrollado para L'Oréal México | Documento confidencial de uso interno</p>
+      <p>© 2024 L'Oréal México &amp; INTEGR Ingeniería. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

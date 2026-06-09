@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz: Parámetros Eléctricos</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+body { overflow-x: hidden; }
+.quiz-layout { display: grid; grid-template-columns: 1fr 320px; gap: 16px; padding: 16px; max-width: 1200px; margin: 0 auto; }
+.question-card {
+  background: linear-gradient(135deg, #1A1A2E, #16213E);
+  border: 2px solid #C9A84C; border-radius: 12px; padding: 24px;
+  min-height: 400px; position: relative;
+}
+.q-number { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+.q-type-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; margin-left: 8px;
+}
+.badge-mc { background: #1565C0; color: #90CAF9; }
+.badge-calc { background: #2E7D32; color: #A5D6A7; }
+.badge-match { background: #6A1B9A; color: #CE93D8; }
+
+.q-text { font-size: 1.15rem; color: #F5F5F5; margin: 16px 0; line-height: 1.6; font-weight: 500; }
+.q-formula { background: #0D0D2B; border: 1px solid #303070; border-radius: 8px; padding: 12px 16px; margin: 10px 0; font-family: monospace; font-size: 1rem; color: #FFE082; text-align: center; }
+
+/* Multiple choice */
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.choice-btn {
+  background: #1E1E1E; border: 2px solid #333; border-radius: 8px;
+  padding: 12px 16px; cursor: pointer; text-align: left; font-size: 0.9rem;
+  color: #E0E0E0; transition: all 0.2s;
+}
+.choice-btn:hover:not(:disabled) { border-color: #C9A84C; background: #2A2000; }
+.choice-btn.correct { border-color: #4CAF50; background: rgba(76,175,80,0.2); color: #A5D6A7; }
+.choice-btn.wrong { border-color: #F44336; background: rgba(244,67,54,0.15); color: #EF9A9A; }
+.choice-btn.reveal { border-color: #4CAF50; background: rgba(76,175,80,0.1); }
+
+/* Fill in blank */
+.calc-input-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+.calc-input {
+  background: #111; border: 2px solid #444; border-radius: 6px;
+  color: #FFE082; padding: 10px 16px; font-size: 1.2rem; width: 180px;
+  font-variant-numeric: tabular-nums;
+}
+.calc-input:focus { outline: none; border-color: #C9A84C; }
+.unit-label { color: #888; font-size: 0.9rem; }
+
+/* Drag match */
+.match-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+.match-col { display: flex; flex-direction: column; gap: 8px; }
+.match-col h4 { font-size: 0.75rem; color: #888; text-transform: uppercase; margin-bottom: 4px; }
+.match-item {
+  background: #1E1E3A; border: 2px solid #333; border-radius: 6px;
+  padding: 8px 12px; font-size: 0.85rem; color: #E0E0E0;
+  cursor: grab; user-select: none; transition: all 0.2s;
+}
+.match-item:hover { border-color: #C9A84C; }
+.match-item.dragging-match { opacity: 0.4; }
+.match-drop {
+  background: #0A0A1A; border: 2px dashed #444; border-radius: 6px;
+  padding: 8px 12px; font-size: 0.85rem; min-height: 40px;
+  display: flex; align-items: center; gap: 8px;
+}
+.match-drop.over { border-color: #C9A84C; background: rgba(201,168,76,0.1); }
+.match-drop .label { color: #888; font-size: 0.8rem; }
+
+/* Calculator */
+.calc-widget {
+  background: #0A0A0A; border: 2px solid #C9A84C; border-radius: 10px;
+  padding: 12px; margin-top: 12px;
+}
+.calc-display {
+  background: #001A00; border: 1px solid #2A4A2A; border-radius: 4px;
+  padding: 8px 12px; font-family: monospace; font-size: 1.4rem;
+  color: #00FF41; text-align: right; margin-bottom: 8px;
+  min-height: 44px; word-break: break-all;
+}
+.calc-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.calc-btn {
+  padding: 8px 4px; border: 1px solid #333; border-radius: 4px;
+  cursor: pointer; font-size: 0.85rem; font-weight: 600;
+  background: #1A1A1A; color: #E0E0E0; transition: all 0.15s;
+}
+.calc-btn:hover { background: #333; }
+.calc-btn.op { background: #2A1A00; color: #FFE082; border-color: #553300; }
+.calc-btn.special { background: #001A2A; color: #90CAF9; border-color: #003355; }
+.calc-btn.eq { background: #C9A84C; color: #000; grid-column: span 2; }
+
+/* Right panel */
+.side-panel { display: flex; flex-direction: column; gap: 12px; }
+.timer-ring {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 4px solid #333; border-top-color: #C9A84C;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 700; color: #C9A84C;
+  position: relative; margin: 0 auto;
+  transition: border-top-color 0.3s;
+}
+.explanation-panel {
+  background: #0A1A0A; border: 1px solid #2A4A2A; border-radius: 8px;
+  padding: 12px; font-size: 0.82rem; color: #90CAF9; line-height: 1.6;
+  display: none;
+}
+.ranking-badge {
+  text-align: center; padding: 16px; border-radius: 8px;
+  font-size: 1.1rem; font-weight: 700;
+}
+.rank-experto { background: linear-gradient(135deg,#B8860B,#FFD700); color: #000; }
+.rank-intermedio { background: linear-gradient(135deg,#455A64,#78909C); color: #FFF; }
+.rank-basico { background: linear-gradient(135deg,#1A237E,#3949AB); color: #FFF; }
+
+#start-screen, #end-screen { text-align: center; padding: 40px 20px; }
+.stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<header class="game-header">
+  <img src="../img/image.png" alt="L'Oréal Logo">
+  <h1>📊 Quiz: Parámetros Eléctricos</h1>
+  <a href="../index.html" class="back-btn">← Volver al Manual</a>
+</header>
+
+<div class="quiz-layout">
+  <div id="main-area">
+    <!-- Start Screen -->
+    <div id="start-screen" class="question-card">
+      <div style="font-size:3rem;margin-bottom:16px;">⚡</div>
+      <h2 style="color:#C9A84C;font-size:1.5rem;margin-bottom:12px;">Quiz de Parámetros Eléctricos</h2>
+      <p style="color:#AAA;margin-bottom:24px;line-height:1.7;">
+        30 preguntas sobre Ley de Ohm, potencia eléctrica, factor de potencia y niveles de tensión.<br>
+        <strong style="color:#C9A84C;">60 segundos</strong> por pregunta. Usa la calculadora integrada cuando necesites.
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;">
+        <div class="panel" style="text-align:center;"><div style="font-size:1.5rem;">📝</div><div style="font-size:0.75rem;color:#888;margin-top:4px;">Opción Múltiple</div></div>
+        <div class="panel" style="text-align:center;"><div style="font-size:1.5rem;">🔢</div><div style="font-size:0.75rem;color:#888;margin-top:4px;">Cálculo</div></div>
+        <div class="panel" style="text-align:center;"><div style="font-size:1.5rem;">🔗</div><div style="font-size:0.75rem;color:#888;margin-top:4px;">Relacionar</div></div>
+      </div>
+      <button class="btn btn-gold" style="font-size:1.1rem;padding:14px 40px;" onclick="startQuiz()">▶ COMENZAR QUIZ</button>
+    </div>
+
+    <!-- Question Area -->
+    <div id="question-area" class="question-card" style="display:none;"></div>
+
+    <!-- End Screen -->
+    <div id="end-screen" class="question-card" style="display:none;"></div>
+  </div>
+
+  <div class="side-panel">
+    <div class="panel" id="progress-panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <div style="font-size:0.7rem;color:#888;">PREGUNTA</div>
+          <div style="font-size:1.4rem;font-weight:700;color:#C9A84C;" id="q-counter">0/30</div>
+        </div>
+        <div class="timer-ring" id="timer-display">60</div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="panel">
+      <div style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Puntuación</div>
+      <div class="score-display" id="score">0</div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.75rem;color:#666;">
+        <span>✅ <span id="correct-count">0</span> correctas</span>
+        <span>❌ <span id="wrong-count">0</span> incorrectas</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="font-size:0.7rem;color:#888;margin-bottom:8px;text-transform:uppercase;">Calculadora</div>
+      <div class="calc-widget">
+        <div class="calc-display" id="calc-display">0</div>
+        <div class="calc-btns">
+          <button class="calc-btn special" onclick="calcAction('C')">C</button>
+          <button class="calc-btn special" onclick="calcAction('±')" >±</button>
+          <button class="calc-btn special" onclick="calcAction('%')">%</button>
+          <button class="calc-btn op" onclick="calcAction('/')">÷</button>
+          <button class="calc-btn" onclick="calcInput('7')">7</button>
+          <button class="calc-btn" onclick="calcInput('8')">8</button>
+          <button class="calc-btn" onclick="calcInput('9')">9</button>
+          <button class="calc-btn op" onclick="calcAction('*')">×</button>
+          <button class="calc-btn" onclick="calcInput('4')">4</button>
+          <button class="calc-btn" onclick="calcInput('5')">5</button>
+          <button class="calc-btn" onclick="calcInput('6')">6</button>
+          <button class="calc-btn op" onclick="calcAction('-')">−</button>
+          <button class="calc-btn" onclick="calcInput('1')">1</button>
+          <button class="calc-btn" onclick="calcInput('2')">2</button>
+          <button class="calc-btn" onclick="calcInput('3')">3</button>
+          <button class="calc-btn op" onclick="calcAction('+')">+</button>
+          <button class="calc-btn" onclick="calcInput('0')">0</button>
+          <button class="calc-btn" onclick="calcInput('.')">.</button>
+          <button class="calc-btn special" onclick="calcAction('sqrt')">√</button>
+          <button class="calc-btn eq" onclick="calcAction('='">=</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="explanation-panel" id="explanation-panel"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// QUIZ ENGINE
+// ============================================================
+
+const QUESTIONS = [
+  // Ohm's Law — Multiple Choice
+  { type:'mc', text:'¿Cuál es la Ley de Ohm?', choices:['V = I × R','I = V × R','R = V × I','P = V × I'], correct:0,
+    explanation:'La Ley de Ohm establece: V = I × R. El voltaje es igual a la corriente multiplicada por la resistencia.' },
+  { type:'mc', text:'Si V = 120V y R = 60Ω, ¿cuánto es la corriente I?', choices:['2 A','0.5 A','60 A','7200 A'], correct:0,
+    explanation:'I = V/R = 120/60 = 2A. La corriente es inversamente proporcional a la resistencia.' },
+  { type:'mc', text:'¿Qué unidad mide la resistencia eléctrica?', choices:['Ohm (Ω)','Amperio (A)','Voltio (V)','Watt (W)'], correct:0,
+    explanation:'La resistencia se mide en Ohmios (Ω), en honor a Georg Simon Ohm.' },
+  { type:'mc', text:'¿Cuál es la fórmula de la Potencia eléctrica?', choices:['P = V × I','P = V / I','P = I / V','P = V + I'], correct:0,
+    explanation:'La potencia P = V × I. También se puede expresar como P = I²R o P = V²/R.' },
+  { type:'mc', text:'Si I = 5A y R = 20Ω, ¿cuánto es el voltaje?', choices:['100 V','4 V','25 V','0.25 V'], correct:0,
+    explanation:'V = I × R = 5 × 20 = 100V.' },
+
+  // Power Calculations
+  { type:'calc', text:'Una resistencia de 220Ω tiene 110V aplicados. Calcula la corriente en mA.',
+    formula:'I = V / R = 110 / 220', answer:500, unit:'mA', tolerance:5,
+    explanation:'I = 110/220 = 0.5A = 500mA. Convierte A a mA multiplicando ×1000.' },
+  { type:'calc', text:'Un motor consume 380V y 15A. ¿Cuántos kW consume?',
+    formula:'P = V × I = 380 × 15', answer:5.7, unit:'kW', tolerance:0.1,
+    explanation:'P = 380 × 15 = 5700W = 5.7kW. Para pasar a kW divide entre 1000.' },
+  { type:'calc', text:'Si P = 2400W y V = 120V, ¿cuánto es la corriente?',
+    formula:'I = P / V = 2400 / 120', answer:20, unit:'A', tolerance:0.5,
+    explanation:'I = P/V = 2400/120 = 20A.' },
+  { type:'calc', text:'Una resistencia de 100Ω disipa 4W. ¿Cuánta corriente fluye por ella?',
+    formula:'I = √(P/R) = √(4/100)', answer:0.2, unit:'A', tolerance:0.01,
+    explanation:'I = √(P/R) = √(4/100) = √0.04 = 0.2A.' },
+  { type:'calc', text:'¿Cuántos vatios consume una bombilla de 120V y 0.833A?',
+    formula:'P = V × I = 120 × 0.833', answer:100, unit:'W', tolerance:2,
+    explanation:'P = 120 × 0.833 = 100W. Bombilla estándar de 100W.' },
+
+  // Factor de potencia
+  { type:'mc', text:'¿Qué es el Factor de Potencia (FP)?', choices:['cos(φ) = Potencia real / Potencia aparente','sin(φ) = Potencia real / Potencia reactiva','tan(φ) = Potencia aparente / Potencia real','FP = Voltaje / Corriente'], correct:0,
+    explanation:'FP = cos(φ) = P/S. Relaciona la potencia útil (real) con la potencia total que suministra la fuente.' },
+  { type:'mc', text:'Un sistema tiene P=3kW, Q=4kVAR. ¿Cuánto es la Potencia Aparente S?', choices:['5 kVA','7 kVA','1 kVA','12 kVA'], correct:0,
+    explanation:'S = √(P²+Q²) = √(9+16) = √25 = 5kVA. Triángulo de potencias.' },
+  { type:'mc', text:'¿Qué valor de FP es ideal para una instalación industrial?', choices:['Cercano a 1.0 (0.95-1.0)','0.5','0.7','Cercano a 0'], correct:0,
+    explanation:'Un FP cercano a 1.0 indica uso eficiente de la energía. FP < 0.9 genera penalizaciones tarifarias.' },
+  { type:'mc', text:'¿Qué dispositivo se usa para corregir el factor de potencia?', choices:['Banco de condensadores','Banco de resistencias','Inductores de potencia','Transformador de corriente'], correct:0,
+    explanation:'Los bancos de condensadores compensan la potencia reactiva inductiva, elevando el FP.' },
+  { type:'calc', text:'S = 10 kVA y FP = 0.85. ¿Cuánto es la Potencia Real P en kW?',
+    formula:'P = S × FP = 10 × 0.85', answer:8.5, unit:'kW', tolerance:0.1,
+    explanation:'P = S × cos(φ) = 10 × 0.85 = 8.5kW. La potencia real es la potencia activa útil.' },
+
+  // Baja/Alta tensión
+  { type:'mc', text:'Según IEC/NOM, ¿cuál es el límite de Baja Tensión?', choices:['≤ 1000V AC','≤ 600V AC','≤ 440V AC','≤ 220V AC'], correct:0,
+    explanation:'Baja Tensión: hasta 1000V AC. Media Tensión: 1-35kV. Alta Tensión: > 35kV (IEC 60038).' },
+  { type:'mc', text:'La tensión nominal en sistemas trifásicos industriales en México es:', choices:['440V (o 480V)','120V','220V','380V'], correct:0,
+    explanation:'En México: 440V trifásico industrial (sistemas NEMA). Europa usa 400V (380V antiguamente).' },
+  { type:'mc', text:'¿Qué significa "Media Tensión" según la NOM?', choices:['1kV a 35kV','35kV a 115kV','220V a 1000V','115kV a 500kV'], correct:0,
+    explanation:'Media Tensión (MT): 1kV a 35kV. Se usa para distribución industrial y subestaciones.' },
+  { type:'mc', text:'Una subestación eléctrica de planta recibe 13.2kV y baja a 480V. Esto es:', choices:['Media Tensión → Baja Tensión','Alta Tensión → Media Tensión','Baja Tensión → Muy Baja Tensión','Igual tensión'], correct:0,
+    explanation:'13.2kV es Media Tensión. 480V es Baja Tensión. El transformador de potencia realiza esta conversión.' },
+  { type:'mc', text:'¿Cuál es la tensión de un circuito de control típico en tableros industriales?', choices:['24V DC o 110V AC','480V AC','13.2kV AC','1000V AC'], correct:0,
+    explanation:'Los circuitos de control usan 24VDC (PLC/automatización) o 110VAC (relevadores clásicos) por seguridad.' },
+
+  // More calculations
+  { type:'calc', text:'Tres resistencias de 100Ω en paralelo. ¿Cuál es la R equivalente?',
+    formula:'1/Req = 1/R + 1/R + 1/R = 3/100', answer:33.33, unit:'Ω', tolerance:0.5,
+    explanation:'En paralelo: 1/Req = 1/R₁+1/R₂+1/R₃. Para iguales: Req=R/n = 100/3 = 33.33Ω.' },
+  { type:'calc', text:'Dos resistencias en serie: R₁=150Ω, R₂=270Ω. ¿Cuánto es la corriente con 12V?',
+    formula:'Req = 150+270 = 420Ω; I = 12/420', answer:0.0286, unit:'A', tolerance:0.002,
+    explanation:'Serie: Req=R₁+R₂=420Ω. I=V/R=12/420=0.0286A=28.6mA.' },
+  { type:'calc', text:'Un motor de 5HP funciona a plena carga. ¿Cuántos Watts consume? (1HP = 746W)',
+    formula:'P = 5 × 746', answer:3730, unit:'W', tolerance:10,
+    explanation:'P = 5HP × 746W/HP = 3730W = 3.73kW. (Esto es la potencia mecánica de salida).' },
+  { type:'calc', text:'Corriente trifásica: I = P / (√3 × V × FP) con P=10kW, V=440V, FP=0.85',
+    formula:'I = 10000 / (1.732 × 440 × 0.85)', answer:15.43, unit:'A', tolerance:0.5,
+    explanation:'I = 10000/(1.732×440×0.85) = 10000/647.3 = 15.43A. Fórmula trifásica balanceada.' },
+
+  // Mixed
+  { type:'mc', text:'¿Cuál es la diferencia entre un fusible y un disyuntor (breaker)?', choices:['Fusible se destruye; breaker se resetea','Son equivalentes','Breaker es de un solo uso','Fusible es más rápido siempre'], correct:0,
+    explanation:'Fusible: elemento sacrificable, se funde y debe reemplazarse. Disyuntor: mecánico, se puede resetear después de eliminar la falla.' },
+  { type:'mc', text:'La impedancia en circuitos AC combina:', choices:['Resistencia + Reactancia','Voltaje + Corriente','Potencia real + Potencia reactiva','Frecuencia + Amplitud'], correct:0,
+    explanation:'Z = √(R² + X²) donde X es la reactancia (inductiva XL o capacitiva XC).' },
+  { type:'mc', text:'A 60Hz, ¿cuántos ciclos completos ocurren en 1 segundo?', choices:['60 ciclos','120 ciclos','50 ciclos','1 ciclo'], correct:0,
+    explanation:'La frecuencia de 60Hz significa 60 ciclos por segundo. México y Norteamérica usan 60Hz; Europa 50Hz.' },
+  { type:'mc', text:'El valor RMS del voltaje en un tomacorriente estándar mexicano de "120V" significa:', choices:['El valor eficaz es 120V, el pico es ~170V','El voltaje siempre es 120V','El voltaje pico es 120V','La frecuencia es 120Hz'], correct:0,
+    explanation:'RMS (Root Mean Square) es el valor equivalente en DC. V_pico = 120×√2 ≈ 170V. Es el valor útil para potencia.' },
+  { type:'calc', text:'Reactancia inductiva: XL = 2π × f × L. Con f=60Hz y L=0.1H, ¿cuánto es XL?',
+    formula:'XL = 2 × 3.14159 × 60 × 0.1', answer:37.7, unit:'Ω', tolerance:0.5,
+    explanation:'XL = 2π×60×0.1 = 37.7Ω. A mayor frecuencia, mayor oposición al flujo de corriente en un inductor.' },
+  { type:'mc', text:'¿Qué indica un amperímetro de gancho (pinza amperométrica)?', choices:['La corriente que fluye por un conductor sin interrumpir el circuito','El voltaje entre dos puntos','La resistencia del conductor','La potencia del equipo'], correct:0,
+    explanation:'La pinza amperométrica mide el campo magnético alrededor del conductor, calculando la corriente sin abrir el circuito.' }
+];
+
+let currentQ = 0;
+let score = 0;
+let correct = 0;
+let wrong = 0;
+let timer = 60;
+let timerInterval = null;
+let answered = false;
+let shuffledQ = [];
+
+// Drag match state
+let matchDragItem = null;
+
+// Calculator state
+let calcExpr = '';
+let calcResult = '0';
+let calcNewNum = true;
+
+function startQuiz() {
+  shuffledQ = [...QUESTIONS].sort(() => Math.random() - 0.5);
+  currentQ = 0; score = 0; correct = 0; wrong = 0;
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('question-area').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQ >= shuffledQ.length) { endQuiz(); return; }
+  answered = false;
+  const q = shuffledQ[currentQ];
+  const area = document.getElementById('question-area');
+
+  let html = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+      <span class="q-number">Pregunta ${currentQ+1} de ${shuffledQ.length}</span>
+      <span class="q-type-badge badge-${q.type === 'mc' ? 'mc' : q.type === 'calc' ? 'calc' : 'match'}">${q.type === 'mc' ? 'Opción Múltiple' : q.type === 'calc' ? 'Cálculo' : 'Relacionar'}</span>
+    </div>
+    <div class="q-text">${q.text}</div>
+  `;
+
+  if (q.formula) {
+    html += `<div class="q-formula">💡 Fórmula: ${q.formula}</div>`;
+  }
+
+  if (q.type === 'mc') {
+    html += `<div class="choices">`;
+    q.choices.forEach((c, i) => {
+      html += `<button class="choice-btn" id="choice-${i}" onclick="answerMC(${i})">${String.fromCharCode(65+i)}) ${c}</button>`;
+    });
+    html += `</div>`;
+  } else if (q.type === 'calc') {
+    html += `
+      <div class="calc-input-row">
+        <input class="calc-input" type="number" id="calc-answer" placeholder="0.000" step="0.001">
+        <span class="unit-label">${q.unit}</span>
+        <button class="btn btn-gold" onclick="answerCalc()">Verificar</button>
+      </div>
+      <div style="font-size:0.75rem;color:#666;margin-top:6px;">Usa la calculadora de la derecha para calcular.</div>
+    `;
+  }
+
+  html += `<div id="q-feedback" style="margin-top:16px;"></div>`;
+  html += `<div style="margin-top:12px;"><button class="btn btn-dark" id="next-btn" onclick="nextQuestion()" style="display:none;">Siguiente → </button></div>`;
+
+  area.innerHTML = html;
+  document.getElementById('q-counter').textContent = `${currentQ+1}/${shuffledQ.length}`;
+  document.getElementById('progress-fill').style.width = `${(currentQ/shuffledQ.length)*100}%`;
+  document.getElementById('explanation-panel').style.display = 'none';
+
+  startTimer();
+}
+
+function startTimer() {
+  timer = 60;
+  if (timerInterval) clearInterval(timerInterval);
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timer--;
+    updateTimerDisplay();
+    if (timer <= 0) {
+      clearInterval(timerInterval);
+      if (!answered) timeOut();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timer-display');
+  el.textContent = timer;
+  el.style.borderTopColor = timer <= 10 ? '#F44336' : timer <= 20 ? '#FF9800' : '#C9A84C';
+  el.style.color = timer <= 10 ? '#F44336' : '#C9A84C';
+}
+
+function timeOut() {
+  answered = true;
+  wrong++;
+  document.getElementById('wrong-count').textContent = wrong;
+  const q = shuffledQ[currentQ];
+  showFeedback(false, `⏰ Tiempo agotado. ${q.explanation}`);
+  document.getElementById('next-btn').style.display = 'inline-block';
+}
+
+function answerMC(idx) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+  const q = shuffledQ[currentQ];
+  const isCorrect = idx === q.correct;
+
+  document.querySelectorAll('.choice-btn').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === idx && !isCorrect) btn.classList.add('wrong');
+  });
+
+  if (isCorrect) {
+    const pts = Math.max(10, timer * 2);
+    score += pts; correct++;
+    document.getElementById('score').textContent = score;
+    document.getElementById('correct-count').textContent = correct;
+    showFeedback(true, `✅ ¡Correcto! +${pts} puntos. ${q.explanation}`);
+  } else {
+    wrong++;
+    document.getElementById('wrong-count').textContent = wrong;
+    showFeedback(false, `❌ Incorrecto. La respuesta era: "${q.choices[q.correct]}". ${q.explanation}`);
+  }
+  document.getElementById('next-btn').style.display = 'inline-block';
+}
+
+function answerCalc() {
+  if (answered) return;
+  const q = shuffledQ[currentQ];
+  const input = document.getElementById('calc-answer');
+  const userVal = parseFloat(input.value);
+  if (isNaN(userVal)) { alert('Ingresa un valor numérico'); return; }
+
+  answered = true;
+  clearInterval(timerInterval);
+  const isCorrect = Math.abs(userVal - q.answer) <= q.tolerance;
+
+  if (isCorrect) {
+    const pts = Math.max(15, timer * 2);
+    score += pts; correct++;
+    document.getElementById('score').textContent = score;
+    document.getElementById('correct-count').textContent = correct;
+    showFeedback(true, `✅ ¡Correcto! ${userVal} ${q.unit} ≈ ${q.answer} ${q.unit}. +${pts} pts. ${q.explanation}`);
+  } else {
+    wrong++;
+    document.getElementById('wrong-count').textContent = wrong;
+    showFeedback(false, `❌ Tu respuesta: ${userVal} ${q.unit}. Respuesta correcta: ${q.answer} ${q.unit}. ${q.explanation}`);
+  }
+  input.disabled = true;
+  document.getElementById('next-btn').style.display = 'inline-block';
+}
+
+function showFeedback(isCorrect, text) {
+  const fb = document.getElementById('q-feedback');
+  fb.className = isCorrect ? 'feedback-correct' : 'feedback-wrong';
+  fb.textContent = text;
+  const ep = document.getElementById('explanation-panel');
+  ep.style.display = 'block';
+  ep.textContent = shuffledQ[currentQ].explanation;
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= shuffledQ.length) { endQuiz(); return; }
+  showQuestion();
+}
+
+function endQuiz() {
+  clearInterval(timerInterval);
+  const pct = Math.round((correct / shuffledQ.length) * 100);
+  const rank = pct >= 80 ? 'Experto' : pct >= 60 ? 'Intermedio' : 'Básico';
+  const rankClass = pct >= 80 ? 'rank-experto' : pct >= 60 ? 'rank-intermedio' : 'rank-basico';
+
+  document.getElementById('question-area').style.display = 'none';
+  const end = document.getElementById('end-screen');
+  end.style.display = 'block';
+  end.innerHTML = `
+    <div style="font-size:3rem;margin-bottom:12px;">${pct >= 80 ? '🏆' : pct >= 60 ? '🥈' : '📚'}</div>
+    <h2 style="color:#C9A84C;margin-bottom:16px;">Quiz Completado</h2>
+    <div class="ranking-badge ${rankClass}" style="margin-bottom:16px;">Nivel: ${rank}</div>
+    <div style="max-width:320px;margin:0 auto 20px;">
+      <div class="stat-row"><span>Puntuación Total</span><strong style="color:#C9A84C;">${score}</strong></div>
+      <div class="stat-row"><span>Porcentaje</span><strong style="color:#C9A84C;">${pct}%</strong></div>
+      <div class="stat-row"><span>Correctas</span><strong style="color:#4CAF50;">${correct} / ${shuffledQ.length}</strong></div>
+      <div class="stat-row"><span>Incorrectas</span><strong style="color:#F44336;">${wrong}</strong></div>
+    </div>
+    <div style="margin-bottom:16px;color:#AAA;font-size:0.85rem;">
+      ${pct >= 80 ? '¡Excelente dominio de los parámetros eléctricos!' : pct >= 60 ? 'Buen desempeño. Repasa los temas donde tuviste errores.' : 'Continúa estudiando la Ley de Ohm y los conceptos de potencia.'}
+    </div>
+    <button class="btn btn-gold" onclick="location.reload()">🔄 Jugar de Nuevo</button>
+  `;
+}
+
+// Calculator
+function calcInput(v) {
+  if (calcNewNum) { calcExpr = v; calcNewNum = false; }
+  else { if (calcExpr.length < 20) calcExpr += v; }
+  document.getElementById('calc-display').textContent = calcExpr;
+}
+
+function calcAction(op) {
+  if (op === 'C') { calcExpr = '0'; calcNewNum = true; }
+  else if (op === '=') {
+    try {
+      const r = Function('"use strict"; return (' + calcExpr + ')')();
+      calcExpr = String(parseFloat(r.toFixed(6)));
+      calcNewNum = true;
+    } catch(e) { calcExpr = 'Error'; calcNewNum = true; }
+  }
+  else if (op === '±') {
+    if (calcExpr !== '0') calcExpr = calcExpr.startsWith('-') ? calcExpr.slice(1) : '-' + calcExpr;
+  }
+  else if (op === '%') {
+    try {
+      const r = Function('"use strict"; return (' + calcExpr + ')')();
+      calcExpr = String(r / 100); calcNewNum = true;
+    } catch(e) {}
+  }
+  else if (op === 'sqrt') {
+    try {
+      const r = Function('"use strict"; return (' + calcExpr + ')')();
+      calcExpr = String(parseFloat(Math.sqrt(r).toFixed(6))); calcNewNum = true;
+    } catch(e) {}
+  }
+  else {
+    calcNewNum = false; calcExpr += op;
+  }
+  document.getElementById('calc-display').textContent = calcExpr;
+}
+</script>
+</body>
+</html>

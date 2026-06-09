@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de VFD — L'Oréal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0a0a0a;
+      --bg-panel: #161616;
+      --gold: #C8A96E;
+      --white: #ffffff;
+      --led-green: #00ff00;
+      --led-red: #ff3333;
+      --btn-bg: #2a2a2a;
+      --font-digital: 'Share Tech Mono', monospace;
+      --font-ui: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-main);
+      color: var(--white);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    header {
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .brand { display: flex; align-items: center; gap: 15px; }
+    .brand img { height: 40px; filter: invert(1); }
+    h1 { font-size: 1.2rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+    .back-btn { color: #888; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+    .back-btn:hover { color: var(--gold); }
+
+    .container {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 40px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── VFD PANEL ── */
+    .vfd-casing {
+      background: linear-gradient(145deg, #1f1f1f, #111111);
+      border: 2px solid #333;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 2px 0 rgba(255,255,255,0.05);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .vfd-logo {
+      font-size: 0.7rem;
+      color: #666;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
+    }
+
+    .lcd-screen {
+      background: #051505;
+      border: 4px solid #000;
+      border-radius: 6px;
+      width: 100%;
+      height: 90px;
+      margin-bottom: 30px;
+      padding: 15px;
+      box-shadow: inset 0 0 15px rgba(0,255,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .lcd-main {
+      font-family: var(--font-digital);
+      color: var(--led-green);
+      font-size: 2.5rem;
+      text-shadow: 0 0 10px rgba(0,255,0,0.6);
+      text-align: right;
+      line-height: 1;
+    }
+
+    .lcd-main.error { color: var(--led-red); text-shadow: 0 0 10px rgba(255,0,0,0.6); }
+
+    .lcd-sub {
+      font-family: var(--font-digital);
+      color: rgba(0,255,0,0.6);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      width: 100%;
+    }
+
+    .btn {
+      background: linear-gradient(145deg, #333, #222);
+      border: 1px solid #111;
+      border-radius: 6px;
+      color: #bbb;
+      padding: 15px 0;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #111, 0 5px 10px rgba(0,0,0,0.5);
+      transition: all 0.1s;
+      user-select: none;
+    }
+
+    .btn:active { transform: translateY(4px); box-shadow: 0 0 0 #111; }
+    .btn:hover { color: #fff; background: linear-gradient(145deg, #3a3a3a, #2a2a2a); }
+
+    .btn-red { color: #ff5555; }
+    .btn-green { color: #55ff55; }
+    
+    .btn-red:hover { background: #4a1111; }
+    .btn-green:hover { background: #114a11; }
+
+    /* ── MOTOR VIRTUAL ── */
+    .motor-station {
+      background: var(--bg-panel);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .motor-container {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      margin-bottom: 30px;
+    }
+
+    .motor-body {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle at 30% 30%, #555, #222);
+      border-radius: 50%;
+      border: 8px solid #111;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      z-index: 2;
+    }
+
+    .motor-shaft {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 40px;
+      height: 40px;
+      margin-top: -20px;
+      margin-left: -20px;
+      background: #888;
+      border-radius: 50%;
+      border: 4px solid #000;
+      z-index: 3;
+    }
+
+    .fan-blade {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 120px;
+      height: 10px;
+      background: #C8A96E;
+      margin-top: -5px;
+      margin-left: -60px;
+      border-radius: 5px;
+      z-index: 4;
+    }
+    
+    .fan-blade:nth-child(2) { transform: rotate(90deg); }
+
+    .rotor {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      /* Animación dinámica por JS */
+    }
+
+    .status-bars { width: 100%; }
+    
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    .bar-bg {
+      width: 100%;
+      height: 6px;
+      background: #222;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--gold);
+      width: 0%;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 10px var(--gold);
+    }
+
+    /* ── GUIA DE PARAMETROS ── */
+    .guide {
+      grid-column: 1 / -1;
+      background: rgba(200, 169, 110, 0.05);
+      border-left: 4px solid var(--gold);
+      padding: 20px;
+      font-size: 0.85rem;
+      color: #bbb;
+      line-height: 1.6;
+    }
+    
+    .guide table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .guide th, .guide td { text-align: left; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .guide th { color: var(--gold); font-weight: 600; }
+
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <img src="../img/image.png" alt="L'Oréal" />
+      <h1>VFD Drive Simulator</h1>
+    </div>
+    <a href="../index.html" class="back-btn">← Volver al Manual</a>
+  </header>
+
+  <div class="container">
+    
+    <!-- PANEL VFD -->
+    <div class="vfd-casing">
+      <div class="vfd-logo">L'ORÉAL INDUSTRIAL · DRIVE 5000</div>
+      
+      <div class="lcd-screen">
+        <div class="lcd-sub">
+          <span id="lcd-mode">RDY</span>
+          <span id="lcd-unit">Hz</span>
+        </div>
+        <div class="lcd-main" id="lcd-value">00.00</div>
+      </div>
+
+      <div class="keypad">
+        <button class="btn" onclick="pressKey('ESC')">ESC</button>
+        <button class="btn" onclick="pressKey('UP')">▲</button>
+        <button class="btn" onclick="pressKey('ENT')">ENT</button>
+        
+        <button class="btn" onclick="pressKey('JOG')">JOG</button>
+        <button class="btn" onclick="pressKey('DOWN')">▼</button>
+        <button class="btn" onclick="pressKey('REV')">REV</button>
+        
+        <button class="btn btn-green" onclick="pressKey('START')" style="grid-column: 1 / span 2;">START</button>
+        <button class="btn btn-red" onclick="pressKey('STOP')">STOP</button>
+      </div>
+    </div>
+
+    <!-- MOTOR STATION -->
+    <div class="motor-station">
+      <div class="motor-container">
+        <div class="motor-body"></div>
+        <div class="motor-shaft"></div>
+        <div class="rotor" id="motor-rotor">
+          <div class="fan-blade"></div>
+          <div class="fan-blade"></div>
+        </div>
+      </div>
+
+      <div class="status-bars">
+        <div class="status-item">
+          <span>Frecuencia de Salida</span>
+          <span id="out-hz">0.0 Hz</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill" id="bar-hz"></div></div>
+
+        <div class="status-item">
+          <span>RPM Motor (Síncronas)</span>
+          <span id="out-rpm">0 RPM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUIA -->
+    <div class="guide">
+      <h3 style="color:var(--gold);margin-bottom:10px;">📋 Tabla de Parámetros</h3>
+      <p>Presiona <b>ENT</b> para entrar a la lista de parámetros. Usa <b>▲ / ▼</b> para navegar y <b>ENT</b> para editar. Presiona <b>ESC</b> para volver.</p>
+      <table>
+        <tr><th>Parámetro</th><th>Descripción</th><th>Rango</th><th>Fábrica</th></tr>
+        <tr><td>P001</td><td>Referencia de Frecuencia</td><td>0 - Max Hz</td><td>10.0 Hz</td></tr>
+        <tr><td>P002</td><td>Tiempo de Aceleración</td><td>0.1 - 60.0 s</td><td>5.0 s</td></tr>
+        <tr><td>P003</td><td>Tiempo de Desaceleración</td><td>0.1 - 60.0 s</td><td>5.0 s</td></tr>
+        <tr><td>P004</td><td>Frecuencia Máxima</td><td>10.0 - 120.0 Hz</td><td>60.0 Hz</td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    // --- ESTADO DEL VFD ---
+    const PARAMS = {
+      1: { val: 10.0, min: 0.0, max: 60.0, step: 0.1 },   // Setpoint Hz
+      2: { val: 5.0, min: 0.1, max: 60.0, step: 0.1 },    // Accel time (s)
+      3: { val: 5.0, min: 0.1, max: 60.0, step: 0.1 },    // Decel time (s)
+      4: { val: 60.0, min: 10.0, max: 120.0, step: 0.1 }  // Max Hz
+    };
+
+    let mode = 'MONITOR'; // MONITOR, PARAM_LIST, EDIT_PARAM
+    let currentParamIndex = 1;
+    let isRunning = false;
+    
+    // Físicas del motor
+    let targetHz = 0;
+    let currentHz = 0;
+    let lastTime = performance.now();
+    let motorAngle = 0;
+
+    const lcdValue = document.getElementById('lcd-value');
+    const lcdMode = document.getElementById('lcd-mode');
+    const lcdUnit = document.getElementById('lcd-unit');
+    const rotor = document.getElementById('motor-rotor');
+    const outHz = document.getElementById('out-hz');
+    const outRpm = document.getElementById('out-rpm');
+    const barHz = document.getElementById('bar-hz');
+
+    function updateLCD() {
+      lcdValue.classList.remove('error');
+      if (mode === 'MONITOR') {
+        lcdMode.innerText = isRunning ? 'RUN' : 'RDY';
+        lcdUnit.innerText = 'Hz';
+        // Mostrar frecuencia actual (target o actual dependiendo de si está corriendo)
+        lcdValue.innerText = (isRunning ? currentHz : PARAMS[1].val).toFixed(2).padStart(5, '0');
+      } else if (mode === 'PARAM_LIST') {
+        lcdMode.innerText = 'PRG';
+        lcdUnit.innerText = '';
+        lcdValue.innerText = 'P00' + currentParamIndex;
+      } else if (mode === 'EDIT_PARAM') {
+        lcdMode.innerText = 'EDT';
+        lcdUnit.innerText = 'VAL';
+        lcdValue.innerText = PARAMS[currentParamIndex].val.toFixed(1).padStart(5, '0');
+      }
+    }
+
+    function pressKey(key) {
+      if (key === 'START') {
+        isRunning = true;
+        targetHz = PARAMS[1].val;
+        mode = 'MONITOR';
+      } else if (key === 'STOP') {
+        isRunning = false;
+        targetHz = 0;
+        mode = 'MONITOR';
+      }
+
+      if (mode === 'MONITOR') {
+        if (key === 'ENT') mode = 'PARAM_LIST';
+      } 
+      else if (mode === 'PARAM_LIST') {
+        if (key === 'ESC') mode = 'MONITOR';
+        if (key === 'UP') currentParamIndex = currentParamIndex < 4 ? currentParamIndex + 1 : 1;
+        if (key === 'DOWN') currentParamIndex = currentParamIndex > 1 ? currentParamIndex - 1 : 4;
+        if (key === 'ENT') mode = 'EDIT_PARAM';
+      } 
+      else if (mode === 'EDIT_PARAM') {
+        let p = PARAMS[currentParamIndex];
+        // Sincronizar límite máximo dinámico
+        if (currentParamIndex === 1) p.max = PARAMS[4].val; 
+
+        if (key === 'ESC') mode = 'PARAM_LIST';
+        if (key === 'ENT') mode = 'PARAM_LIST'; // Guarda al salir
+        
+        if (key === 'UP') {
+          p.val = Math.min(p.max, p.val + p.step);
+          if(currentParamIndex === 1 && isRunning) targetHz = p.val;
+        }
+        if (key === 'DOWN') {
+          p.val = Math.max(p.min, p.val - p.step);
+          if(currentParamIndex === 1 && isRunning) targetHz = p.val;
+        }
+      }
+      
+      updateLCD();
+    }
+
+    // --- BUCLE DE SIMULACION ---
+    function simulateMotor(time) {
+      let dt = (time - lastTime) / 1000; // Segundos
+      lastTime = time;
+
+      // Actualizar currentHz basado en aceleración/desaceleración
+      if (currentHz < targetHz) {
+        let rate = PARAMS[4].val / PARAMS[2].val; // Hz por segundo
+        currentHz += rate * dt;
+        if (currentHz > targetHz) currentHz = targetHz;
+      } else if (currentHz > targetHz) {
+        let rate = PARAMS[4].val / PARAMS[3].val; // Hz por segundo
+        currentHz -= rate * dt;
+        if (currentHz < targetHz) currentHz = targetHz;
+        if (currentHz < 0) currentHz = 0;
+      }
+
+      // Animación de rotación (RPM = Hz * 60 para un motor de 2 polos ideal)
+      let rpm = currentHz * 30; // Escalado visual para que no parpadee en el navegador
+      let angularVelocity = rpm * 360 / 60; // Grados por segundo
+      motorAngle += angularVelocity * dt;
+      
+      rotor.style.transform = `rotate(${motorAngle}deg)`;
+      
+      // Actualizar indicadores UI
+      outHz.innerText = currentHz.toFixed(1) + ' Hz';
+      outRpm.innerText = Math.round(currentHz * 30) + ' RPM'; // Simulación visual
+      
+      let pct = (currentHz / PARAMS[4].val) * 100;
+      barHz.style.width = Math.min(100, Math.max(0, pct)) + '%';
+
+      if(mode === 'MONITOR' && isRunning) updateLCD();
+
+      requestAnimationFrame(simulateMotor);
+    }
+
+    // Iniciar
+    updateLCD();
+    requestAnimationFrame(simulateMotor);
+  </script>
+</body>
+</html>

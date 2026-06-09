@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistemas de Acoplamiento — L'Oréal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #0a0a0a;
+      --gold: #C8A96E;
+      --font-ui: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-main);
+      color: #fff;
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.8);
+      z-index: 10;
+    }
+    .brand { display: flex; align-items: center; gap: 15px; }
+    .brand img { height: 40px; filter: invert(1); }
+    h1 { font-size: 1.2rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+    .back-btn { color: #888; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+    .back-btn:hover { color: var(--gold); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      flex: 1;
+    }
+
+    .controls {
+      background: #111;
+      border-right: 1px solid #222;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .control-group h3 { font-size: 0.9rem; color: var(--gold); text-transform: uppercase; margin-bottom: 15px; }
+    .control-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #ccc; }
+    .control-group select, .control-group input {
+      width: 100%;
+      padding: 10px;
+      background: #222;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 4px;
+      font-family: var(--font-ui);
+      font-size: 1rem;
+    }
+
+    .stats {
+      background: #1a1a1a;
+      border: 1px solid var(--gold);
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .stat-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; }
+    .stat-val { font-weight: bold; color: var(--gold); font-size: 1.1rem; }
+
+    .canvas-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+    }
+    
+    .mission {
+      position: absolute;
+      top: 30px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      padding: 15px 30px;
+      border: 1px solid #444;
+      border-radius: 30px;
+      backdrop-filter: blur(5px);
+      text-align: center;
+    }
+    .mission.success { border-color: #0f0; box-shadow: 0 0 20px rgba(0,255,0,0.2); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <img src="../img/image.png" alt="L'Oréal" />
+      <h1>Laboratorio de Cinemática</h1>
+    </div>
+    <a href="../index.html" class="back-btn">← Volver al Manual</a>
+  </header>
+
+  <div class="layout">
+    <div class="controls">
+      <div class="control-group">
+        <h3>1. Motor (Piñón Conductor)</h3>
+        <label>Velocidad del Motor (RPM)</label>
+        <select id="motor-rpm">
+          <option value="900">900 RPM</option>
+          <option value="1800" selected>1800 RPM</option>
+          <option value="3600">3600 RPM</option>
+        </select>
+
+        <label style="margin-top: 15px;">Dientes (z1)</label>
+        <input type="range" id="gear1-teeth" min="10" max="40" value="20">
+        <div style="text-align: right; color: var(--gold);" id="g1-val">20</div>
+      </div>
+
+      <div class="control-group">
+        <h3>2. Carga (Rueda Conducida)</h3>
+        <label>Dientes (z2)</label>
+        <input type="range" id="gear2-teeth" min="10" max="80" value="40">
+        <div style="text-align: right; color: var(--gold);" id="g2-val">40</div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-row">
+          <span>Relación Transmisión (i):</span>
+          <span class="stat-val" id="stat-ratio">2.00</span>
+        </div>
+        <div class="stat-row">
+          <span>RPM de Salida:</span>
+          <span class="stat-val" id="stat-rpm">900</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <div class="mission" id="mission-box">
+        <p style="color:#aaa; font-size:0.85rem;">Objetivo</p>
+        <p style="font-weight:bold; font-size:1.1rem;">Lograr exactamente <span style="color:var(--gold);">600 RPM</span> en la salida.</p>
+      </div>
+      <canvas id="sim-canvas"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('sim-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // UI Elements
+    const motorRpmEl = document.getElementById('motor-rpm');
+    const gear1El = document.getElementById('gear1-teeth');
+    const gear2El = document.getElementById('gear2-teeth');
+    const g1Val = document.getElementById('g1-val');
+    const g2Val = document.getElementById('g2-val');
+    const statRatio = document.getElementById('stat-ratio');
+    const statRpm = document.getElementById('stat-rpm');
+    const missionBox = document.getElementById('mission-box');
+
+    let g1Teeth = 20;
+    let g2Teeth = 40;
+    let motorRpm = 1800;
+    let angle1 = 0;
+    let angle2 = 0;
+    let lastTime = performance.now();
+
+    function resize() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Dibujado de engranaje (Simplificado pero estético)
+    function drawGear(ctx, x, y, teeth, pitchRadius, angle, isDriver) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+
+      // Sombra y estilo
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = 10;
+      ctx.fillStyle = isDriver ? '#2C3E50' : '#C8A96E';
+      ctx.strokeStyle = isDriver ? '#1A252F' : '#9A7A45';
+      ctx.lineWidth = 4;
+
+      const outerRadius = pitchRadius + 10; // addendum
+      const innerRadius = pitchRadius - 10; // dedendum
+      
+      ctx.beginPath();
+      for (let i = 0; i < teeth * 2; i++) {
+        const theta = (i * Math.PI) / teeth;
+        const r = (i % 2 === 0) ? outerRadius : innerRadius;
+        if (i === 0) ctx.moveTo(r * Math.cos(theta), r * Math.sin(theta));
+        else ctx.lineTo(r * Math.cos(theta), r * Math.sin(theta));
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Detalles internos
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#111';
+      ctx.beginPath();
+      ctx.arc(0, 0, pitchRadius * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Eje
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.arc(0, 0, 15, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Referencia visual de rotación
+      ctx.fillStyle = isDriver ? '#E74C3C' : '#fff';
+      ctx.beginPath();
+      ctx.arc(pitchRadius * 0.4, 0, 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function updatePhysics() {
+      g1Teeth = parseInt(gear1El.value);
+      g2Teeth = parseInt(gear2El.value);
+      motorRpm = parseInt(motorRpmEl.value);
+      
+      g1Val.innerText = g1Teeth;
+      g2Val.innerText = g2Teeth;
+
+      const ratio = g2Teeth / g1Teeth;
+      const outRpm = motorRpm / ratio;
+
+      statRatio.innerText = ratio.toFixed(2);
+      statRpm.innerText = Math.round(outRpm);
+
+      if (Math.round(outRpm) === 600) {
+        missionBox.classList.add('success');
+      } else {
+        missionBox.classList.remove('success');
+      }
+
+      return { ratio, outRpm };
+    }
+
+    function animate(time) {
+      const dt = (time - lastTime) / 1000;
+      lastTime = time;
+
+      const { ratio } = updatePhysics();
+
+      // El módulo en el canvas, base: 1 diente = X pixeles de circunferencia
+      // Modulo M = D / Z. Para que engranen, M debe ser igual.
+      // D = Z * M. Elijamos M = 5.
+      const module = 5;
+      const r1 = (g1Teeth * module) / 2;
+      const r2 = (g2Teeth * module) / 2;
+
+      // Velocidad angular (reducida visualmente)
+      // W (rad/s)
+      const visualRpm = motorRpm / 20; // Lento para que se vea
+      const w1 = (visualRpm * Math.PI) / 30; 
+      const w2 = -w1 / ratio;
+
+      angle1 += w1 * dt;
+      angle2 += w2 * dt;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+
+      // Posiciones
+      const dist = r1 + r2;
+      const x1 = cx - dist / 2;
+      const x2 = cx + dist / 2;
+
+      // Dibujar línea central
+      ctx.strokeStyle = '#333';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(x1, cy);
+      ctx.lineTo(x2, cy);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Dibujar engranajes
+      drawGear(ctx, x1, cy, g1Teeth, r1, angle1, true);
+      
+      // Sincronizar fase del segundo engranaje para que engranen perfecto
+      // (z1 * theta1 = -z2 * theta2) -> theta2 = -theta1 * (z1/z2) + offset
+      const offset = (Math.PI / g2Teeth) + (Math.PI);
+      const syncAngle2 = -angle1 * (g1Teeth/g2Teeth) + offset;
+      
+      drawGear(ctx, x2, cy, g2Teeth, r2, syncAngle2, false);
+
+      requestAnimationFrame(animate);
+    }
+
+    // Event listeners
+    gear1El.addEventListener('input', updatePhysics);
+    gear2El.addEventListener('input', updatePhysics);
+    motorRpmEl.addEventListener('change', updatePhysics);
+
+    updatePhysics();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>

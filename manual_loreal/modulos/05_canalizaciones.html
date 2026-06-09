@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Módulo 5 — Canalizaciones Eléctricas | Manual Técnico L'Oréal</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="main-header">
+  <div class="header-inner">
+    <img src="../img/image.png" alt="L'Oréal Logo" class="header-logo"/>
+    <div class="header-text">
+      <span class="header-brand">L'Oréal Plant Maintenance</span>
+      <h1 class="header-title">Módulo 5 — Canalizaciones Eléctricas</h1>
+    </div>
+    <div class="progress-box">
+      <span class="progress-label">Progreso del curso</span>
+      <div class="progress-bar-outer"><div class="progress-bar-inner" style="width:41.6%"></div></div>
+      <span class="progress-pct">5 / 12 módulos</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout-wrapper">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-header">Contenido del Curso</div>
+  <ul class="sidebar-nav">
+    <li><a href="01_seguridad.html">01 — Seguridad Eléctrica</a></li>
+    <li><a href="02_fundamentos.html">02 — Fundamentos Eléctricos</a></li>
+    <li><a href="03_motores.html">03 — Motores Eléctricos</a></li>
+    <li><a href="04_variadores.html">04 — Variadores de Frecuencia</a></li>
+    <li class="active"><a href="05_canalizaciones.html">05 — Canalizaciones Eléctricas</a></li>
+    <li><a href="06_sistema_tierra.html">06 — Sistema de Tierra Física</a></li>
+    <li><a href="07_tableros_interruptores.html">07 — Tableros e Interruptores</a></li>
+    <li><a href="08_codigo_cableado.html">08 — Código de Cableado</a></li>
+    <li><a href="09_instrumentacion.html">09 — Instrumentación</a></li>
+    <li><a href="10_plcs.html">10 — PLCs y Automatización</a></li>
+    <li><a href="11_termografia.html">11 — Termografía</a></li>
+    <li><a href="12_mantenimiento.html">12 — Mantenimiento Preventivo</a></li>
+    <li class="sidebar-sep"><a href="../juegos/index.html">🎮 Juegos de Práctica</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+  <!-- INTRO CARD -->
+  <div class="module-intro-card">
+    <div class="module-intro-icon">🔧</div>
+    <div class="module-intro-text">
+      <h2>Canalizaciones Eléctricas</h2>
+      <p>Las canalizaciones eléctricas son el esqueleto de toda instalación industrial. Protegen los conductores, facilitan el mantenimiento y garantizan la conformidad con normas de seguridad. Este módulo cubre los tipos, dimensionamiento, instalación y mantenimiento de los sistemas de canalización utilizados en la planta L'Oréal, con base en <strong>NOM-001-SEDE-2012</strong> y el <strong>NEC (NFPA 70)</strong>.</p>
+    </div>
+  </div>
+
+  <!-- ===================== SECCIÓN 5.1 ===================== -->
+  <section class="content-section" id="s5-1">
+    <h2 class="section-title"><span class="section-num">5.1</span> Tipos de Canalización Eléctrica</h2>
+
+    <p>Una <strong>canalización eléctrica</strong> (raceway) es cualquier canal diseñado expresamente para alojar y proteger conductores eléctricos. La selección del tipo correcto es crítica: influye en la seguridad, la facilidad de mantenimiento, el costo y la vida útil de la instalación.</p>
+
+    <h3>5.1.1 Conduit Rígido Metálico (RMC — Rigid Metal Conduit)</h3>
+    <p>El <strong>RMC</strong> es el conduit de pared más gruesa disponible. Fabricado de acero galvanizado en caliente (HDG), aluminio o acero inoxidable. Sus características:</p>
+    <ul>
+      <li>Pared nominal: 2.0 – 3.0 mm según diámetro</li>
+      <li>Rosca en extremos conforme a NPT (National Pipe Thread)</li>
+      <li>Resistente a impacto mecánico severo</li>
+      <li>Puede enterrarse directamente sin protección adicional</li>
+      <li>Sirve como conductor de tierra (equipotencialización) cuando la continuidad del tramo está asegurada</li>
+      <li>Diámetros nominales: ½", ¾", 1", 1¼", 1½", 2", 2½", 3", 3½", 4", 5", 6"</li>
+    </ul>
+    <div class="info-box warning">
+      <strong>Nota técnica RMC:</strong> En instalaciones con vibraciones intensas (bombas, compresores), use uniones flexibles en los puntos de conexión al equipo. Las uniones rígidas pueden fracturarse por fatiga.
+    </div>
+
+    <h3>5.1.2 Conduit Metálico Intermedio (IMC — Intermediate Metal Conduit)</h3>
+    <p>El <strong>IMC</strong> es una solución intermedia entre RMC y EMT. Pared ligeramente más delgada que RMC (~1.5 mm), pero más gruesa que EMT. Características:</p>
+    <ul>
+      <li>Menor peso que RMC (aprox. 30% más ligero)</li>
+      <li>Rosca NPT — acepta las mismas uniones que RMC</li>
+      <li>Puede enterrarse directamente</li>
+      <li>Aceptado por NOM-001-SEDE como sustituto de RMC en la mayoría de aplicaciones</li>
+      <li>No recomendado en ambientes con exposición química intensa</li>
+    </ul>
+
+    <h3>5.1.3 Conduit de Pared Delgada — EMT (Electrical Metallic Tubing)</h3>
+    <p>El <strong>EMT</strong> es el conduit metálico más utilizado en interiores industriales. No se rosca; usa uniones de compresión o tornillo. Características:</p>
+    <ul>
+      <li>Pared: ~0.9 mm (½" – 2") hasta ~1.4 mm (3" – 4")</li>
+      <li>No puede enterrarse directamente (protección contra corrosión insuficiente)</li>
+      <li>Muy fácil de doblar con curvadoras de pie y eléctricas</li>
+      <li>Instalación rápida: uniones sin rosca ahorra tiempo de montaje</li>
+      <li>Adecuado para instalaciones en muros, plafones, talleres (no a la intemperie sin protección)</li>
+      <li>Diámetros: ½", ¾", 1", 1¼", 1½", 2", 2½", 3", 4"</li>
+    </ul>
+    <div class="info-box danger">
+      <strong>Restricción EMT:</strong> El EMT NO debe usarse en ambientes corrosivos, áreas clasificadas Clase I División 1, ni enterrado en concreto sin recubrimiento adicional. Ver NOM-001-SEDE Tabla 300.5.
+    </div>
+
+    <h3>5.1.4 Conduit PVC Rígido (PVC Schedule 40 y Schedule 80)</h3>
+    <p>El <strong>PVC rígido</strong> es el conduit preferido para instalaciones en ambientes húmedos, corrosivos y enterradas. Sus propiedades:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Propiedad</th><th>PVC Sch 40</th><th>PVC Sch 80</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pared (½")</td><td>2.97 mm</td><td>4.78 mm</td></tr>
+        <tr><td>Pared (2")</td><td>5.54 mm</td><td>7.62 mm</td></tr>
+        <tr><td>Resistencia impacto</td><td>Media</td><td>Alta</td></tr>
+        <tr><td>Temperatura máx.</td><td>75°C</td><td>75°C</td></tr>
+        <tr><td>Temperatura mín. inst.</td><td>−20°C</td><td>−20°C</td></tr>
+        <tr><td>Resistencia química</td><td>Alta (ácidos diluidos, bases)</td><td>Alta</td></tr>
+        <tr><td>Resistencia UV</td><td>Baja (degradación a la intemperie)</td><td>Baja</td></tr>
+        <tr><td>Enterrado directo</td><td>Sí</td><td>Sí</td></tr>
+        <tr><td>Conductor de tierra propio</td><td>NO — requiere conductor separado</td><td>NO</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box info">
+      <strong>PVC y tierra:</strong> El PVC no conduce electricidad, por lo que SIEMPRE se debe incluir un conductor de tierra verde calibre adecuado dentro del conduit.
+    </div>
+
+    <h3>5.1.5 Cable Bandeja (Cable Tray)</h3>
+    <p>La <strong>bandeja portacables</strong> (cable tray) es un sistema abierto de soporte diseñado para grandes cantidades de cables. Es el sistema preferido para recorridos largos horizontales en plantas industriales como L'Oréal.</p>
+    <ul>
+      <li><strong>Tipo escalera (Ladder):</strong> Dos rieles longitudinales conectados por peldaños transversales. Excelente ventilación. Ideal para cables de potencia de gran calibre.</li>
+      <li><strong>Tipo malla (Wire Mesh / Cablofil):</strong> Fabricada de alambre galvanizado soldado. Flexible en curvas y derivaciones. Ideal para cableado de control e instrumentación.</li>
+      <li><strong>Fondo sólido (Solid Bottom):</strong> Caja completamente cerrada en la parte inferior. Protege cables sensibles de derrames. Usado para instrumentación y fibra óptica.</li>
+      <li><strong>Tipo canal (Trough):</strong> Similar a fondo sólido pero con laterales más bajos. Para mezcla de cables medianos.</li>
+    </ul>
+
+    <h3>5.1.6 Ducto Metálico (Wireway / Metallic Wireway)</h3>
+    <p>El <strong>ducto metálico</strong> (wireway) es un canal cerrado con tapa abatible o removible, que permite acceso continuo a los conductores en toda su longitud. Se usa principalmente en tableros, dentro de cuartos eléctricos y recorridos cortos donde se requiere acceso frecuente.</p>
+    <ul>
+      <li>Secciones estándar: 50×50 mm, 100×100 mm, 150×150 mm, 200×200 mm</li>
+      <li>Longitud estándar por sección: 900 mm, 1500 mm, 3000 mm</li>
+      <li>Factor de ocupación máximo: 20% del área de la sección transversal</li>
+      <li>Puede montarse horizontal o vertical</li>
+    </ul>
+
+    <h3>5.1.7 Tubo Corrugado Flexible</h3>
+    <p>El <strong>tubo corrugado flexible</strong> (flexible conduit, "espagueti") se utiliza para conexiones finales a equipos con vibración (motores, compresores), en zonas de difícil acceso y para recorridos cortos que requieren movimiento. Tipos:</p>
+    <ul>
+      <li><strong>Liquidtight Flexible Metal Conduit (LFMC):</strong> Núcleo metálico espiral con cubierta de PVC. Para uso exterior y mojado.</li>
+      <li><strong>Flexible Metal Conduit (FMC / "Greenfield"):</strong> Solo metálico, sin cubierta PVC. Para uso en seco, interiores.</li>
+      <li><strong>Tubo corrugado plástico:</strong> PVC o nylon. Para cableado de control, tableros, sin exposición mecánica severa.</li>
+      <li>Longitud máxima recomendada: 1.8 m (6 ft) para no comprometer la continuidad de tierra (NOM-001 Art. 350.30)</li>
+    </ul>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.2 ===================== -->
+  <section class="content-section" id="s5-2">
+    <h2 class="section-title"><span class="section-num">5.2</span> Materiales y Selección por Ambiente</h2>
+
+    <p>El ambiente donde se instala la canalización determina el material. Un error de selección puede causar corrosión acelerada, falla estructural o riesgo de incendio/explosión.</p>
+
+    <h3>5.2.1 Acero Galvanizado en Caliente (HDG)</h3>
+    <ul>
+      <li><strong>Composición:</strong> Acero A53 con recubrimiento de zinc (≥45 µm interior y exterior)</li>
+      <li><strong>Uso:</strong> Ambientes normales, interiores y exteriores no corrosivos</li>
+      <li><strong>Vida útil esperada:</strong> 25–40 años en ambientes normales</li>
+      <li><strong>Limitaciones:</strong> Se corroe en presencia de cloro, amoniaco, ácidos fuertes, ambientes marinos</li>
+      <li><strong>En L'Oréal:</strong> Áreas de producción general, talleres, pasillos técnicos</li>
+    </ul>
+
+    <h3>5.2.2 Aluminio</h3>
+    <ul>
+      <li><strong>Ventajas:</strong> 1/3 del peso del acero, no magnético, resistente a corrosión general</li>
+      <li><strong>Desventajas:</strong> Prohibido en presencia de concreto (reacción alcalina), cloruro de sodio, mercurio</li>
+      <li><strong>Uso en planta:</strong> Áreas donde el peso es crítico (losas débiles), cuartos limpios</li>
+      <li><strong>Nota:</strong> No usar tornillos de acero sin pasivado en conduit de aluminio — corrosión galvánica</li>
+    </ul>
+
+    <h3>5.2.3 PVC Rígido</h3>
+    <ul>
+      <li><strong>Ventajas:</strong> Excelente resistencia química, no conduce electricidad (sin corrosión galvánica), económico</li>
+      <li><strong>Uso:</strong> Áreas húmedas (cuartos de calderas, plantas de tratamiento agua), enterrado, áreas con ácidos o bases diluidas</li>
+      <li><strong>Limitaciones:</strong> Se vuelve frágil bajo −20°C, se ablanda sobre 75°C, no resistente a impacto mecánico severo, NO apto para áreas clasificadas (puede acumular carga estática)</li>
+    </ul>
+
+    <h3>5.2.4 Acero Inoxidable (SS 304 y SS 316)</h3>
+    <ul>
+      <li><strong>SS 304:</strong> Resistencia general a corrosión, ácidos orgánicos, soluciones alcalinas. Para industria alimentaria y farmacéutica.</li>
+      <li><strong>SS 316:</strong> Adición de molibdeno. Mayor resistencia a cloruros y ácidos. Para áreas de limpieza CIP/SIP con detergentes agresivos.</li>
+      <li><strong>Uso en L'Oréal:</strong> Zonas de mezclado, salas blancas, áreas de llenado donde hay limpieza química frecuente</li>
+      <li><strong>Costo:</strong> 8–12 veces más caro que acero galvanizado. Justificado solo cuando ambiente lo exige.</li>
+    </ul>
+
+    <h3>5.2.5 Tabla de Selección por Ambiente</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Ambiente</th>
+          <th>Descripción</th>
+          <th>Material Recomendado</th>
+          <th>Material NO Recomendado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Normal interior seco</td><td>Talleres, oficinas, cuartos eléctricos</td><td>EMT, IMC, RMC galvanizado</td><td>—</td></tr>
+        <tr><td>Exterior no corrosivo</td><td>Fachadas, estacionamientos techados</td><td>RMC, IMC galvanizado; PVC Sch 80</td><td>EMT sin protección</td></tr>
+        <tr><td>Húmedo</td><td>Cuartos de calderas, lavado, plantas agua</td><td>PVC Sch 40/80, SS 316, RMC con recubrimiento</td><td>EMT, aluminio en sales</td></tr>
+        <tr><td>Corrosivo ligero</td><td>Cuartos de baterías, CO₂, amoniaco diluido</td><td>PVC, SS 316</td><td>Acero galvanizado, aluminio</td></tr>
+        <tr><td>Corrosivo severo</td><td>Ácidos concentrados, cloro</td><td>PVC Sch 80, CPVC, SS 316L</td><td>Todos los metálicos sin recubrimiento especial</td></tr>
+        <tr><td>Explosivo Zona 1 (Cl I Div 1)</td><td>Áreas con vapores inflamables continuos</td><td>RMC, IMC (con selladores Dux)</td><td>EMT, PVC, cable tray abierto</td></tr>
+        <tr><td>Explosivo Zona 2 (Cl I Div 2)</td><td>Vapores inflamables ocasionales</td><td>RMC, IMC, EMT (con uniones apropiadas)</td><td>PVC en zonas con riesgo mecánico</td></tr>
+        <tr><td>Enterrado en suelo normal</td><td>A menos de 600 mm profundidad</td><td>PVC Sch 40, RMC, IMC</td><td>EMT, FMC</td></tr>
+        <tr><td>Enterrado en concreto</td><td>Embutido en losa/pared</td><td>PVC, RMC</td><td>EMT (corrosión), aluminio</td></tr>
+        <tr><td>Cuarto limpio / farmacéutico</td><td>Áreas GMP, ISO clase 6–8</td><td>SS 316, PVC blanco liso</td><td>Superficies rugosas que retienen bacterias</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.2.6 Zonas ATEX y NOM-022</h3>
+    <p>La <strong>NOM-022-STPS-2015</strong> (Electricidad estática en lugares con atmósferas explosivas) y la clasificación ATEX dividen las áreas peligrosas según la probabilidad de presencia de gas/vapor inflamable:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Clasificación NEC/NOM</th><th>Clasificación ATEX</th><th>Descripción</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Clase I, División 1</td><td>Zona 0 / Zona 1</td><td>Mezcla inflamable presente continuamente o durante operación normal</td></tr>
+        <tr><td>Clase I, División 2</td><td>Zona 2</td><td>Mezcla inflamable presente solo en condiciones anormales</td></tr>
+        <tr><td>Clase II, División 1</td><td>Zona 20 / Zona 21</td><td>Polvo combustible presente continuamente o en operación normal</td></tr>
+        <tr><td>Clase II, División 2</td><td>Zona 22</td><td>Polvo combustible presente solo anormalmente</td></tr>
+        <tr><td>Clase III</td><td>—</td><td>Fibras o partículas volantes inflamables</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box warning">
+      <strong>En planta L'Oréal:</strong> Las áreas de almacenamiento de alcohol etílico (≥70%), cuartos de solventes y zonas de spray de aerosoles se clasifican como Clase I División 1 o División 2. Todo equipo y canalización en esas zonas debe tener certificación <strong>Ex (ATEX/IECEx)</strong> y documentarse en el plano de clasificación de áreas.
+    </div>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.3 ===================== -->
+  <section class="content-section" id="s5-3">
+    <h2 class="section-title"><span class="section-num">5.3</span> Dimensionamiento de Conduit</h2>
+
+    <p>El dimensionamiento correcto del conduit garantiza que los conductores no se dañen durante la instalación (jalado) y que se cumplan los requisitos de disipación de calor. La norma base es <strong>NOM-001-SEDE-2012, Artículo 358 (y equivalentes) y Tablas de áreas</strong>, así como el <strong>NEC Capítulo 9, Tablas 1, 4 y 5</strong>.</p>
+
+    <h3>5.3.1 Factor de Ocupación (Fill Factor)</h3>
+    <p>El <strong>factor de ocupación</strong> establece el porcentaje máximo del área interior del conduit que pueden ocupar los conductores:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Número de conductores</th><th>Factor de ocupación máx.</th><th>Referencia</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 conductor</td><td>53%</td><td>NEC Tabla 1, Capítulo 9</td></tr>
+        <tr><td>2 conductores</td><td>31%</td><td>NEC Tabla 1, Capítulo 9</td></tr>
+        <tr><td>3 o más conductores</td><td>40%</td><td>NEC Tabla 1, Capítulo 9</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box info">
+      <strong>¿Por qué 40% para 3+ conductores?</strong> El 60% restante permite que los conductores se deslicen durante el jalado sin dañar el aislamiento, y deja espacio para la disipación de calor por convección. Superar el 40% eleva la temperatura de operación y puede requerir derating de la corriente permisible.
+    </div>
+
+    <h3>5.3.2 Tablas de Área — EMT</h3>
+    <p>Área interior total del conduit EMT por tamaño nominal (NEC Tabla 4, Apéndice C):</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Trade Size (pulg)</th><th>Diámetro interior (mm)</th><th>Área total (mm²)</th><th>40% área (mm²)</th><th>31% área (mm²)</th><th>53% área (mm²)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>½"</td><td>15.8</td><td>196</td><td>78.4</td><td>60.8</td><td>103.9</td></tr>
+        <tr><td>¾"</td><td>20.9</td><td>343</td><td>137.2</td><td>106.3</td><td>181.8</td></tr>
+        <tr><td>1"</td><td>26.6</td><td>556</td><td>222.4</td><td>172.4</td><td>294.7</td></tr>
+        <tr><td>1¼"</td><td>35.1</td><td>968</td><td>387.1</td><td>300.1</td><td>513.0</td></tr>
+        <tr><td>1½"</td><td>40.9</td><td>1314</td><td>525.6</td><td>407.3</td><td>696.4</td></tr>
+        <tr><td>2"</td><td>52.5</td><td>2165</td><td>866.0</td><td>671.2</td><td>1147.5</td></tr>
+        <tr><td>2½"</td><td>63.0</td><td>3117</td><td>1246.8</td><td>966.3</td><td>1652.0</td></tr>
+        <tr><td>3"</td><td>78.0</td><td>4778</td><td>1911.2</td><td>1481.2</td><td>2532.3</td></tr>
+        <tr><td>4"</td><td>102.3</td><td>8219</td><td>3287.6</td><td>2547.9</td><td>4356.1</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.3.3 Área de Conductores THHN (mm²)</h3>
+    <p>Área de la sección transversal total del conductor incluyendo aislamiento THHN (NEC Tabla 5):</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Calibre AWG/kcmil</th><th>Conductor (mm²)</th><th>Con aislamiento THHN (mm²)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>14 AWG</td><td>2.08</td><td>8.97</td></tr>
+        <tr><td>12 AWG</td><td>3.31</td><td>11.68</td></tr>
+        <tr><td>10 AWG</td><td>5.26</td><td>15.68</td></tr>
+        <tr><td>8 AWG</td><td>8.37</td><td>21.48</td></tr>
+        <tr><td>6 AWG</td><td>13.30</td><td>29.16</td></tr>
+        <tr><td>4 AWG</td><td>21.15</td><td>41.16</td></tr>
+        <tr><td>2 AWG</td><td>33.62</td><td>58.06</td></tr>
+        <tr><td>1 AWG</td><td>42.41</td><td>73.94</td></tr>
+        <tr><td>1/0 AWG</td><td>53.49</td><td>89.03</td></tr>
+        <tr><td>2/0 AWG</td><td>67.43</td><td>109.35</td></tr>
+        <tr><td>3/0 AWG</td><td>85.01</td><td>133.77</td></tr>
+        <tr><td>4/0 AWG</td><td>107.2</td><td>165.16</td></tr>
+        <tr><td>250 kcmil</td><td>126.7</td><td>194.75</td></tr>
+        <tr><td>300 kcmil</td><td>152.0</td><td>232.26</td></tr>
+        <tr><td>350 kcmil</td><td>177.4</td><td>267.77</td></tr>
+        <tr><td>500 kcmil</td><td>253.4</td><td>370.97</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.3.4 Ejemplos Resueltos de Dimensionamiento</h3>
+
+    <div class="example-box">
+      <div class="example-header">Ejemplo 1 — Circuito trifásico simple</div>
+      <p><strong>Datos:</strong> Se requiere instalar un circuito trifásico 480V con 3 conductores 2/0 AWG THHN + 1 conductor de tierra 6 AWG THHN en conduit EMT.</p>
+      <p><strong>Paso 1:</strong> Área total de conductores</p>
+      <p>3 × (2/0 AWG) = 3 × 109.35 = 328.05 mm²</p>
+      <p>1 × (6 AWG tierra) = 29.16 mm²</p>
+      <p>Total = 328.05 + 29.16 = <strong>357.21 mm²</strong></p>
+      <p><strong>Paso 2:</strong> Dividir entre factor de ocupación (4 conductores = regla 3+, 40%)</p>
+      <p>Área conduit requerida = 357.21 / 0.40 = <strong>893.0 mm²</strong></p>
+      <p><strong>Paso 3:</strong> Seleccionar conduit. De la tabla anterior: EMT 2" tiene área total de 2,165 mm² (40% = 866 mm²). No alcanza. EMT 2½" tiene área total 3,117 mm² (40% = 1,246 mm²). <strong>¡Sí alcanza!</strong></p>
+      <p><strong>Resultado:</strong> Usar <strong>EMT 2½"</strong> para este circuito.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="example-header">Ejemplo 2 — Cableado de control múltiple</div>
+      <p><strong>Datos:</strong> Se deben instalar 12 conductores 14 AWG THHN (cableado de control) en conduit EMT.</p>
+      <p><strong>Paso 1:</strong> Área total</p>
+      <p>12 × 8.97 mm² = <strong>107.64 mm²</strong></p>
+      <p><strong>Paso 2:</strong> Área conduit requerida (12 conductores, regla 40%)</p>
+      <p>107.64 / 0.40 = <strong>269.1 mm²</strong></p>
+      <p><strong>Paso 3:</strong> De la tabla: EMT ¾" tiene 40% = 137.2 mm² (insuficiente). EMT 1" tiene 40% = 222.4 mm² (insuficiente). EMT 1¼" tiene 40% = 387.1 mm². <strong>¡Suficiente!</strong></p>
+      <p><strong>Resultado:</strong> Usar <strong>EMT 1¼"</strong> para los 12 conductores de control.</p>
+    </div>
+
+    <div class="example-box">
+      <div class="example-header">Ejemplo 3 — Un solo conductor de gran calibre</div>
+      <p><strong>Datos:</strong> Se instalará UN solo conductor de 350 kcmil THHN en conduit RMC.</p>
+      <p><strong>Paso 1:</strong> Área del conductor</p>
+      <p>1 × 267.77 mm² = <strong>267.77 mm²</strong></p>
+      <p><strong>Paso 2:</strong> Factor para 1 conductor = 53%</p>
+      <p>Área conduit requerida = 267.77 / 0.53 = <strong>505.2 mm²</strong></p>
+      <p><strong>Paso 3:</strong> Para RMC (área muy similar a IMC): RMC 1½" tiene área interior ≈ 1,257 mm² (53% ≈ 666 mm²). Sí alcanza. Pero RMC 1¼" ≈ 864 mm² (53% ≈ 458 mm²) — no alcanza.</p>
+      <p><strong>Resultado:</strong> Usar <strong>RMC 1½"</strong> para el conductor de 350 kcmil.</p>
+    </div>
+
+    <div class="info-box tip">
+      <strong>Regla práctica:</strong> Siempre suba un tamaño si la instalación requiere agregar conductores en el futuro. Una práctica común en L'Oréal es dejar conduits al 25–30% de ocupación para permitir expansiones sin desmantelar la instalación.
+    </div>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.4 ===================== -->
+  <section class="content-section" id="s5-4">
+    <h2 class="section-title"><span class="section-num">5.4</span> Instalación de Conduit</h2>
+
+    <h3>5.4.1 Herramientas y Materiales de Instalación</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Herramienta</th><th>Uso</th><th>Conduit aplicable</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Curvadora manual (Benfield / Greenlee)</td><td>Doblar EMT hasta 1½", PVC hasta 1"</td><td>EMT, PVC Sch 40</td></tr>
+        <tr><td>Curvadora hidráulica (Greenlee 881/882)</td><td>Doblar conduit 2" a 4"</td><td>EMT, RMC, IMC, PVC Sch 80</td></tr>
+        <tr><td>Curvadora eléctrica / neumática</td><td>Producción en serie, ángulos precisos CNC</td><td>EMT, RMC, IMC</td></tr>
+        <tr><td>Cortatubos (pipe cutter)</td><td>Corte limpio y cuadrado de conduit metálico</td><td>EMT, RMC, IMC</td></tr>
+        <tr><td>Sierra arco / sierra caladora</td><td>Corte de conduit PVC y metálico en campo</td><td>PVC, EMT, RMC</td></tr>
+        <tr><td>Terraja (die head) manual/eléctrica</td><td>Roscar extremos de RMC e IMC (NPT)</td><td>RMC, IMC</td></tr>
+        <tr><td>Escariador (reamer)</td><td>Eliminar rebaba interior tras el corte</td><td>Todos los metálicos</td></tr>
+        <tr><td>Soldador / adhesivo PVC</td><td>Uniones de conduit PVC (primer + cemento)</td><td>PVC</td></tr>
+        <tr><td>Nivel y cinta métrica</td><td>Alineación y medición</td><td>Todos</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.4.2 Proceso de Corte</h3>
+    <ol>
+      <li>Medir la longitud requerida con cinta métrica; marcar con marcador permanente.</li>
+      <li>Para EMT/RMC: cortar con cortatubos dando vueltas gradualmente aumentando la presión. Evitar sierra para no generar rebaba excesiva.</li>
+      <li>Para PVC: cortar perpendicular con sierra de dientes finos. Limpiar rebabas con navaja.</li>
+      <li>Escariado: usar escariador cónico o lima redonda para eliminar rebaba interior. La rebaba puede dañar el aislamiento al jalar conductores.</li>
+    </ol>
+
+    <h3>5.4.3 Doblado de Conduit</h3>
+    <p>El doblado incorrecto es la causa más frecuente de daño a conductores durante la instalación. Reglas fundamentales:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Trade Size EMT</th><th>Radio mínimo de curvatura (mm)</th><th>NEC Art. 358.24</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>½" (16 mm)</td><td>101.6</td><td>4" mínimo</td></tr>
+        <tr><td>¾" (21 mm)</td><td>114.3</td><td>4.5"</td></tr>
+        <tr><td>1" (27 mm)</td><td>146.0</td><td>5.75"</td></tr>
+        <tr><td>1¼" (35 mm)</td><td>184.2</td><td>7.25"</td></tr>
+        <tr><td>1½" (41 mm)</td><td>209.6</td><td>8.25"</td></tr>
+        <tr><td>2" (53 mm)</td><td>241.3</td><td>9.5"</td></tr>
+        <tr><td>2½" (63 mm)</td><td>266.7</td><td>10.5"</td></tr>
+        <tr><td>3" (78 mm)</td><td>330.2</td><td>13"</td></tr>
+        <tr><td>4" (103 mm)</td><td>406.4</td><td>16"</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Curvas básicas con curvadora manual:</strong></p>
+    <ul>
+      <li><strong>Curva de 90° (stub-up):</strong> Marcar el punto donde debe quedar el inicio de la curva. Colocar la curvadora con la flecha del talón en la marca. Doblar con pie firme hasta 90°.</li>
+      <li><strong>Curva de desplazamiento (offset):</strong> Para esquivar obstáculos. Dos curvas opuestas de igual ángulo (usualmente 15°, 22°, 30°). Fórmula: Distancia entre curvas = desplazamiento / sin(ángulo).</li>
+      <li><strong>Curva de silla (saddle):</strong> Para cruzar obstáculos. Tres curvas: la central es el doble del ángulo de las externas.</li>
+    </ul>
+
+    <div class="info-box warning">
+      <strong>Límite de curvas en un tramo:</strong> NOM-001-SEDE / NEC Art. 358.26: Entre cajas de paso no se pueden exceder 360° de curva acumuladas. Si se superan, se debe agregar una caja de jalado (pull box).
+    </div>
+
+    <h3>5.4.4 Roscado de RMC/IMC</h3>
+    <ol>
+      <li>Cortar el conduit a escuadra y escariar.</li>
+      <li>Aplicar aceite de corte (cutting oil) a la terraja.</li>
+      <li>Roscar con movimiento de avance / retroceso (½ vuelta adelante, ¼ vuelta atrás) para romper viruta.</li>
+      <li>Longitud de rosca: enganche mínimo de 3–5 hilos completos en el accesorio.</li>
+      <li>Aplicar sellador de roscas (Teflon tape o compuesto sellante) para conduits en áreas húmedas o exteriores.</li>
+    </ol>
+
+    <h3>5.4.5 Cajas de Paso y Jalado</h3>
+    <p>Las <strong>cajas de paso</strong> (pull boxes, junction boxes) son necesarias para:</p>
+    <ul>
+      <li>Sumar más de 360° de curvas en un tramo</li>
+      <li>Distancias largas (más de 30 m en conduit horizontal sin accesos)</li>
+      <li>Derivaciones y uniones de conductores</li>
+      <li>Cambios de material de canalización</li>
+    </ul>
+    <p><strong>Dimensionamiento mínimo de cajas de jalado (NEC Art. 314.28):</strong></p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Tipo de jalado</th><th>Dimensión mínima</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Jalado recto (conductores 4 AWG y mayores)</td><td>8 × (diámetro nominal del conduit más grande)</td></tr>
+        <tr><td>Jalado en ángulo (U-pull)</td><td>6 × (diámetro nominal del conduit más grande) en la dimensión del jalado; más el diámetro de los demás conduits en la misma pared</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.4.6 Profundidad de Enterrado</h3>
+    <p>Para conduits enterrados directamente en suelo o bajo losa (NOM-001-SEDE, Art. 300.5):</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Tipo de canalización</th><th>Profundidad mínima</th><th>Notas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Conduit RMC/IMC</td><td>150 mm (6")</td><td>Puede reducirse si en concreto o con protección mecánica</td></tr>
+        <tr><td>Conduit EMT</td><td>No permitido enterrado directamente</td><td>Debe estar dentro de RMC/IMC o PVC</td></tr>
+        <tr><td>Conduit PVC Sch 40/80</td><td>450 mm (18")</td><td>600 mm bajo calles y estacionamientos</td></tr>
+        <tr><td>Cable sin canalización tipo USE-2</td><td>600 mm (24")</td><td>No aplicable para instalaciones en planta L'Oréal</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.4.7 Soportería y Espaciado</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Tipo conduit</th><th>Espaciado máximo entre soportes</th><th>Referencia</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>EMT hasta 25 mm (1")</td><td>3.0 m</td><td>NEC Art. 358.30</td></tr>
+        <tr><td>EMT mayor a 25 mm</td><td>3.0 m</td><td>NEC Art. 358.30</td></tr>
+        <tr><td>RMC / IMC</td><td>3.0 m</td><td>NEC Art. 344.30</td></tr>
+        <tr><td>PVC rígido hasta 25 mm</td><td>0.9 m</td><td>NEC Art. 352.30 (expansión térmica)</td></tr>
+        <tr><td>PVC rígido mayor a 25 mm</td><td>1.5 m</td><td>NEC Art. 352.30</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box info">
+      <strong>Expansión térmica del PVC:</strong> El PVC se expande ~0.6 mm por metro por cada 10°C de cambio de temperatura. En tramos largos (>15 m), usar accesorios de expansión para evitar pandeo.
+    </div>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.5 ===================== -->
+  <section class="content-section" id="s5-5">
+    <h2 class="section-title"><span class="section-num">5.5</span> Cable Bandeja (Cable Tray)</h2>
+
+    <h3>5.5.1 Tipos de Bandeja Portacables</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Tipo</th><th>Construcción</th><th>Ventilación</th><th>Aplicación principal</th><th>Carga distribüida típica</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Escalera (Ladder)</td><td>Dos rieles + travesaños cada 150–300 mm</td><td>Excelente (>90% abierta)</td><td>Cable potencia ≥4 AWG</td><td>2–5 kN/m</td></tr>
+        <tr><td>Malla (Wire Mesh)</td><td>Alambre soldado en rejilla</td><td>Muy buena</td><td>Control, instrumentación, red</td><td>0.5–1.5 kN/m</td></tr>
+        <tr><td>Fondo sólido (Solid Bottom)</td><td>Base metálica sólida + laterales</td><td>Nula a baja</td><td>Instrumentación, fibra óptica, cable sensible</td><td>1–3 kN/m</td></tr>
+        <tr><td>Canal (Trough/Ventilated)</td><td>Base perforada + laterales</td><td>Media</td><td>Cables medianos, mezcla potencia/control</td><td>1–4 kN/m</td></tr>
+        <tr><td>Canaleta cerrada (Wireway)</td><td>Caja metálica cerrada con tapa</td><td>Ninguna</td><td>Tableros, distribución en cuartos eléctricos</td><td>0.3–1 kN/m</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.5.2 Materiales de Bandeja</h3>
+    <ul>
+      <li><strong>Acero galvanizado:</strong> El más común. Para interiores normales. Galvanizado en caliente (HDG) o electrogalvanizado.</li>
+      <li><strong>Aluminio (6063-T5):</strong> Para áreas donde se requiere peso ligero o en ambientes con sales moderadas.</li>
+      <li><strong>Acero inoxidable SS 316:</strong> Para áreas con limpieza agresiva, salas blancas, ambientes con ácidos o cloruros.</li>
+      <li><strong>Fibra de vidrio (FRP):</strong> Para ambientes extremadamente corrosivos (plantas de tratamiento de agua, cloración). No conduce electricidad — requiere tierra independiente.</li>
+      <li><strong>PVC:</strong> Para instalaciones de instrumentación en ambientes corrosivos ligeros.</li>
+    </ul>
+
+    <h3>5.5.3 Dimensionamiento y Carga</h3>
+    <p>El dimensionamiento de bandejas considera dos factores: el área de sección transversal disponible para cables y la capacidad de carga mecánica.</p>
+
+    <p><strong>Capacidad de corriente en bandejas (NEC Art. 392 / NOM-001-SEDE):</strong></p>
+    <p>En bandejas tipo escalera, los cables de potencia deben instalarse en una sola capa (no apilados) cuando son calibre 1/0 AWG o mayor. Para calibres menores, se permite apilamiento con reducción de corriente:</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Capas de cables apilados</th><th>Factor de reducción de corriente</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 capa (monolayer)</td><td>1.00 (sin reducción)</td></tr>
+        <tr><td>2 capas</td><td>0.85</td></tr>
+        <tr><td>3 capas</td><td>0.75</td></tr>
+        <tr><td>4 capas o más</td><td>0.70</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.5.4 Separación entre Bandejas por Tipo de Señal</h3>
+    <p>La separación entre bandejas de diferentes tipos de señal es crítica para evitar interferencias electromagnéticas (EMI) y cumplir con normas de calidad de señal:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Combinación de bandejas</th><th>Separación mínima</th><th>Observación</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Potencia (>600V) y Control 24VDC</td><td>300 mm</td><td>Bandeja de control con tapa o blindaje si &lt;300 mm</td></tr>
+        <tr><td>Potencia 480V y Control 120V</td><td>150 mm</td><td>Cruzar en ángulo de 90° si hay cruces</td></tr>
+        <tr><td>Control 24VDC y Señal 4-20 mA</td><td>150 mm</td><td>Señal en bandeja fondo sólido o blindada</td></tr>
+        <tr><td>Control y Fibra Óptica</td><td>50 mm mínimo</td><td>Fibra no se afecta por EMI, solo mecánicamente</td></tr>
+        <tr><td>Potencia y Instrumentación analógica</td><td>300 mm mínimo, cruce a 90°</td><td>Usar cable apantallado en señal analógica</td></tr>
+        <tr><td>Alimentación UPS y cargas normales</td><td>150 mm</td><td>Bandeja UPS separada y etiquetada</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.5.5 Soportería de Bandejas</h3>
+    <ul>
+      <li><strong>Soportes directos:</strong> Trabes soldadas o perfiles Strut/Unistrut empernados a estructura.</li>
+      <li><strong>Soportes colgantes (trapeze):</strong> Varilla roscada ½" o ¾" con perfiles Strut. Para bandejas colgadas de losa.</li>
+      <li><strong>Espaciado entre soportes:</strong> Bandeja escalera: 1.5–2.4 m. Bandeja malla: 1.0–1.5 m. Siempre en cada unión y curva.</li>
+      <li><strong>Expansión térmica:</strong> En tramos largos (>30 m), instalar uniones deslizantes cada 20–30 m.</li>
+      <li><strong>Tierra de continuidad:</strong> Instalar jumper de continuidad (conductor de cobre o barra de tierra) entre secciones de bandeja metálica no unidas eléctricamente por los accesorios de unión.</li>
+    </ul>
+
+    <h3>5.5.6 Instalación y Buenas Prácticas</h3>
+    <ul>
+      <li>Todos los cables en bandeja abierta deben ser del tipo aprobado para ese uso (tipo TC, MC, USE-2, RHW-2) según NEC Art. 392.10</li>
+      <li>No mezclar circuitos de diferentes sistemas de voltaje en la misma bandeja sin separador físico</li>
+      <li>Amarrar cables en bandejas horizontales cada 1.5 m y en verticales cada 0.9 m con abrazaderas de acero inoxidable (no plásticas en instalaciones permanentes)</li>
+      <li>Dejar mínimo 20% de espacio libre para futuras adiciones</li>
+      <li>Instalar tapas en bandeja fondo sólido para áreas con goteo o humedad</li>
+    </ul>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.6 ===================== -->
+  <section class="content-section" id="s5-6">
+    <h2 class="section-title"><span class="section-num">5.6</span> Canalizaciones en Áreas Clasificadas</h2>
+
+    <h3>5.6.1 Marco Normativo</h3>
+    <p>Las instalaciones en áreas peligrosas se rigen por:</p>
+    <ul>
+      <li><strong>NOM-022-STPS-2015:</strong> Electricidad estática en lugares con atmósferas potencialmente explosivas</li>
+      <li><strong>NOM-001-SEDE-2012:</strong> Artículos 500–516 (áreas clasificadas)</li>
+      <li><strong>NEC NFPA 70:</strong> Artículos 500–517</li>
+      <li><strong>NEC NFPA 499:</strong> Clasificación de áreas para polvos combustibles</li>
+      <li><strong>IEC 60079:</strong> Para equipos con certificación ATEX/IECEx</li>
+    </ul>
+
+    <h3>5.6.2 Conduits en Áreas Clase I División 1</h3>
+    <p>En estas áreas, la canalización debe ser <strong>hermética</strong> para evitar que los vapores inflamables migren de la zona clasificada hacia zonas no clasificadas o hacia cajas de interruptores:</p>
+    <ul>
+      <li>Solo se permite <strong>RMC o IMC</strong> con uniones roscadas apretadas (mínimo 5 hilos de rosca en enganche)</li>
+      <li>Se prohíbe EMT, PVC, cable tray abierto</li>
+      <li>Los <strong>selladores Dux</strong> (sealing fittings) son obligatorios:
+        <ul>
+          <li>Dentro de 450 mm (18") de cualquier caja de explosión (explosion-proof enclosure)</li>
+          <li>Donde el conduit sale del área clasificada hacia no clasificada</li>
+          <li>En conduits verticales que conectan zonas de diferente clase</li>
+        </ul>
+      </li>
+      <li>El sellador se llena con compuesto epóxico específico (no silicón comercial) que endurece formando barrera hermética permanente</li>
+    </ul>
+
+    <h3>5.6.3 Conduits en Áreas Clase I División 2</h3>
+    <ul>
+      <li>Se permite RMC, IMC, y EMT con uniones aprobadas para esa división</li>
+      <li>Selladores requeridos donde el conduit penetra hacia División 1 o zona no clasificada</li>
+      <li>Las cajas de conexión pueden ser de tipo "purged and pressurized" (purgadas) en lugar de explosion-proof</li>
+    </ul>
+
+    <h3>5.6.4 Clase II — Polvos Combustibles</h3>
+    <p>Para plantas con riesgo de polvos combustibles (harina, almidón, azúcar, polvo de aluminio, polvo de resinas):</p>
+    <ul>
+      <li>Conduits RMC o IMC con uniones roscadas o de presión aprobadas para Clase II</li>
+      <li>Las cajas deben ser a prueba de polvo (dust-tight) con junta de hule</li>
+      <li>Prohibido cable tray abierto donde el polvo puede acumularse (riesgo de ignición por calor de cables)</li>
+    </ul>
+
+    <div class="info-box danger">
+      <strong>Riesgo crítico — selladores:</strong> Un sellador no instalado o instalado incorrectamente en un área Clase I División 1 puede resultar en la migración de vapores inflamables hasta una caja de conexiones no certificada, con consecuencias catastróficas. Verificar selladores en cada mantenimiento e inspección.
+    </div>
+
+    <h3>5.6.5 Identificación de Áreas Clasificadas en Planta L'Oréal</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Área de la planta</th><th>Clasificación</th><th>Sustancia de riesgo</th><th>Canalización requerida</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Almacén de alcohol etílico</td><td>Clase I, Div 1</td><td>Etanol (LEL 3.3%)</td><td>RMC con selladores Dux</td></tr>
+        <tr><td>Área de dosificación de solventes</td><td>Clase I, Div 1</td><td>Acetato de etilo, tolueno</td><td>RMC Ex certificado</td></tr>
+        <tr><td>Cuarto de spray/aerosoles</td><td>Clase I, Div 2</td><td>Propelentes (isobutano)</td><td>RMC, IMC, EMT con uniones aprobadas</td></tr>
+        <tr><td>Laboratorio de perfumería</td><td>Clase I, Div 2</td><td>Mezclas de alcoholes y ésteres</td><td>RMC, selladores en penetraciones</td></tr>
+        <tr><td>Producción general (shampoos)</td><td>No clasificada</td><td>Sin riesgo explosivo significativo</td><td>EMT, IMC (elección estándar)</td></tr>
+        <tr><td>Cuarto de baterías UPS</td><td>Clase I, Div 2</td><td>H₂ (durante carga de baterías)</td><td>RMC, ventilación forzada obligatoria</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.7 ===================== -->
+  <section class="content-section" id="s5-7">
+    <h2 class="section-title"><span class="section-num">5.7</span> Identificación y Etiquetado de Circuitos</h2>
+
+    <h3>5.7.1 Código de Colores de Conductores en México</h3>
+    <p>La <strong>NOM-001-SEDE-2012</strong> establece los colores de conductores para instalaciones en México. Es fundamental que todo el personal de mantenimiento los conozca para evitar confusiones peligrosas:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Sistema</th><th>Fase A (L1)</th><th>Fase B (L2)</th><th>Fase C (L3)</th><th>Neutro</th><th>Tierra (PE)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>120/240V 1Ø (residencial/comercial)</td><td>Negro</td><td>Rojo</td><td>—</td><td>Blanco</td><td>Verde o verde/amarillo</td></tr>
+        <tr><td>208/120V 3Ø 4H (estrella)</td><td>Negro</td><td>Rojo</td><td>Azul</td><td>Blanco</td><td>Verde</td></tr>
+        <tr><td>480/277V 3Ø 4H (estrella)</td><td>Café (marrón)</td><td>Naranja</td><td>Amarillo</td><td>Gris</td><td>Verde o verde/amarillo</td></tr>
+        <tr><td>480V 3Ø 3H (delta)</td><td>Negro</td><td>Rojo/Naranja</td><td>Azul</td><td>— (no hay)</td><td>Verde</td></tr>
+        <tr><td>Control 120VAC</td><td>Negro (fase)</td><td>—</td><td>—</td><td>Blanco</td><td>Verde</td></tr>
+        <tr><td>Control 24VDC</td><td>Rojo (+24V)</td><td>—</td><td>—</td><td>Negro (0V)</td><td>Verde o desnudo</td></tr>
+        <tr><td>Señal analógica 4-20mA</td><td>Azul (+)</td><td>—</td><td>—</td><td>Blanco (−/shield)</td><td>Verde/desnudo</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box warning">
+      <strong>Diferencia crítica 480V:</strong> El sistema 480V usa CAFÉ-NARANJA-AMARILLO para distinguirlo del sistema 208V que usa NEGRO-ROJO-AZUL. Confundir ambos puede resultar en energizar equipos de 208V con 480V, causando destrucción inmediata. Verificar el código de colores antes de conectar.
+    </div>
+
+    <h3>5.7.2 Identificación de Circuitos en Conduits</h3>
+    <p>NOM-001-SEDE requiere que los circuitos estén identificados. En plantas industriales se usan varios métodos complementarios:</p>
+    <ul>
+      <li><strong>Etiquetas adhesivas resistentes:</strong> En cada extremo del conduit y en cajas de paso, indicando: número de circuito, sistema de voltaje, origen y destino.</li>
+      <li><strong>Banderines de cable (cable flags):</strong> Etiquetas de vinilo envueltas alrededor del conductor, identificando fase y circuito.</li>
+      <li><strong>Marcadores de tubo termoencogible (heat shrink labels):</strong> Para conductores dentro de tableros y cajas de conexiones.</li>
+      <li><strong>Pintura de color:</strong> Bandas de pintura en conduits según el tipo de sistema (un estándar de planta define qué color para qué sistema).</li>
+      <li><strong>Marcadores de conduit (snap-on):</strong> Anillos de plástico de color en los extremos del conduit.</li>
+    </ul>
+
+    <h3>5.7.3 Etiquetado en Bandejas Portacables</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Elemento</th><th>Etiqueta / Marcación</th><th>Frecuencia</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Bandeja de potencia 480V</td><td>Fondo amarillo, letras negras: "ALTA TENSIÓN 480V"</td><td>Cada 3 m y en cruces</td></tr>
+        <tr><td>Bandeja de control 120V</td><td>Fondo naranja, letras negras: "CONTROL 120VAC"</td><td>Cada 5 m</td></tr>
+        <tr><td>Bandeja de instrumentación</td><td>Fondo azul, letras blancas: "INSTRUMENTACIÓN"</td><td>Cada 5 m</td></tr>
+        <tr><td>Bandeja de red / comunicaciones</td><td>Fondo verde, letras blancas: "DATOS / REDES"</td><td>Cada 5 m</td></tr>
+        <tr><td>Cables individuales en bandeja</td><td>Etiqueta en origen y destino con número de circuito del plano</td><td>En ambos extremos</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.7.4 Directorio de Circuitos</h3>
+    <p>Cada tablero debe tener un <strong>directorio de circuitos actualizado</strong> en la puerta interna que indique:</p>
+    <ul>
+      <li>Número del interruptor / posición</li>
+      <li>Área o equipo protegido</li>
+      <li>Capacidad del interruptor (A)</li>
+      <li>Calibre del conductor</li>
+      <li>Longitud del ramal (para verificar caída de voltaje)</li>
+      <li>Fecha de última actualización</li>
+    </ul>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.8 ===================== -->
+  <section class="content-section" id="s5-8">
+    <h2 class="section-title"><span class="section-num">5.8</span> Mantenimiento de Canalizaciones</h2>
+
+    <h3>5.8.1 Programa de Inspección Periódica</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Actividad</th><th>Frecuencia</th><th>Herramienta / Método</th><th>Criterio de aceptación</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Inspección visual exterior conduits</td><td>Mensual</td><td>Visual, linterna</td><td>Sin golpes, corrosión superficial mínima, soportes completos</td></tr>
+        <tr><td>Inspección visual bandejas</td><td>Mensual</td><td>Visual, linterna</td><td>Sin oxidación severa, sin cables sin sujetar, sin cables dañados visibles</td></tr>
+        <tr><td>Verificación de selladores en áreas clasificadas</td><td>Semestral</td><td>Visual + presión ligera</td><td>Sellador íntegro, sin grietas, sin vapores</td></tr>
+        <tr><td>Revisión de etiquetas y directorio</td><td>Anual</td><td>Visual, comparación con planos</td><td>Etiquetas legibles, actualizadas con planos vigentes</td></tr>
+        <tr><td>Verificación de torque en uniones conduit</td><td>Bienal</td><td>Torquímetro</td><td>Uniones apretadas, sin juego</td></tr>
+        <tr><td>Prueba de continuidad de tierra en bandejas</td><td>Anual</td><td>Ohmímetro o multímetro</td><td>&lt;1 Ω entre cualquier punto y barra principal de tierra</td></tr>
+        <tr><td>Inspección de conduits en áreas de vibración</td><td>Semestral</td><td>Visual + palpación manual</td><td>Conexiones flexibles íntegras, sin daño por fatiga</td></tr>
+        <tr><td>Termografía de bandejas y conduits</td><td>Anual</td><td>Cámara termográfica infrarroja</td><td>Sin puntos calientes aislados (diferencia &lt;10°C vs. ambiente)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.8.2 Tipos de Defectos Comunes</h3>
+    <ul>
+      <li><strong>Corrosión de conduit metálico:</strong> Comienza en áreas de daño al recubrimiento galvanizado (golpes, cortes). En fases iniciales, limpiar y aplicar pintura anticorrosiva de zinc. En corrosión avanzada (perforación), reemplazar la sección.</li>
+      <li><strong>Conduit aplastado o doblado fuera de radio:</strong> Puede pinzar conductores. Reemplazar la sección completa; nunca "abrir" un conduit aplastado con herramienta.</li>
+      <li><strong>Selladores fracturados en áreas clasificadas:</strong> Vaciar y rellenar con compuesto aprobado. NO usar masilla de silicón comercial.</li>
+      <li><strong>Soportes faltantes o dañados:</strong> Instalar soporte adicional. Verificar que el conduit no quede "colgando" entre soportes con flecha excesiva.</li>
+      <li><strong>Bandejas sobrecargadas:</strong> Agregar bandeja paralela o reemplazar por sección de mayor anchura. Nunca apilat cables fuera de la capacidad de diseño.</li>
+      <li><strong>Cables sin identificación:</strong> Trazar circuito con rastreador de cables (tono/sonda) antes de trabajar. Etiquetar antes de cualquier intervención.</li>
+    </ul>
+
+    <h3>5.8.3 Limpieza de Canalizaciones</h3>
+    <p>Cuando se retiran conductores de un conduit y se reinstalan nuevos (como al reemplazar conductores dañados), el conduit debe limpiarse:</p>
+    <ol>
+      <li>Retirar conductores existentes con cuidado de no dañar el conduit.</li>
+      <li>Pasar una guía de fibra o cable jalador con un trapo limpio para remover polvo y humedad.</li>
+      <li>Para conduits húmedos: secar con chorro de aire comprimido seco.</li>
+      <li>Inspeccionar interior con espejo o cámara endoscópica si hay dudas sobre daños internos.</li>
+      <li>Aplicar talco (no lubricante aceitoso) si el jalado de nuevos conductores será difícil.</li>
+    </ol>
+
+    <h3>5.8.4 Reemplazo de Secciones Dañadas</h3>
+    <ol>
+      <li>Aplicar procedimiento LOTO en todos los circuitos del conduit a intervenir.</li>
+      <li>Retirar conductores de la sección afectada; no cortar conductores sin identificarlos previamente.</li>
+      <li>Cortar el conduit con cortatubos o sierra a ambos lados de la sección dañada, dejando 50 mm de margen.</li>
+      <li>Instalar nueva sección del mismo tipo y diámetro.</li>
+      <li>Unir con accesorios apropiados (coupling para EMT, unión roscada para RMC).</li>
+      <li>Verificar continuidad de tierra del tramo completo.</li>
+      <li>Reinstalar conductores y realizar pruebas de aislamiento (megger) antes de energizar.</li>
+    </ol>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.9 ===================== -->
+  <section class="content-section" id="s5-9">
+    <h2 class="section-title"><span class="section-num">5.9</span> Normas Aplicables</h2>
+
+    <h3>5.9.1 NOM-001-SEDE-2012 — Artículos Relevantes para Canalizaciones</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Artículo NOM-001-SEDE</th><th>Equivalente NEC</th><th>Contenido</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Art. 300</td><td>Art. 300</td><td>Métodos de alambrado — requisitos generales</td></tr>
+        <tr><td>Art. 300.5</td><td>Art. 300.5</td><td>Instalaciones subterráneas, profundidades mínimas</td></tr>
+        <tr><td>Art. 310</td><td>Art. 310</td><td>Conductores para alambrado general — tablas de corriente permisible</td></tr>
+        <tr><td>Art. 344</td><td>Art. 344</td><td>Conduit metálico rígido (RMC)</td></tr>
+        <tr><td>Art. 342</td><td>Art. 342</td><td>Conduit metálico intermedio (IMC)</td></tr>
+        <tr><td>Art. 358</td><td>Art. 358</td><td>Tubo metálico de pared delgada (EMT)</td></tr>
+        <tr><td>Art. 352</td><td>Art. 352</td><td>Conduit PVC rígido</td></tr>
+        <tr><td>Art. 350</td><td>Art. 350</td><td>Tubo metálico flexible (FMC)</td></tr>
+        <tr><td>Art. 356</td><td>Art. 356</td><td>Tubo flexible metálico hermético al líquido (LFMC)</td></tr>
+        <tr><td>Art. 376</td><td>Art. 376</td><td>Ducto metálico (wireway)</td></tr>
+        <tr><td>Art. 392</td><td>Art. 392</td><td>Bandejas portacables (cable trays)</td></tr>
+        <tr><td>Art. 500–516</td><td>Art. 500–516</td><td>Áreas clasificadas — peligrosas</td></tr>
+        <tr><td>Art. 314</td><td>Art. 314</td><td>Cajas de salida, empalme y unión — dimensionamiento</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.9.2 NEC (NFPA 70) — Artículos Específicos de Canalizaciones</h3>
+    <ul>
+      <li><strong>Art. 350:</strong> Tubo metálico flexible (FMC) — instalación, soportería, longitud máxima</li>
+      <li><strong>Art. 356:</strong> Tubo flexible metálico hermético (LFMC) — usos permitidos y prohibidos</li>
+      <li><strong>Art. 358:</strong> Tubo metálico de pared delgada (EMT) — radios de curvatura, soportería</li>
+      <li><strong>Art. 362:</strong> Tubo no metálico (ENT)</li>
+      <li><strong>Art. 376:</strong> Ducto metálico (Metallic Wireways)</li>
+      <li><strong>Art. 378:</strong> Ducto no metálico</li>
+      <li><strong>Art. 386:</strong> Canaleta de superficie metálica</li>
+      <li><strong>Art. 392:</strong> Bandeja portacables — tipos, relleno, apilamiento, capacidad</li>
+      <li><strong>NEC Capítulo 9, Tablas 1, 4, 5:</strong> Factores de ocupación y áreas de conductores</li>
+    </ul>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.10 ===================== -->
+  <section class="content-section" id="s5-10">
+    <h2 class="section-title"><span class="section-num">5.10</span> Tabla de Selección Rápida</h2>
+    <p>Esta tabla consolida la selección de canalización para las aplicaciones más comunes en la planta L'Oréal:</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>Aplicación</th><th>Canalización Recomendada</th><th>Material</th><th>Notas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Alimentación motor 480V interior seco</td><td>EMT o IMC</td><td>Acero galvanizado</td><td>Flexible LFMC en último metro al motor</td></tr>
+        <tr><td>Alimentación motor 480V área húmeda</td><td>RMC</td><td>PVC o SS 316</td><td>Sellador en cajas si área clasificada</td></tr>
+        <tr><td>Circuitos de alumbrado interior</td><td>EMT</td><td>Acero galvanizado</td><td>Soportes cada 3 m</td></tr>
+        <tr><td>Cableado de control tablero-tablero</td><td>Cable tray tipo malla o EMT</td><td>Galvanizado</td><td>Separar de potencia ≥150 mm</td></tr>
+        <tr><td>Instrumentación 4-20 mA</td><td>Bandeja fondo sólido o conduit PVC</td><td>PVC o SS 316</td><td>Cable apantallado, tierra solo en un extremo</td></tr>
+        <tr><td>Enterrado exterior jardín</td><td>PVC Sch 40 a 450 mm profundidad</td><td>PVC gris</td><td>Conductor tierra verde dentro del conduit</td></tr>
+        <tr><td>Cruce bajo vialidad interior</td><td>PVC Sch 80 a 600 mm profundidad</td><td>PVC gris</td><td>Cinta de advertencia amarilla 300 mm sobre el conduit</td></tr>
+        <tr><td>Área clasificada Clase I Div 1</td><td>RMC roscado + selladores Dux</td><td>Acero galvanizado HDG</td><td>Certificación Ex obligatoria en accesorios</td></tr>
+        <tr><td>Cuarto limpio / farmacéutico</td><td>RMC o conduit PVC liso</td><td>SS 316 o PVC blanco</td><td>Sin ranuras exteriores que acumulen polvo</td></tr>
+        <tr><td>Corrida principal entre tableros</td><td>Bandeja escalera</td><td>Acero galvanizado HDG</td><td>Cables tipo TC o RHW-2 aprobados para bandeja</td></tr>
+        <tr><td>Conexión final a luminaria exterior</td><td>LFMC (flexible hermético)</td><td>Aluminio + PVC</td><td>Longitud máx. 1.8 m</td></tr>
+        <tr><td>Dentro de tableros y CCMs</td><td>Canaleta de PVC con tapa (wireway)</td><td>PVC o metálico</td><td>Máximo 20% de ocupación</td></tr>
+        <tr><td>Área corrosiva (ácidos diluidos)</td><td>PVC Sch 80</td><td>PVC</td><td>Soportes PVC, tornillos SS 316</td></tr>
+        <tr><td>Intemperie no clasificada</td><td>RMC o IMC</td><td>HDG o aluminio</td><td>Cajas NEMA 4 en puntos de acceso</td></tr>
+        <tr><td>Fibra óptica</td><td>Bandeja fondo sólido o conduit PVC</td><td>PVC</td><td>Radio de curvatura mínimo 10× diámetro cable</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================== SECCIÓN 5.11 ===================== -->
+  <section class="content-section" id="s5-11">
+    <h2 class="section-title"><span class="section-num">5.11</span> Glosario de Canalizaciones</h2>
+    <div class="glossary-grid">
+      <div class="glossary-item"><span class="glossary-term">Bandeja portacables (Cable Tray)</span><span class="glossary-def">Sistema mecánico continuo de soporte de cables, fabricado en metal o fibra de vidrio, que no es una canalización cerrada.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Conduit</span><span class="glossary-def">Tubo cerrado diseñado para alojar y proteger conductores eléctricos. Puede ser metálico o no metálico.</span></div>
+      <div class="glossary-item"><span class="glossary-term">EMT (Electrical Metallic Tubing)</span><span class="glossary-def">Conduit metálico de pared delgada (~0.9 mm) que no se rosca. Unido con accesorios de compresión o tornillo.</span></div>
+      <div class="glossary-item"><span class="glossary-term">RMC (Rigid Metal Conduit)</span><span class="glossary-def">Conduit de pared gruesa roscado en NPT. El más resistente mecánicamente de los conduits metálicos.</span></div>
+      <div class="glossary-item"><span class="glossary-term">IMC (Intermediate Metal Conduit)</span><span class="glossary-def">Conduit metálico roscado de pared intermedia entre RMC y EMT.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Factor de ocupación (Fill Factor)</span><span class="glossary-def">Porcentaje del área interior del conduit que puede ser ocupado por conductores. 40% para 3 o más conductores.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Sellador Dux (Sealing Fitting)</span><span class="glossary-def">Accesorio de conduit rellenado con compuesto que forma una barrera hermética a gases y vapores en áreas clasificadas.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Área clasificada</span><span class="glossary-def">Zona donde existe riesgo de atmósfera explosiva por gases, vapores o polvos combustibles. Clasificada por Clase, División y Grupo.</span></div>
+      <div class="glossary-item"><span class="glossary-term">LFMC (Liquidtight Flexible Metal Conduit)</span><span class="glossary-def">Conduit flexible metálico con cubierta de PVC hermética al líquido. Para conexiones a equipos con vibración en áreas húmedas.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Pull box (Caja de jalado)</span><span class="glossary-def">Caja de paso instalada para facilitar el jalado de conductores en tramos largos o con muchas curvas.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Escariado</span><span class="glossary-def">Operación de eliminar la rebaba interior del conduit tras el corte, para proteger el aislamiento de los conductores durante el jalado.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Canaleta (Wireway)</span><span class="glossary-def">Canal metálico cerrado con tapa, para instalaciones donde se requiere acceso continuo a los conductores.</span></div>
+      <div class="glossary-item"><span class="glossary-term">NPT (National Pipe Thread)</span><span class="glossary-def">Estándar de rosca cónica para tuberías y conduits metálicos. La conicidad (1.7°) crea el sello mecánico al apretarse.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Trade size</span><span class="glossary-def">Denominación nominal del conduit en pulgadas. No corresponde exactamente al diámetro real interior ni exterior.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Offset (Curva de desplazamiento)</span><span class="glossary-def">Par de curvas opuestas de igual ángulo que desplazan el conduit paralelamente para esquivar un obstáculo.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Stub-up</span><span class="glossary-def">Curva de 90° que lleva el conduit de horizontal a vertical para entrar en un tablero o equipo.</span></div>
+      <div class="glossary-item"><span class="glossary-term">ATEX</span><span class="glossary-def">Directiva europea para equipo en atmósferas explosivas. Los productos certificados ATEX llevan la marca ◻Ex.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Clase I, División 1</span><span class="glossary-def">Área donde vapores inflamables están presentes continuamente o durante operación normal (NOM-001, Art. 500).</span></div>
+      <div class="glossary-item"><span class="glossary-term">Curva saddle (silla de montar)</span><span class="glossary-def">Conjunto de tres curvas en un conduit para cruzar un obstáculo horizontal (tubería, viga).</span></div>
+      <div class="glossary-item"><span class="glossary-term">HDG (Hot Dip Galvanized)</span><span class="glossary-def">Galvanizado en caliente. Proceso de recubrimiento de acero con zinc fundido para protección anticorrosiva duradera.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Strut / Unistrut</span><span class="glossary-def">Perfil metálico en forma de C con ranura central, utilizado como soporte versátil para conduits, bandejas y equipos.</span></div>
+      <div class="glossary-item"><span class="glossary-term">Curvadora Benfield / Greenlee</span><span class="glossary-def">Marca comercial de herramientas para doblar conduit. Greenlee fabrica curvadoras manuales, hidráulicas y eléctricas.</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== EVALUACIÓN ===================== -->
+  <section class="content-section" id="evaluacion">
+    <h2 class="section-title">Evaluación del Módulo 5</h2>
+    <p>Responde las siguientes preguntas para verificar tu comprensión. Las respuestas correctas se muestran al final.</p>
+
+    <div class="question-block">
+      <p class="question-text">1. ¿Cuál es el factor de ocupación máximo para 3 o más conductores en un conduit?</p>
+      <div class="options"><label><input type="radio" name="q1" value="a"/> a) 53%</label><label><input type="radio" name="q1" value="b"/> b) 40%</label><label><input type="radio" name="q1" value="c"/> c) 31%</label><label><input type="radio" name="q1" value="d"/> d) 25%</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">2. ¿Qué tipo de conduit NO puede enterrarse directamente en suelo?</p>
+      <div class="options"><label><input type="radio" name="q2" value="a"/> a) RMC</label><label><input type="radio" name="q2" value="b"/> b) PVC Sch 40</label><label><input type="radio" name="q2" value="c"/> c) EMT</label><label><input type="radio" name="q2" value="d"/> d) IMC</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">3. En el sistema trifásico 480V, ¿qué colores tienen las fases según NOM-001-SEDE?</p>
+      <div class="options"><label><input type="radio" name="q3" value="a"/> a) Negro, Rojo, Azul</label><label><input type="radio" name="q3" value="b"/> b) Café, Naranja, Amarillo</label><label><input type="radio" name="q3" value="c"/> c) Negro, Blanco, Rojo</label><label><input type="radio" name="q3" value="d"/> d) Azul, Verde, Rojo</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">4. ¿Cuántos grados de curvas acumuladas se permiten entre dos cajas de paso en un conduit?</p>
+      <div class="options"><label><input type="radio" name="q4" value="a"/> a) 180°</label><label><input type="radio" name="q4" value="b"/> b) 270°</label><label><input type="radio" name="q4" value="c"/> c) 360°</label><label><input type="radio" name="q4" value="d"/> d) 90°</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">5. En un área Clase I División 1, ¿cuál es la canalización recomendada?</p>
+      <div class="options"><label><input type="radio" name="q5" value="a"/> a) PVC Sch 40</label><label><input type="radio" name="q5" value="b"/> b) EMT con uniones de compresión</label><label><input type="radio" name="q5" value="c"/> c) RMC con selladores Dux</label><label><input type="radio" name="q5" value="d"/> d) Bandeja tipo escalera abierta</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">6. ¿Cuál es la separación mínima entre una bandeja de potencia 480V y una de instrumentación analógica?</p>
+      <div class="options"><label><input type="radio" name="q6" value="a"/> a) 50 mm</label><label><input type="radio" name="q6" value="b"/> b) 100 mm</label><label><input type="radio" name="q6" value="c"/> c) 300 mm</label><label><input type="radio" name="q6" value="d"/> d) 600 mm</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">7. Se instalan 5 conductores 6 AWG THHN en conduit EMT. ¿Qué tamaño mínimo se requiere?</p>
+      <div class="options"><label><input type="radio" name="q7" value="a"/> a) ½"</label><label><input type="radio" name="q7" value="b"/> b) ¾"</label><label><input type="radio" name="q7" value="c"/> c) 1"</label><label><input type="radio" name="q7" value="d"/> d) 1¼"</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">8. ¿Cuál es el factor de ocupación para 1 solo conductor en un conduit?</p>
+      <div class="options"><label><input type="radio" name="q8" value="a"/> a) 40%</label><label><input type="radio" name="q8" value="b"/> b) 31%</label><label><input type="radio" name="q8" value="c"/> c) 53%</label><label><input type="radio" name="q8" value="d"/> d) 60%</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">9. ¿Qué tipo de bandeja portacables tiene mejor ventilación para cables de potencia de gran calibre?</p>
+      <div class="options"><label><input type="radio" name="q9" value="a"/> a) Fondo sólido</label><label><input type="radio" name="q9" value="b"/> b) Malla</label><label><input type="radio" name="q9" value="c"/> c) Escalera</label><label><input type="radio" name="q9" value="d"/> d) Canal cerrado</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">10. ¿Por qué el PVC rígido requiere conductor de tierra separado dentro del conduit?</p>
+      <div class="options"><label><input type="radio" name="q10" value="a"/> a) Porque el PVC es un aislante eléctrico y no puede servir como conductor de tierra</label><label><input type="radio" name="q10" value="b"/> b) Porque el PVC se oxida con el tiempo</label><label><input type="radio" name="q10" value="c"/> c) Porque la norma NOM lo prohíbe expresamente</label><label><input type="radio" name="q10" value="d"/> d) Porque el PVC conduce pero con alta resistencia</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">11. ¿Cuál es la longitud máxima recomendada de un tubo corrugado flexible (LFMC) para conexión a un motor?</p>
+      <div class="options"><label><input type="radio" name="q11" value="a"/> a) 0.5 m</label><label><input type="radio" name="q11" value="b"/> b) 1.0 m</label><label><input type="radio" name="q11" value="c"/> c) 1.8 m</label><label><input type="radio" name="q11" value="d"/> d) 3.0 m</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">12. ¿Qué herramienta se usa para eliminar la rebaba interior del conduit metálico después del corte?</p>
+      <div class="options"><label><input type="radio" name="q12" value="a"/> a) Curvadora Benfield</label><label><input type="radio" name="q12" value="b"/> b) Escariador (reamer)</label><label><input type="radio" name="q12" value="c"/> c) Terraja NPT</label><label><input type="radio" name="q12" value="d"/> d) Cortatubos</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">13. ¿A qué profundidad mínima se entierra conduit PVC Sch 40 bajo una vialidad o estacionamiento?</p>
+      <div class="options"><label><input type="radio" name="q13" value="a"/> a) 300 mm</label><label><input type="radio" name="q13" value="b"/> b) 450 mm</label><label><input type="radio" name="q13" value="c"/> c) 600 mm</label><label><input type="radio" name="q13" value="d"/> d) 900 mm</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">14. ¿Cuál material de conduit es preferible para salas blancas y áreas GMP con limpieza química frecuente?</p>
+      <div class="options"><label><input type="radio" name="q14" value="a"/> a) Acero galvanizado EMT</label><label><input type="radio" name="q14" value="b"/> b) Aluminio</label><label><input type="radio" name="q14" value="c"/> c) Acero inoxidable SS 316</label><label><input type="radio" name="q14" value="d"/> d) Conduit galvanizado con pintura epoxi</label></div>
+    </div>
+
+    <div class="question-block">
+      <p class="question-text">15. ¿Cuándo es obligatorio instalar un sellador Dux en el conduit dentro de un área Clase I División 1?</p>
+      <div class="options"><label><input type="radio" name="q15" value="a"/> a) Solo cuando el conduit supera 2" de diámetro</label><label><input type="radio" name="q15" value="b"/> b) Dentro de 450 mm de cualquier caja explosion-proof y en penetraciones a zonas no clasificadas</label><label><input type="radio" name="q15" value="c"/> c) Solo en conduits verticales</label><label><input type="radio" name="q15" value="d"/> d) Solo cuando hay más de 3 conductores en el conduit</label></div>
+    </div>
+
+    <div class="answers-reveal">
+      <button class="btn-reveal" onclick="document.getElementById('ans5').style.display='block'">Ver Respuestas</button>
+      <div id="ans5" style="display:none;" class="answers-box">
+        <strong>Respuestas correctas:</strong>
+        1-b | 2-c | 3-b | 4-c | 5-c | 6-c | 7-c | 8-c | 9-c | 10-a | 11-c | 12-b | 13-c | 14-c | 15-b
+        <br><br>
+        <strong>Justificaciones clave:</strong><br>
+        #7: 5 × 29.16 mm² = 145.8 mm² / 0.40 = 364.5 mm² → EMT 1" tiene 40% = 222.4 (no), EMT 1¼" tiene 40% = 387 mm² ✓
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<!-- FOOTER -->
+<footer class="main-footer">
+  <div class="footer-inner">
+    <img src="../img/image.png" alt="L'Oréal" class="footer-logo"/>
+    <div class="footer-text">
+      <p><strong>INTEGR Ingeniería</strong> — Manual Técnico de Mantenimiento Eléctrico</p>
+      <p>Desarrollado para L'Oréal México | Documento confidencial de uso interno</p>
+      <p>© 2024 L'Oréal México &amp; INTEGR Ingeniería. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
